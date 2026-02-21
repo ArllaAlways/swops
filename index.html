@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWOPS</title>
+  <style>
+
+    /* ─── FONTS ─── */
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body { font-family: 'Alfredino', sans-serif; background: #000; }
+
+    /* ═══════════════════════════════════════
+       HAMBURGER MENU
+    ═══════════════════════════════════════ */
+    .nav {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 24px;
+    }
+
+    .nav__burger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .nav__burger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #C8FF00;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__burger.is-open span:nth-child(2) { opacity: 0; }
+    .nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Menu overlay */
+    .nav__menu {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .nav__menu.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .nav__link {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(28px, 5vw, 60px);
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .nav__link:hover { opacity: 0.7; }
+
+    /* ═══════════════════════════════════════
+       ABOUT OVERLAY
+    ═══════════════════════════════════════ */
+    .about-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 998;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(60px, 8vw, 120px) clamp(24px, 8vw, 120px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      overflow-y: auto;
+    }
+
+    .about-overlay.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .about-overlay__text {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      line-height: 1.6;
+      max-width: 860px;
+      text-align: center;
+    }
+
+    .about-overlay__close {
+      position: fixed;
+      top: 18px;
+      right: 24px;
+      font-family: 'Alfredino', sans-serif;
+      font-size: 22px;
+      color: #C8FF00;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    /* ═══════════════════════════════════════
+       TICKER TAPE
+    ═══════════════════════════════════════ */
+    .ticker {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: #C8FF00;
+      overflow: hidden;
+      padding: 18px 0 16px;
+    }
+
+    .ticker__track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker-scroll 22s linear infinite;
+      will-change: transform;
+    }
+
+    .ticker__item {
+      flex-shrink: 0;
+      color: #000;
+      font-family: 'Alfredino', monospace;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding-right: 120px;
+    }
+
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background-color: #888;
+    }
+
+    .hero__bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('SITE%20ASSETS/IMAGES/WOMAN%20STORE.jpeg');
+      background-size: cover;
+      background-position: center center;
+      animation: hero-1 12s steps(1, end) infinite;
+    }
+
+    .hero__bg2 {
+      position: absolute;
+      inset: 0;
+      background-image: url('SITE%20ASSETS/IMAGES/MAN%20STORE%201.jpg');
+      background-size: cover;
+      background-position: center center;
+      opacity: 0;
+      animation: hero-2 12s steps(1, end) infinite;
+    }
+
+    @keyframes hero-1 {
+      0%    { opacity: 1; }
+      45.8% { opacity: 0; }
+      100%  { opacity: 0; }
+    }
+
+    @keyframes hero-2 {
+      0%    { opacity: 0; }
+      45.8% { opacity: 1; }
+      100%  { opacity: 1; }
+    }
+
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.08) 40%,
+        rgba(0,0,0,0.35) 100%
+      );
+    }
+
+    .hero__logo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(53vw, 576px);
+      z-index: 10;
+      display: block;
+    }
+
+    .boomer-man {
+      position: absolute;
+      top: -2vh;
+      left: 0;
+      height: 102vh;
+      width: auto;
+      z-index: 20;
+      animation: boomer-slide 12s linear infinite;
+    }
+
+    @keyframes boomer-slide {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 2 — Lime headline
+    ═══════════════════════════════════════ */
+    .s2 {
+      background: #C8FF00;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 90px 60px;
+    }
+
+    .s2__headline {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(24px, 2.7vw, 40px);
+      color: #000;
+      text-align: center;
+      line-height: 1.3;
+      max-width: 1200px;
+    }
+
+    .s2__headline span { display: block; }
+    .s2__headline span + span { margin-top: 0.6em; }
+
+    /* ═══════════════════════════════════════
+       SECTION 3 — Ibis
+    ═══════════════════════════════════════ */
+    .s3 { position: relative; width: 100%; line-height: 0; }
+
+    .s3__img { width: 100%; display: block; }
+
+    .s3__img--boggle {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: ibis-cycle 3.5s steps(1, end) infinite;
+    }
+
+    @keyframes ibis-cycle {
+      0%   { opacity: 0; }
+      43%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    .s3__speech {
+      position: absolute;
+      left: 29%; top: 59%;
+      opacity: 0;
+      animation: ibis-cycle 3.5s steps(1, end) infinite;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 4 — Black copy block
+    ═══════════════════════════════════════ */
+    .s4 {
+      background: #000;
+      width: 100%;
+      min-height: 100vh;
+      padding: 90px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      text-align: center;
+    }
+
+    .s4 p {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #C8FF00;
+      line-height: 1.4;
+      max-width: 900px;
+    }
+
+    .s4__free {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(12px, 1vw, 16px);
+      color: #C8FF00;
+      letter-spacing: 0.08em;
+    }
+
+    .s4__cta {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 18px 52px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 12px;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .s4__cta:hover { background: #fff; }
+
+    /* ═══════════════════════════════════════
+       SECTION 5 — Skateboarder
+    ═══════════════════════════════════════ */
+    .s5 { position: relative; width: 100%; line-height: 0; }
+    .s5__img { width: 100%; display: block; }
+
+    .s5__img--1 { animation: skate-1 4s steps(1, end) infinite; }
+
+    .s5__img--2 {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: skate-2 4s steps(1, end) infinite;
+    }
+
+    @keyframes skate-1 {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes skate-2 {
+      0%   { opacity: 0; }
+      50%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    .s5__quote {
+      font-size: clamp(22px, 2.5vw, 36px);
+      line-height: 1.35;
+      width: 80%;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 6 — Lime copy block
+    ═══════════════════════════════════════ */
+    .s6 {
+      background: #C8FF00;
+      width: 100%;
+      min-height: 100vh;
+      padding: 90px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      text-align: center;
+    }
+
+    .s6 p {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #000;
+      line-height: 1.4;
+      max-width: 900px;
+    }
+
+    .s6__letrent {
+      font-family: 'Alfredino', sans-serif;
+      color: #000;
+      text-align: center;
+      line-height: 1.4;
+      max-width: 900px;
+      opacity: 0;
+    }
+
+    .s6__letrent.is-typing {
+      opacity: 1;
+      border-right: 2px solid #000;
+      animation: type-cursor-dark 0.6s steps(1, end) infinite;
+    }
+
+    .s6__letrent.is-done { opacity: 1; border-right: none; }
+
+    @keyframes type-cursor-dark { 50% { border-right-color: transparent; } }
+
+    /* ═══════════════════════════════════════
+       SECTION 7 — Beach sequence
+    ═══════════════════════════════════════ */
+    .s7 { position: relative; width: 100%; line-height: 0; }
+    .s7__img { width: 100%; display: block; }
+
+    .s7__img--2, .s7__img--3 {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+    }
+
+    .s7__img--1 { animation: beach-1 3s steps(1, end) infinite; }
+    @keyframes beach-1 { 0% { opacity: 1; } 33.4% { opacity: 0; } 100% { opacity: 0; } }
+
+    .s7__img--2 { animation: beach-2 3s steps(1, end) infinite; }
+    @keyframes beach-2 { 0% { opacity: 0; } 33.4% { opacity: 1; } 66.7% { opacity: 0; } 100% { opacity: 0; } }
+
+    .s7__img--3 { animation: beach-3 3s steps(1, end) infinite; }
+    @keyframes beach-3 { 0% { opacity: 0; } 66.7% { opacity: 1; } 100% { opacity: 1; } }
+
+    /* ═══════════════════════════════════════
+       SECTION 9 — Couple eating
+    ═══════════════════════════════════════ */
+    .s9 { position: relative; width: 100%; line-height: 0; }
+    .s9__img { width: 100%; display: block; }
+    .s9__caption { font-size: clamp(22px, 2.5vw, 36px); }
+
+    /* ═══════════════════════════════════════
+       SECTION 10 — Lords copy block
+    ═══════════════════════════════════════ */
+    .s10 {
+      background: #C8FF00;
+      width: 100%;
+      min-height: 100vh;
+      padding: 90px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      text-align: center;
+    }
+
+    .s10 p {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #000;
+      line-height: 1.5;
+      max-width: 860px;
+    }
+
+    .s10__heading { font-size: clamp(24px, 3vw, 44px) !important; margin-bottom: 12px; }
+    .s10--dark { background: #000; }
+    .s10--dark p { color: #C8FF00; }
+
+    /* ═══════════════════════════════════════
+       SECTION 8 — Registration / form
+    ═══════════════════════════════════════ */
+    .s8 {
+      background: #000;
+      width: 100%;
+      padding: 90px 60px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+      text-align: center;
+    }
+
+    .s8__heading {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #C8FF00;
+      line-height: 1.4;
+    }
+
+    .s8__form {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .s8__field {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid #C8FF00;
+      padding: 28px 0 24px;
+    }
+
+    .s8__field:last-of-type { border-bottom: 1px solid #C8FF00; }
+
+    .s8__label {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(10px, 0.9vw, 13px);
+      color: #C8FF00;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      text-align: left;
+      opacity: 0.6;
+    }
+
+    .s8__input, .s8__textarea {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      resize: none;
+      caret-color: #C8FF00;
+      line-height: 1.4;
+    }
+
+    .s8__input::placeholder, .s8__textarea::placeholder {
+      color: #C8FF00;
+      opacity: 0.25;
+    }
+
+    .s8__textarea { min-height: 80px; }
+
+    .s8__select {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .s8__select option { background: #000; color: #C8FF00; }
+    .s8__select.placeholder { opacity: 0.25; }
+
+    .s8__submit {
+      margin-top: 48px;
+      align-self: center;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 18px 52px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .s8__submit:hover { background: #fff; }
+
+    .s8__free {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(12px, 1vw, 16px);
+      color: #C8FF00;
+      letter-spacing: 0.08em;
+    }
+
+    .s8__success {
+      display: none;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      line-height: 1.5;
+    }
+
+    .s8__disclaimer {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(11px, 0.9vw, 14px);
+      color: #C8FF00;
+      opacity: 0.5;
+      max-width: 720px;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: -32px;
+    }
+
+    /* ═══════════════════════════════════════
+       SECTION 11 — Melbourne dog
+    ═══════════════════════════════════════ */
+    .s11 { position: relative; width: 100%; line-height: 0; }
+    .s11__img { width: 100%; display: block; }
+
+    /* ═══════════════════════════════════════
+       TYPEWRITER
+    ═══════════════════════════════════════ */
+    .typewriter {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Alfredino', sans-serif;
+      color: #C8FF00;
+      text-align: center;
+      white-space: nowrap;
+      max-width: 90%;
+      opacity: 0;
+    }
+
+    .typewriter.is-typing {
+      opacity: 1;
+      border-right: 2px solid #C8FF00;
+      animation: type-cursor 0.6s steps(1, end) infinite;
+    }
+
+    @keyframes type-cursor { 50% { border-right-color: transparent; } }
+    .typewriter.is-done { opacity: 1; border-right: none; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ── HAMBURGER MENU BUTTON ── -->
+  <nav class="nav">
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ── NAV MENU OVERLAY ── -->
+  <div class="nav__menu" id="navMenu">
+    <button class="nav__link" id="aboutBtn">ABOUT</button>
+    <a class="nav__link" href="register.html">REGISTER INTEREST</a>
+  </div>
+
+  <!-- ── ABOUT OVERLAY ── -->
+  <div class="about-overlay" id="aboutOverlay">
+    <button class="about-overlay__close" id="aboutClose">✕</button>
+    <p class="about-overlay__text">Swops was created by a Melbourne renter for renters. We have a beautiful family home in Preston. At Christmas 2025 we were going to Sydney for a holiday. We knew for certain that someone with a nice house up there would love to come to Melbourne for Christmas and stay at ours. But because we rent our house, that option wasn&rsquo;t readily available to us. So we left our expensive home sitting empty for 12 days while we paid rent for it and also paid through the nose for a holiday rental in Dee Why. It seemed real dumb. So here we are, talking to you about making holidays not so dumb for renters.</p>
+  </div>
+
+  <!-- ── TICKER TAPE ── -->
+  <div class="ticker" role="marquee" aria-live="off">
+    <div class="ticker__track">
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
+    </div>
+  </div>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__bg2"></div>
+    <div class="hero__overlay"></div>
+    <img class="hero__logo" src="SITE%20ASSETS/WORDMARK/SWOPS%20GREEN.png" alt="SWOPS">
+    <img class="boomer-man" src="SITE%20ASSETS/IMAGES/BOOMER%20MAN.png?v=3" alt="" aria-hidden="true">
+  </section>
+
+  <!-- ══ S2 — Headline ══ -->
+  <section class="s2">
+    <p class="s2__headline">
+      <span>You already pay for a holiday house, dummy.</span>
+      <span>You just can't use it yet.</span>
+    </p>
+  </section>
+
+  <!-- ══ S3 — Ibis ══ -->
+  <section class="s3">
+    <img class="s3__img" src="SITE%20ASSETS/IMAGES/IBIS-2.jpg" alt="Ibis in green algae">
+    <img class="s3__img--boggle" src="SITE%20ASSETS/IMAGES/IBIS-BOGGLE-2.jpg" alt="">
+    <div class="s3__speech">
+      <svg width="100" height="80" style="overflow:visible">
+        <line x1="93" y1="15" x2="3" y2="65" stroke="#C8FF00" stroke-width="1"/>
+        <text x="-9" y="73" font-family="Alfredino, sans-serif" font-size="17" fill="#C8FF00" text-anchor="end">Say what now?</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ══ S4 — Black copy + CTA ══ -->
+  <section class="s4">
+    <p>SWOPS privately matches <u>renters with renters</u> to swap homes for short breaks. Just register interest for a nominated swop window (1st one is King's Bday wknd) &gt; Get matched &gt; Meet your swopmate/s on video call and see the place &gt; Opt to swop... or don&rsquo;t. Up to you.</p>
+    <p>No public listings. Between renters, for renters.</p>
+    <p>It&rsquo;s holidays without paying for accommodation.</p>
+    <a class="s4__cta" href="register.html">REGISTER YOUR INTEREST</a>
+    <p class="s4__free">CURRENTLY FREE FOR ALL USERS - NO SUBSCRIPTIONS, NO FEES</p>
+  </section>
+
+  <!-- ══ S5 — Skateboarder ══ -->
+  <section class="s5">
+    <img class="s5__img s5__img--1" src="SITE%20ASSETS/IMAGES/GIRL-SKATEBOARD.jpg" alt="Skateboarder">
+    <img class="s5__img s5__img--2" src="SITE%20ASSETS/IMAGES/GIRL%20SKATEBOARDING%20LICK.jpeg" alt="Skateboarder lick">
+    <p class="s5__quote typewriter" data-text='"Look at me. I am the house flipper now"'></p>
+  </section>
+
+  <!-- ══ S6 — Lime copy ══ -->
+  <section class="s6">
+    <p>A swop isn&rsquo;t a luxury holiday. It&rsquo;s pretty much waking up in Surry Hills instead of Brunswick for a weekend and seeing what happens.</p>
+    <p>Because why not? You already paid for accom.</p>
+    <p class="s6__letrent" data-text="LET YOUR RENT TAKE YOU PLACES." style="font-size: clamp(20px, 2.4vw, 34px);"></p>
+  </section>
+
+  <!-- ══ S7 — Beach sequence ══ -->
+  <section class="s7">
+    <img class="s7__img s7__img--1" src="SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg" alt="Man on beach">
+    <img class="s7__img--2" src="SITE%20ASSETS/IMAGES/WOMAN%20BEACH.jpeg" alt="Woman on beach">
+    <img class="s7__img--3" src="SITE%20ASSETS/IMAGES/MAN%20BEACH%202.jpg" alt="Man on beach head down">
+    <p class="typewriter" data-text="North Coast 11:40am on a Monday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
+  </section>
+
+  <!-- ══ S10a — Lords copy (first half) ══ -->
+  <section class="s10 s10--dark">
+    <p class="s10__heading">You&rsquo;ve got enough lords in your life, so we&rsquo;re staying right out of it.</p>
+    <p>The spirit of Swops is peer-to-peer reciprocity. We believe that mutual hospitality where both parties have skin in the game is a much stronger behavioural moderator than reviews.</p>
+  </section>
+
+  <!-- ══ S9 — Couple eating ══ -->
+  <section class="s9">
+    <img class="s9__img" src="SITE%20ASSETS/IMAGES/COUPLE%20EATING.jpeg" alt="Couple eating lunch">
+    <p class="s9__caption typewriter" data-text="Botany 2:12pm on a Sunday"></p>
+  </section>
+
+  <!-- ══ S10b — Lords copy (second half) ══ -->
+  <section class="s10 s10--dark">
+    <p class="s10__heading">But don&rsquo;t take our word for it.</p>
+    <p>You should meet them (on video call). Look them in the eye. Talk. Ask questions. Make your own judgement about whether it feels right to you.</p>
+    <p>That&rsquo;s how getting a friend-of-a-friend to house-sit works. Sort of. Swops is the same thing. But better. It&rsquo;s fast-friends turning the dead money of rent into the life-affirming treat of free accommodation in a new city.</p>
+    <p>If that sounds good to you then register your interest (no obligation) and get ready to get fully lost at sunset in someone else&rsquo;s neighbourhood.</p>
+  </section>
+
+  <!-- ══ S11 — Melbourne dog ══ -->
+  <section class="s11">
+    <img class="s11__img" src="SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg" alt="Man with dog in Melbourne">
+    <p class="typewriter" data-text="Swanston St 4:23pm on a Friday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
+  </section>
+
+  <!-- ══ REGISTRATION FORM ══ -->
+  <section class="s8">
+    <p class="s8__heading">Register interest and find out more</p>
+
+    <form class="s8__form" id="swopsForm" novalidate>
+      <div class="s8__field">
+        <label class="s8__label" for="f-name">Name</label>
+        <input class="s8__input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
+      </div>
+      <div class="s8__field">
+        <label class="s8__label" for="f-email">Email</label>
+        <input class="s8__input" id="f-email" type="email" placeholder="your@email.com" autocomplete="email" required>
+      </div>
+      <div class="s8__field">
+        <label class="s8__label" for="f-city">City</label>
+        <select class="s8__select placeholder" id="f-city" required>
+          <option value="" disabled selected>Melbourne or Sydney?</option>
+          <option value="melbourne">Melbourne</option>
+          <option value="sydney">Sydney</option>
+        </select>
+      </div>
+      <div class="s8__field">
+        <label class="s8__label" for="f-house">Your house</label>
+        <textarea class="s8__textarea" id="f-house" placeholder="Tell us about your place" rows="3" required></textarea>
+      </div>
+      <div class="s8__field">
+        <label class="s8__label" for="f-ideal">Your ideal swop</label>
+        <textarea class="s8__textarea" id="f-ideal" placeholder="What are you after?" rows="3" required></textarea>
+      </div>
+      <button class="s8__submit" type="submit">I&rsquo;M IN</button>
+    </form>
+
+    <p class="s8__free">CURRENTLY FREE FOR ALL USERS - NO SUBSCRIPTIONS, NO FEES</p>
+
+    <p class="s8__success" id="swopsSuccess">
+      You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
+    </p>
+
+    <p class="s8__disclaimer">Swops is about renters opening their doors to each other for short reciprocal stays. No cash for stays. No subletting involved. Double-check your lease on short-term guest rules before registering.</p>
+  </section>
+
+  <script>
+    // ── HAMBURGER ──
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    const aboutBtn = document.getElementById('aboutBtn');
+    const aboutOverlay = document.getElementById('aboutOverlay');
+    const aboutClose = document.getElementById('aboutClose');
+
+    burger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+    });
+
+    aboutBtn.addEventListener('click', () => {
+      navMenu.classList.remove('is-open');
+      burger.classList.remove('is-open');
+      aboutOverlay.classList.add('is-open');
+    });
+
+    aboutClose.addEventListener('click', () => {
+      aboutOverlay.classList.remove('is-open');
+    });
+
+    // ── TYPEWRITER ──
+    function typeIt(el) {
+      if (el.dataset.running) return;
+      el.dataset.running = '1';
+      const text = el.dataset.text;
+      let i = 0;
+      el.textContent = '';
+      el.classList.add('is-typing');
+      el.classList.remove('is-done');
+      const iv = setInterval(() => {
+        el.textContent += text[i++];
+        if (i >= text.length) {
+          clearInterval(iv);
+          el.classList.remove('is-typing');
+          el.classList.add('is-done');
+          setTimeout(() => {
+            el.classList.remove('is-done');
+            el.textContent = '';
+            delete el.dataset.running;
+            typeIt(el);
+          }, 3000);
+        }
+      }, 55);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) typeIt(e.target); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+
+    document.querySelectorAll('.typewriter').forEach(el => observer.observe(el));
+
+    // LET YOUR RENT — in-flow typewriter
+    const letRent = document.querySelector('.s6__letrent');
+    function typeLetRent() {
+      if (letRent.dataset.running) return;
+      letRent.dataset.running = '1';
+      const text = letRent.dataset.text;
+      let i = 0;
+      letRent.textContent = '';
+      letRent.classList.add('is-typing');
+      letRent.classList.remove('is-done');
+      const iv = setInterval(() => {
+        letRent.textContent += text[i++];
+        if (i >= text.length) {
+          clearInterval(iv);
+          letRent.classList.remove('is-typing');
+          letRent.classList.add('is-done');
+          setTimeout(() => {
+            letRent.classList.remove('is-done');
+            letRent.textContent = '';
+            delete letRent.dataset.running;
+            typeLetRent();
+          }, 3000);
+        }
+      }, 55);
+    }
+    const lrObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) typeLetRent(); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+    lrObserver.observe(letRent);
+
+    // ── FORM ──
+    const citySelect = document.getElementById('f-city');
+    citySelect.addEventListener('change', function() { this.classList.remove('placeholder'); });
+
+    const form = document.getElementById('swopsForm');
+    const success = document.getElementById('swopsSuccess');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWOPS — Register Interest</title>
+  <style>
+
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { background: #000; min-height: 100vh; }
+    body { font-family: 'Alfredino', sans-serif; }
+
+    .back {
+      position: fixed;
+      top: 18px;
+      left: 24px;
+      font-family: 'Alfredino', sans-serif;
+      font-size: 14px;
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      z-index: 100;
+      opacity: 0.7;
+    }
+
+    .back:hover { opacity: 1; }
+
+    .register {
+      background: #000;
+      width: 100%;
+      min-height: 100vh;
+      padding: 120px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+      text-align: center;
+    }
+
+    .register__heading {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #C8FF00;
+      line-height: 1.4;
+    }
+
+    .register__form {
+      width: 100%;
+      max-width: 720px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .register__field {
+      display: flex;
+      flex-direction: column;
+      border-top: 1px solid #C8FF00;
+      padding: 28px 0 24px;
+    }
+
+    .register__field:last-of-type { border-bottom: 1px solid #C8FF00; }
+
+    .register__label {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(10px, 0.9vw, 13px);
+      color: #C8FF00;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      text-align: left;
+      opacity: 0.6;
+    }
+
+    .register__input,
+    .register__textarea {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      resize: none;
+      caret-color: #C8FF00;
+      line-height: 1.4;
+    }
+
+    .register__input::placeholder,
+    .register__textarea::placeholder {
+      color: #C8FF00;
+      opacity: 0.25;
+    }
+
+    .register__textarea { min-height: 80px; }
+
+    .register__select {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      background: transparent;
+      border: none;
+      outline: none;
+      width: 100%;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .register__select option { background: #000; color: #C8FF00; }
+    .register__select.placeholder { opacity: 0.25; }
+
+    .register__submit {
+      margin-top: 48px;
+      align-self: center;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 18px 52px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+
+    .register__submit:hover { background: #fff; }
+
+    .register__free {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(12px, 1vw, 16px);
+      color: #C8FF00;
+      text-align: center;
+      letter-spacing: 0.08em;
+    }
+
+    .register__success {
+      display: none;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      line-height: 1.5;
+    }
+
+    .register__disclaimer {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(11px, 0.9vw, 14px);
+      color: #C8FF00;
+      opacity: 0.5;
+      max-width: 720px;
+      text-align: center;
+      line-height: 1.6;
+      margin-top: -32px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <a class="back" href="index.html">← BACK</a>
+
+  <section class="register">
+
+    <p class="register__heading">Register interest and find out more</p>
+
+    <form class="register__form" id="swopsForm" novalidate>
+
+      <div class="register__field">
+        <label class="register__label" for="f-name">Name</label>
+        <input class="register__input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-email">Email</label>
+        <input class="register__input" id="f-email" type="email" placeholder="your@email.com" autocomplete="email" required>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-city">City</label>
+        <select class="register__select placeholder" id="f-city" required>
+          <option value="" disabled selected>Melbourne or Sydney?</option>
+          <option value="melbourne">Melbourne</option>
+          <option value="sydney">Sydney</option>
+        </select>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-house">Your house</label>
+        <textarea class="register__textarea" id="f-house" placeholder="Tell us about your place" rows="3" required></textarea>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-ideal">Your ideal swop</label>
+        <textarea class="register__textarea" id="f-ideal" placeholder="What are you after?" rows="3" required></textarea>
+      </div>
+
+      <button class="register__submit" type="submit">I&rsquo;M IN</button>
+    </form>
+
+    <p class="register__free">CURRENTLY FREE FOR ALL USERS - NO SUBSCRIPTIONS, NO FEES</p>
+
+    <p class="register__success" id="swopsSuccess">
+      You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
+    </p>
+
+    <p class="register__disclaimer">Swops is about renters opening their doors to each other for short reciprocal stays. No cash for stays. No subletting involved. Double-check your lease on short-term guest rules before registering.</p>
+
+  </section>
+
+  <script>
+    const citySelect = document.getElementById('f-city');
+    citySelect.addEventListener('change', function() {
+      this.classList.remove('placeholder');
+    });
+
+    const form = document.getElementById('swopsForm');
+    const success = document.getElementById('swopsSuccess');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  </script>
+
+</body>
+</html>
