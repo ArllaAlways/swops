@@ -762,7 +762,7 @@
   <section class="s8">
     <p class="s8__heading">Register interest and find out more</p>
 
-    <form class="s8__form" id="swopsForm" name="registration" netlify novalidate>
+    <form class="s8__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
       <div class="s8__field">
         <label class="s8__label" for="f-name">Name</label>
         <input class="s8__input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
@@ -886,14 +886,6 @@
     // ── FORM ──
     const citySelect = document.getElementById('f-city');
     citySelect.addEventListener('change', function() { this.classList.remove('placeholder'); });
-
-    const form = document.getElementById('swopsForm');
-    const success = document.getElementById('swopsSuccess');
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      form.style.display = 'none';
-      success.style.display = 'block';
-    });
   </script>
 
 </body>
