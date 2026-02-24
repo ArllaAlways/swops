@@ -879,15 +879,15 @@
     <form class="s8__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
       <div class="s8__field">
         <label class="s8__label" for="f-name">Name</label>
-        <input class="s8__input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
+        <input class="s8__input" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
       </div>
       <div class="s8__field">
         <label class="s8__label" for="f-email">Email</label>
-        <input class="s8__input" id="f-email" type="email" placeholder="your@email.com" autocomplete="email" required>
+        <input class="s8__input" id="f-email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
       </div>
       <div class="s8__field">
         <label class="s8__label" for="f-city">City</label>
-        <select class="s8__select placeholder" id="f-city" required>
+        <select class="s8__select placeholder" id="f-city" name="city" required>
           <option value="" disabled selected>Melbourne or Sydney?</option>
           <option value="melbourne">Melbourne</option>
           <option value="sydney">Sydney</option>
@@ -895,11 +895,11 @@
       </div>
       <div class="s8__field">
         <label class="s8__label" for="f-house">Your house</label>
-        <textarea class="s8__textarea" id="f-house" placeholder="Tell us about your place" rows="3" required></textarea>
+        <textarea class="s8__textarea" id="f-house" name="house" placeholder="Tell us about your place" rows="3" required></textarea>
       </div>
       <div class="s8__field">
         <label class="s8__label" for="f-ideal">Your ideal swop</label>
-        <textarea class="s8__textarea" id="f-ideal" placeholder="What are you after?" rows="3" required></textarea>
+        <textarea class="s8__textarea" id="f-ideal" name="ideal-swop" placeholder="What are you after?" rows="3" required></textarea>
       </div>
       <button class="s8__submit" type="submit">I&rsquo;M IN</button>
     </form>
