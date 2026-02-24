@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWOPS — $100 Holidays</title>
+  <style>
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body { font-family: 'Alfredino', sans-serif; background: #000; }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 24px;
+    }
+
+    .nav__back {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(13px, 1.1vw, 17px);
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+    }
+
+    .nav__back:hover { opacity: 1; }
+
+    .pricing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 120px 60px;
+      text-align: center;
+      gap: 48px;
+    }
+
+    .pricing__headline {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(48px, 8vw, 120px);
+      color: #C8FF00;
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .pricing__body {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #C8FF00;
+      line-height: 1.5;
+      max-width: 760px;
+    }
+
+    .pricing__cta {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 18px 52px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 4px;
+      transition: background 0.15s;
+      margin-top: 12px;
+    }
+
+    .pricing__cta:hover { background: #fff; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav__back" href="#" onclick="history.back(); return false;">← Back</a>
+  </nav>
+
+  <section class="pricing">
+    <h1 class="pricing__headline">$100 Holidays</h1>
+    <p class="pricing__body">A swop will cost you $100. That&rsquo;s it.<br><br>No subscriptions. No hidden fees. No cleaning fees. Just a flat hundred so you can save thousands.</p>
+    <a class="pricing__cta" href="register.html">REGISTER YOUR INTEREST</a>
+  </section>
+
+</body>
+</html>

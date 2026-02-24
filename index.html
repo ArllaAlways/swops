@@ -258,12 +258,15 @@
 
     .s2__headline {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(24px, 2.7vw, 40px);
+      font-size: clamp(20px, 2.4vw, 34px);
       color: #000;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.4;
       max-width: 1200px;
     }
+
+    .s2__headline span { display: block; }
+    .s2__headline span + span { margin-top: 1.4em; }
 
     .s2__headline span { display: block; }
     .s2__headline span + span { margin-top: 0.6em; }
@@ -271,15 +274,25 @@
     /* ═══════════════════════════════════════
        SECTION 3 — Ibis
     ═══════════════════════════════════════ */
-    .s3 { position: relative; width: 100%; line-height: 0; }
+    .s3 { position: relative; width: 100%; aspect-ratio: 9/16; overflow: hidden; }
 
-    .s3__img { width: 100%; display: block; }
-
-    .s3__img--boggle {
+    .s3__bg {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .s3__bg--normal {
+      background-image: url('SITE%20ASSETS/IMAGES/IBIS-2.jpg');
+      background-size: cover;
+      background-position: 20% center;
+    }
+
+    .s3__bg--boggle {
+      background-image: url('SITE%20ASSETS/IMAGES/IBIS-BOGGLE-V2-9-16.jpg');
       opacity: 0;
       animation: ibis-cycle 3.5s steps(1, end) infinite;
     }
@@ -295,6 +308,13 @@
       left: 29%; top: 59%;
       opacity: 0;
       animation: ibis-cycle 3.5s steps(1, end) infinite;
+    }
+
+    .s3__speech-mobile {
+      display: none;
+      font-family: 'Alfredino', sans-serif;
+      font-size: 17px;
+      color: #C8FF00;
     }
 
     /* ═══════════════════════════════════════
@@ -313,7 +333,11 @@
       text-align: center;
     }
 
-    .s4 p {
+    .s4__intro {
+      font-size: clamp(24px, 3vw, 44px) !important;
+    }
+
+    .s4 p:not(.s4__free) {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(20px, 2.4vw, 34px);
       color: #C8FF00;
@@ -349,16 +373,25 @@
     /* ═══════════════════════════════════════
        SECTION 5 — Skateboarder
     ═══════════════════════════════════════ */
-    .s5 { position: relative; width: 100%; line-height: 0; }
-    .s5__img { width: 100%; display: block; }
-
-    .s5__img--1 { animation: skate-1 4s steps(1, end) infinite; }
-
-    .s5__img--2 {
+    .s5 { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+    .s5__bg {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+    .s5__bg--1 {
+      background-image: url('SITE%20ASSETS/IMAGES/GIRL-SKATEBOARD.jpg');
+      background-size: cover;
+      background-position: 55% center;
+      animation: skate-1 4s steps(1, end) infinite;
+    }
+    .s5__bg--2 {
+      background-image: url('SITE%20ASSETS/IMAGES/GIRL-SKATEBOARDING-LICK-2.jpg');
+      background-size: cover;
+      background-position: 55% center;
       opacity: 0;
       animation: skate-2 4s steps(1, end) infinite;
     }
@@ -427,16 +460,18 @@
     /* ═══════════════════════════════════════
        SECTION 7 — Beach sequence
     ═══════════════════════════════════════ */
-    .s7 { position: relative; width: 100%; line-height: 0; }
-    .s7__img { width: 100%; display: block; }
-
-    .s7__img--2, .s7__img--3 {
+    .s7 { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+    .s7__bg {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
     }
+    .s7__bg--1 { background-image: url('SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg'); background-size: cover; background-position: 58% 50%; animation: beach-1 3s steps(1, end) infinite; }
+    .s7__bg--2 { background-image: url('SITE%20ASSETS/IMAGES/WOMAN%20BEACH.jpeg'); background-size: cover; background-position: 58% 50%; opacity: 0; animation: beach-2 3s steps(1, end) infinite; }
+    .s7__bg--3 { background-image: url('SITE%20ASSETS/IMAGES/MAN%20BEACH%202.jpg'); background-size: cover; background-position: 58% 50%; opacity: 0; animation: beach-3 3s steps(1, end) infinite; }
 
     .s7__img--1 { animation: beach-1 3s steps(1, end) infinite; }
     @keyframes beach-1 { 0% { opacity: 1; } 33.4% { opacity: 0; } 100% { opacity: 0; } }
@@ -450,8 +485,16 @@
     /* ═══════════════════════════════════════
        SECTION 9 — Couple eating
     ═══════════════════════════════════════ */
-    .s9 { position: relative; width: 100%; line-height: 0; }
-    .s9__img { width: 100%; display: block; }
+    .s9 { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+    .s9__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('SITE%20ASSETS/IMAGES/COUPLE%20EATING.jpeg');
+      background-size: cover;
+      background-position: 25% center;
+    }
     .s9__caption { font-size: clamp(22px, 2.5vw, 36px); }
 
     /* ═══════════════════════════════════════
@@ -612,8 +655,16 @@
     /* ═══════════════════════════════════════
        SECTION 11 — Melbourne dog
     ═══════════════════════════════════════ */
-    .s11 { position: relative; width: 100%; line-height: 0; }
-    .s11__img { width: 100%; display: block; }
+    .s11 { position: relative; width: 100%; height: 100vh; overflow: hidden; }
+    .s11__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg');
+      background-size: cover;
+      background-position: center;
+    }
 
     /* ═══════════════════════════════════════
        TYPEWRITER
@@ -639,6 +690,69 @@
     @keyframes type-cursor { 50% { border-right-color: transparent; } }
     .typewriter.is-done { opacity: 1; border-right: none; }
 
+    /* ═══════════════════════════════════════
+       MOBILE
+    ═══════════════════════════════════════ */
+    @media (max-width: 768px) {
+
+      /* Images fill screen height */
+      .s3, .s5, .s7, .s9, .s11 {
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .s3__img,
+      .s5__img--1,
+      .s7__img--1,
+      .s9__img,
+      .s11__img {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+      }
+
+      /* Couple eating — action is left of centre */
+      .s9__img { object-position: 35% center; }
+
+      /* Boomer — start just off right edge, not 100vw away */
+      @keyframes boomer-slide {
+        from { transform: translateX(100%); }
+        to   { transform: translateX(-100%); }
+      }
+
+      .s3__speech {
+        left: 50%;
+        top: 62%;
+        transform: translateX(-50%);
+        text-align: center;
+      }
+      .s3__speech-desktop { display: none; }
+      .s3__speech-mobile { display: block; }
+
+      /* Typewriter — allow wrapping, narrower width */
+      .typewriter {
+        white-space: normal;
+        width: 80%;
+        font-size: clamp(16px, 4.5vw, 24px) !important;
+        line-height: 1.3;
+      }
+
+      /* Ticker smaller on mobile */
+      .ticker__item { font-size: 14px; padding-right: 60px; }
+      .ticker .ticker__track { animation-duration: 11s; }
+
+      /* Copy sections padding */
+      .s2, .s4, .s6, .s8, .s10 { padding: 60px 28px; }
+
+      /* Headline size */
+      .s2__headline { font-size: clamp(22px, 5.5vw, 32px); }
+
+    }
+
   </style>
 </head>
 <body>
@@ -653,6 +767,7 @@
   <!-- ── NAV MENU OVERLAY ── -->
   <div class="nav__menu" id="navMenu">
     <button class="nav__link" id="aboutBtn">ABOUT</button>
+    <a class="nav__link" href="pricing.html">PRICING</a>
     <a class="nav__link" href="register.html">REGISTER INTEREST</a>
   </div>
 
@@ -684,36 +799,36 @@
   <!-- ══ S2 — Headline ══ -->
   <section class="s2">
     <p class="s2__headline">
-      <span>You already pay for a holiday house, dummy.</span>
+      <span>If you rent, then you already pay for a holiday house, dummy.</span>
       <span>You just can't use it yet.</span>
     </p>
   </section>
 
   <!-- ══ S3 — Ibis ══ -->
-  <section class="s3">
-    <img class="s3__img" src="SITE%20ASSETS/IMAGES/IBIS-2.jpg" alt="Ibis in green algae">
-    <img class="s3__img--boggle" src="SITE%20ASSETS/IMAGES/IBIS-BOGGLE-2.jpg" alt="">
+  <section class="s3" id="s3-ibis">
+    <div class="s3__bg s3__bg--normal" style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('SITE%20ASSETS/IMAGES/IBIS-9-16.jpg');background-size:cover;background-position:center;"></div>
+    <div class="s3__bg s3__bg--boggle"></div>
     <div class="s3__speech">
-      <svg width="100" height="80" style="overflow:visible">
+      <svg class="s3__speech-desktop" width="100" height="80" style="overflow:visible">
         <line x1="93" y1="15" x2="3" y2="65" stroke="#C8FF00" stroke-width="1"/>
         <text x="-9" y="73" font-family="Alfredino, sans-serif" font-size="17" fill="#C8FF00" text-anchor="end">Say what now?</text>
       </svg>
+      <span class="s3__speech-mobile">Say what now?</span>
     </div>
   </section>
 
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4">
-    <p>SWOPS privately matches <u>renters with renters</u> to swap homes for short breaks. Just register interest for a nominated swop window (1st one is King's Bday wknd) &gt; Get matched &gt; Meet your swopmate/s on video call and see the place &gt; Opt to swop... or don&rsquo;t. Up to you.</p>
+    <p class="s4__intro">SWOPS privately matches <u>renters with renters</u> to swap homes for short breaks.</p>
+    <p>Just register interest for a nominated swop window (1st one is King's Bday wknd) &gt; Get matched &gt; Meet your swopmate/s on video call and see the place &gt; Opt to swop... or don&rsquo;t. Up to you.</p>
     <p>No public listings. Between renters, for renters.</p>
-    <p>It&rsquo;s holidays without paying for accommodation.</p>
     <a class="s4__cta" href="register.html">REGISTER YOUR INTEREST</a>
-    <p class="s4__free">Currently free for all users - no subscriptions, no fees</p>
   </section>
 
   <!-- ══ S5 — Skateboarder ══ -->
   <section class="s5">
-    <img class="s5__img s5__img--1" src="SITE%20ASSETS/IMAGES/GIRL-SKATEBOARD.jpg" alt="Skateboarder">
-    <img class="s5__img s5__img--2" src="SITE%20ASSETS/IMAGES/GIRL-SKATEBOARDING-LICK-2.jpg" alt="Skateboarder lick">
+    <div class="s5__bg s5__bg--1"></div>
+    <div class="s5__bg s5__bg--2"></div>
     <p class="s5__quote typewriter" data-text='"Look at me. I am the house flipper now"'></p>
   </section>
 
@@ -726,9 +841,9 @@
 
   <!-- ══ S7 — Beach sequence ══ -->
   <section class="s7">
-    <img class="s7__img s7__img--1" src="SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg" alt="Man on beach">
-    <img class="s7__img--2" src="SITE%20ASSETS/IMAGES/WOMAN%20BEACH.jpeg" alt="Woman on beach">
-    <img class="s7__img--3" src="SITE%20ASSETS/IMAGES/MAN%20BEACH%202.jpg" alt="Man on beach head down">
+    <div class="s7__bg s7__bg--1"></div>
+    <div class="s7__bg s7__bg--2"></div>
+    <div class="s7__bg s7__bg--3"></div>
     <p class="typewriter" data-text="North Coast 11:40am on a Monday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
   </section>
 
@@ -740,7 +855,7 @@
 
   <!-- ══ S9 — Couple eating ══ -->
   <section class="s9">
-    <img class="s9__img" src="SITE%20ASSETS/IMAGES/COUPLE%20EATING.jpeg" alt="Couple eating lunch">
+    <div class="s9__bg"></div>
     <p class="s9__caption typewriter" data-text="Botany 2:12pm on a Sunday"></p>
   </section>
 
@@ -754,7 +869,7 @@
 
   <!-- ══ S11 — Melbourne dog ══ -->
   <section class="s11">
-    <img class="s11__img" src="SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg" alt="Man with dog in Melbourne">
+    <div class="s11__bg"></div>
     <p class="typewriter" data-text="Swanston St 4:23pm on a Friday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
   </section>
 
@@ -790,7 +905,7 @@
       <button class="s8__submit" type="submit">I&rsquo;M IN</button>
     </form>
 
-    <p class="s8__free">CURRENTLY FREE FOR ALL USERS - NO SUBSCRIPTIONS, NO FEES</p>
+
 
     <p class="s8__success" id="swopsSuccess">
       You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
