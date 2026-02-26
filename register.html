@@ -159,6 +159,17 @@
       margin-top: -32px;
     }
 
+    .register__subheading {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(14px, 1.4vw, 20px);
+      color: #C8FF00;
+      line-height: 1.5;
+      max-width: 720px;
+      text-align: center;
+      opacity: 0.7;
+      margin-top: -24px;
+    }
+
   </style>
 </head>
 <body>
@@ -168,6 +179,7 @@
   <section class="register">
 
     <p class="register__heading">Register interest and find out more</p>
+    <p class="register__subheading">We&rsquo;ll ask for your basic details, a bit about your place, and what you&rsquo;re after. No credit card. No obligation. Just your hand up saying you&rsquo;re interested.</p>
 
     <form class="register__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
 
@@ -182,7 +194,7 @@
       </div>
 
       <div class="register__field">
-        <label class="register__label" for="f-city">City</label>
+        <label class="register__label" for="f-city">Your city</label>
         <select class="register__select placeholder" id="f-city" name="city" required>
           <option value="" disabled selected>Melbourne or Sydney?</option>
           <option value="melbourne">Melbourne</option>
@@ -197,7 +209,7 @@
 
       <div class="register__field">
         <label class="register__label" for="f-ideal">Your ideal swop</label>
-        <textarea class="register__textarea" id="f-ideal" name="ideal-swop" placeholder="What are you after?" rows="3" required></textarea>
+        <textarea class="register__textarea" id="f-ideal" name="ideal-swop" placeholder="What are you after? City? Beach? Number of bedrooms, etc." rows="3" required></textarea>
       </div>
 
       <button class="register__submit" type="submit">I&rsquo;M IN</button>
@@ -207,7 +219,7 @@
       You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
     </p>
 
-    <p class="register__disclaimer">Swops is about renters opening their doors to each other for short reciprocal stays. No cash for stays. No subletting involved. Double-check your lease on short-term guest rules before registering.</p>
+    <p class="register__disclaimer">Swops isn&rsquo;t subletting &mdash; it&rsquo;s reciprocal hosting between renters. Many standard leases are fine with short-term guests, but it&rsquo;s worth a quick check of your lease&rsquo;s guest policy before you register. No cash changes hands. No public listings.</p>
 
   </section>
 
