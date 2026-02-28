@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SWOPS</title>
+  <link rel="preload" as="image" href="SITE%20ASSETS/IMAGES/BOOMER%20MAN.png">
   <style>
 
     /* ─── FONTS ─── */
@@ -240,8 +241,17 @@
       height: 102vh;
       width: auto;
       z-index: 20;
-      animation: boomer-slide 12s linear infinite;
+      will-change: transform;
+      transform: translateX(100vw);
+      animation: none;
     }
+
+    .hero__bg  { animation: none; opacity: 1; }
+    .hero__bg2 { animation: none; opacity: 0; }
+
+    .hero-ready .boomer-man  { animation: boomer-slide 12s linear infinite; }
+    .hero-ready .hero__bg    { animation: hero-1 12s steps(1, end) infinite; }
+    .hero-ready .hero__bg2   { animation: hero-2 12s steps(1, end) infinite; }
 
     @keyframes boomer-slide {
       from { transform: translateX(100vw); }
@@ -738,30 +748,30 @@
       .s9__bg { background-image: url('SITE%20ASSETS/IMAGES/COUPLE%20EATING%20MOBILE.jpeg') !important; background-position: center !important; }
       .s11__bg { background-image: url('SITE%20ASSETS/IMAGES/MAN-DOG-MOBILE-9-16.jpg') !important; background-position: center !important; }
 
-      /* Boomer — mobile specific timing and position */
-      .boomer-man { height: 102vh; animation-duration: 9s; animation-delay: -4s; top: auto; bottom: 0; }
+      /* Boomer — mobile */
+      .hero-ready .boomer-man { height: 102vh; top: auto; bottom: 0; animation-duration: 10s; animation-delay: -2s; }
       @keyframes boomer-slide {
-        from { transform: translateX(calc(100vw + 100%)); }
+        from { transform: translateX(100vw); }
         to   { transform: translateX(-100%); }
       }
 
-      /* Hero background — mobile specific timing */
-      .hero__bg  { animation-duration: 9s; }
-      .hero__bg2 { animation-duration: 9s; }
+      /* Hero background — mobile timing matches boomer (10s), switch at 45% = 4.5s when boomer covers centre */
+      .hero-ready .hero__bg  { animation: hero-1 10s steps(1, end) infinite; animation-delay: -2s; }
+      .hero-ready .hero__bg2 { animation: hero-2 10s steps(1, end) infinite; animation-delay: -2s; }
       @keyframes hero-1 {
         0%    { opacity: 1; }
-        24%   { opacity: 1; }
-        25%   { opacity: 0; }
-        90%   { opacity: 0; }
-        91%   { opacity: 1; }
+        46%   { opacity: 1; }
+        47%   { opacity: 0; }
+        88%   { opacity: 0; }
+        89%   { opacity: 1; }
         100%  { opacity: 1; }
       }
       @keyframes hero-2 {
         0%    { opacity: 0; }
-        24%   { opacity: 0; }
-        25%   { opacity: 1; }
-        90%   { opacity: 1; }
-        91%   { opacity: 0; }
+        46%   { opacity: 0; }
+        47%   { opacity: 1; }
+        88%   { opacity: 1; }
+        89%   { opacity: 0; }
         100%  { opacity: 0; }
       }
 
@@ -834,14 +844,10 @@
   <!-- ── TICKER TAPE ── -->
   <div class="ticker" role="marquee" aria-live="off">
     <div class="ticker__track">
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
-      <span class="ticker__item">More dates coming soon</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
-      <span class="ticker__item">More dates coming soon</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
-      <span class="ticker__item">More dates coming soon</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 - Sydney&lt;&gt;Melbourne</span>
-      <span class="ticker__item">More dates coming soon</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Brunswick ↔ St Kilda + Newtown ↔ Bondi &nbsp;&nbsp; More dates TBC</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Brunswick ↔ St Kilda + Newtown ↔ Bondi &nbsp;&nbsp; More dates TBC</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Brunswick ↔ St Kilda + Newtown ↔ Bondi &nbsp;&nbsp; More dates TBC</span>
+      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Brunswick ↔ St Kilda + Newtown ↔ Bondi &nbsp;&nbsp; More dates TBC</span>
     </div>
   </div>
 
@@ -871,10 +877,10 @@
 
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4">
-    <p class="s4__intro">SWOPS privately matches <u>renters with renters</u> to swap homes for short breaks.</p>
-    <p>Just register interest for a nominated swop window (1st one is King's Bday wknd) &gt; Get matched &gt; Meet your swopmate/s on video call and see the place &gt; Opt to swop... or don&rsquo;t. Up to you.</p>
-    <p>We manually review every registration and match you based on your suburb, home type and what you&rsquo;re after. If there&rsquo;s no good match for you right now we&rsquo;ll let you know.</p>
-    <p>No public listings. Between renters, for renters.</p>
+    <p class="s4__intro">SWOPS privately matches <u>renters with renters</u> for short stays in each other&rsquo;s homes.</p>
+    <p>Register interest for a swop window &gt; Get matched with someone in your city &gt; Meet on video call, see the place &gt; Swop&hellip; or don&rsquo;t. Up to you.</p>
+    <p>We manually review every registration and match you based on your suburb, home type and what you&rsquo;re after. If there&rsquo;s no good match right now, we&rsquo;ll let you know.</p>
+    <p>No public listings. No public profiles. Between renters, for renters.</p>
   </section>
 
   <!-- ══ S5 — Skateboarder ══ -->
@@ -886,7 +892,7 @@
 
   <!-- ══ S6 — Lime copy ══ -->
   <section class="s6">
-    <p>A swop isn&rsquo;t a luxury holiday. It&rsquo;s pretty much waking up in Surry Hills instead of Brunswick for a weekend and seeing what happens.</p>
+    <p>A swop isn&rsquo;t a luxury holiday. It&rsquo;s waking up in St Kilda instead of Brunswick for a weekend and seeing what happens. It&rsquo;s going to bed in Katoomba when your bedroom is in Bronte.</p>
     <p>Because why not? You already paid for accom.</p>
     <p class="s6__letrent" data-text="LET YOUR RENT TAKE YOU PLACES." style="font-size: clamp(20px, 2.4vw, 34px);"></p>
   </section>
@@ -916,7 +922,7 @@
   <section class="s10">
     <p class="s10__heading">But don&rsquo;t take our word for it.</p>
     <p>You should meet your match (on video call). Look them in the eye. Talk. Ask questions. Make your own judgement about whether it feels right to you.</p>
-    <p>That&rsquo;s how getting a friend-of-a-friend to house-sit works. Sort of. Swops is the same thing. But better. It&rsquo;s fast-friends turning the dead money of rent into the life-affirming treat of free accommodation in a new city.</p>
+    <p>That&rsquo;s how getting a friend-of-a-friend to house-sit works. Sort of. Swops is the same thing. But better. It&rsquo;s fast-friends turning the dead money of rent into free accommodation in a new scene.</p>
     <p>If that sounds good to you then register your interest (no obligation) and get ready to get fully lost at sunset in someone else&rsquo;s neighbourhood.</p>
   </section>
 
@@ -941,12 +947,8 @@
         <input class="s8__input" id="f-email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
       </div>
       <div class="s8__field">
-        <label class="s8__label" for="f-city">Your city</label>
-        <select class="s8__select placeholder" id="f-city" name="city" required>
-          <option value="" disabled selected>Melbourne or Sydney?</option>
-          <option value="melbourne">Melbourne</option>
-          <option value="sydney">Sydney</option>
-        </select>
+        <label class="s8__label" for="f-city">Your suburb</label>
+        <input class="s8__input" id="f-city" name="city" type="text" placeholder="What suburb are you in?" required>
       </div>
       <div class="s8__field">
         <label class="s8__label" for="f-house">Your house</label>
@@ -965,7 +967,7 @@
       You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
     </p>
 
-    <p class="s8__disclaimer">Swops isn&rsquo;t subletting &mdash; it&rsquo;s reciprocal hosting between renters. Many standard leases are fine with short-term guests, but it&rsquo;s worth a quick check of your lease&rsquo;s guest policy before you register. No cash changes hands. No public listings.</p>
+    <p class="s8__disclaimer">Check your lease before you swop. Many short-term guest stays are fine, but your lease is your responsibility, not ours.</p>
   </section>
 
   <script>
@@ -1052,9 +1054,17 @@
     }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
     lrObserver.observe(letRent);
 
-    // ── FORM ──
-    const citySelect = document.getElementById('f-city');
-    citySelect.addEventListener('change', function() { this.classList.remove('placeholder'); });
+    // ── BOOMER: start all hero animations only once the image has loaded ──
+    const boomerImg = document.querySelector('.boomer-man');
+    function startHero() {
+      document.querySelector('.hero').classList.add('hero-ready');
+    }
+    if (boomerImg.complete) {
+      startHero();
+    } else {
+      boomerImg.addEventListener('load', startHero);
+      boomerImg.addEventListener('error', startHero);
+    }
   </script>
 
 </body>

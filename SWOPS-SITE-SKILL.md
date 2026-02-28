@@ -112,3 +112,29 @@ Styled as: fields separated by thin `1px` lime green horizontal lines, no input 
 - Don't use Inter, Roboto, or any Google Font
 - Don't add headers/navbars — the ticker tape is the nav
 - Don't make it look like a startup SaaS product
+
+---
+
+## Legal Language & Copy Guidelines
+
+### Approved disclaimer copy (long form)
+SWOPS is a matching service, not a tenancy product. Before you register for a swop, check your lease for any clauses about short-term guests or third-party access. If you're unsure, ask your property manager — framing it as "a friend staying while I'm away" is often the easiest approach. SWOPS doesn't provide legal advice and can't review your lease for you.
+
+### Approved disclaimer copy (short — for site)
+Check your lease before you swop. Most short-term guest stays are fine — but your lease is your responsibility, not ours.
+
+### Approved terms/registration language
+By registering, you confirm you have reviewed your tenancy agreement and satisfied yourself that participating is consistent with your obligations as a tenant. SWOPS facilitates introductions between renters; it does not create, modify, or take responsibility for any tenancy arrangement.
+
+### Language to Avoid in All Copy
+
+| Avoid | Why | Use instead |
+|-------|-----|-------------|
+| "Swap your home / house" | Implies exchange of property rights | "Stay in someone's place while they stay in yours" |
+| "List your home" | Airbnb language; implies commercial offering | "Register your place" |
+| "Host" / "guest" as fixed roles | Implies one-way arrangement | "Swopmates" — both are guests simultaneously |
+| "Rent-free stay" | Could imply the stay substitutes for rent | "Stay without accommodation costs" |
+| "Unlock the value of your rental" | Attractive copy but implies extracting value from a leased asset | "Make your rent work harder" or just "$100 holidays" |
+| "Short-term accommodation" | Legal trigger phrase in most states | "A change of scene" / "a few nights away" |
+| "Property" in agreement context | Signals a property transaction | "Home" — warmer and legally softer |
+| Any mention of "exclusive" access | Directly maps to the exclusive possession test | "Access to" — with retained key language explicit |
