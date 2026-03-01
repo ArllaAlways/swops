@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SWOPS - How it works</title>
+  <style>
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body { font-family: 'Alfredino', sans-serif; background: #000; }
+
+    .nav { position: fixed; top: 0; right: 0; z-index: 1000; padding: 18px 24px; }
+    .nav__back { font-family: 'Alfredino', sans-serif; font-size: clamp(13px, 1.1vw, 17px); color: #C8FF00; text-decoration: none; letter-spacing: 0.06em; opacity: 0.7; }
+    .nav__back:hover { opacity: 1; }
+
+    .hiw { width: 100%; max-width: 860px; margin: 0 auto; padding: clamp(80px, 12vw, 160px) clamp(28px, 6vw, 60px); display: flex; flex-direction: column; gap: 60px; }
+    .hiw__section { display: flex; flex-direction: column; gap: 24px; }
+    .hiw__heading { font-family: 'Alfredino', sans-serif; font-size: clamp(13px, 1vw, 16px); color: #C8FF00; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.5; }
+    .hiw__body { font-family: 'Alfredino', sans-serif; font-size: clamp(20px, 2.4vw, 32px); color: #C8FF00; line-height: 1.5; }
+    .hiw__divider { width: 100%; height: 1px; background: #C8FF00; opacity: 0.15; }
+    .hiw__cta { font-family: 'Alfredino', sans-serif; font-size: clamp(16px, 1.6vw, 22px); letter-spacing: 0.08em; color: #000; background: #C8FF00; border: none; padding: 18px 52px; cursor: pointer; text-decoration: none; display: inline-block; border-radius: 4px; transition: background 0.15s; align-self: flex-start; }
+    .hiw__cta:hover { background: #fff; }
+    .hiw__disclaimer { font-family: 'Alfredino', sans-serif; font-size: clamp(11px, 0.9vw, 14px); color: #C8FF00; opacity: 0.4; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav__back" href="index.html">← Back</a>
+  </nav>
+
+  <main class="hiw">
+
+    <div class="hiw__section">
+      <p class="hiw__heading">How it works</p>
+      <p class="hiw__body">Register your interest for a swop window. We'll ask for your name, suburb, a bit about your place and what you're after.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">What's a swop window?</p>
+      <p class="hiw__body">Rather than matching people year-round, to get started we're running specific weekends where everyone's available at the same time. Kind of like drops for sneakers, but, you know, swops for rental houses. The first is King's Birthday long weekend, 6-8 June 2026.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">The match</p>
+      <p class="hiw__body">Our matching engine pairs you with compatible swoppers based on suburb, home type and what you're both looking for. You'll get a brief on each match - their place, their neighbourhood, a bit about who they are.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">The call</p>
+      <p class="hiw__body">You choose who you'd like to have a call with. It's a video call - you see their place, they see yours, you figure out if it feels right. No obligation to go ahead.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">The swop</p>
+      <p class="hiw__body">If you're both happy, you swop. Same weekend. You're in their place while they're in yours.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">What it costs</p>
+      <p class="hiw__body">Swops are free for our first wave of friends. We'll get to money later, but for now we just want to hang out at yours and you at ours.</p>
+    </div>
+
+    <div class="hiw__divider"></div>
+
+    <div class="hiw__section">
+      <p class="hiw__heading">A note on your lease</p>
+      <p class="hiw__body">Check your lease before you register. Many short-term guest stays are fine - but your lease is your responsibility, not ours.</p>
+    </div>
+
+    <a class="hiw__cta" href="index.html#register">I'm in</a>
+
+    <p class="hiw__disclaimer">Swops facilitates introductions between renters. It does not create, modify, or take responsibility for any tenancy arrangement.</p>
+
+  </main>
+
+</body>
+</html>

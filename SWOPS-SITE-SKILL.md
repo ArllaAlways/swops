@@ -112,6 +112,8 @@ Styled as: fields separated by thin `1px` lime green horizontal lines, no input 
 - Don't use Inter, Roboto, or any Google Font
 - Don't add headers/navbars — the ticker tape is the nav
 - Don't make it look like a startup SaaS product
+- Never use Oxford commas
+- Never use em dashes — use a regular dash instead
 
 ---
 
