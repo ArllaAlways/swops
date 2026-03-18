@@ -1006,8 +1006,8 @@
 
       /* Copy sections padding */
       .s2, .s4, .s8, .s10 { padding: 60px 28px; }
-      .s6 { grid-template-columns: 1fr; grid-template-rows: 50vw auto; }
-      .s6__img { width: 100%; height: 50vw; }
+      .s6 { grid-template-columns: 1fr; min-height: auto; }
+      .s6__img { order: -1; height: 72vw; width: 100%; }
       .s6__content { padding: 48px 28px; }
 
       /* Headline size */
@@ -1028,7 +1028,6 @@
 
   <!-- ── NAV MENU OVERLAY ── -->
   <div class="nav__menu" id="navMenu">
-    <a class="nav__link" href="profiles.html">Who's Swopping</a>
     <a class="nav__link" href="how-it-works.html">How it Works</a>
     <a class="nav__link" href="pricing.html">Pricing</a>
     <a class="nav__link" href="#register">Register Interest</a>
@@ -1081,7 +1080,7 @@
 
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4">
-    <p>SWOPS privately matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free.</p>
+    <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
     <a class="s4__cta" href="how-it-works.html">How it works</a>
   </section>
 
@@ -1105,7 +1104,7 @@
       </div>
       <a class="s6__cta" href="#register">Register now</a>
     </div>
-    <img class="s6__img" src="SITE%20ASSETS/IMAGES/HORSE-TROPY-1.jpg" alt="">
+    <img class="s6__img" src="SITE%20ASSETS/IMAGES/ITALIAN%20RESTAURANT.jpg" alt="">
   </section>
 
   <!-- ══ SWOPS PRIVATE ══ -->
@@ -1114,7 +1113,6 @@
     <div class="s-slummer__bg s-slummer__bg--2" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-2.jpg');"></div>
     <div class="s-slummer__overlay"></div>
     <div class="s-slummer__text">
-      <span class="s-slummer__eyebrow">No public profiles</span>
       <p class="s-slummer__title">Between renters,<br>for renters.</p>
     </div>
   </section>
@@ -1124,7 +1122,6 @@
     <div class="s7__bg s7__bg--1"></div>
     <div class="s7__bg s7__bg--2"></div>
     <div class="s7__bg s7__bg--3"></div>
-    <a class="s7__cta" href="profiles.html">Who&rsquo;s Swopping?</a>
   </section>
 
 
@@ -1341,7 +1338,6 @@
   <!-- ══ MELBOURNE DOG ══ -->
   <section class="s-slummer">
     <div class="s-slummer__bg" style="background-image: url('SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg'); background-position: center 40%;"></div>
-    <div class="s-slummer__overlay"></div>
   </section>
 
   <script>
