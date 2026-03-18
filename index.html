@@ -437,44 +437,83 @@
        SECTION 6 — Lime copy block
     ═══════════════════════════════════════ */
     .s6 {
+      position: relative;
       background: #C8FF00;
       width: 100%;
       min-height: 100vh;
-      padding: 90px 60px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: stretch;
+    }
+
+    .s6__content {
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 48px;
-      text-align: center;
+      gap: clamp(20px, 2.5vw, 36px);
+      padding: clamp(60px, 8vw, 120px) clamp(28px, 5vw, 80px);
+      position: relative;
+      z-index: 2;
     }
 
-    .s6 p {
+    .s6__eyebrow {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(20px, 2.4vw, 34px);
+      font-size: clamp(10px, 0.8vw, 13px);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
       color: #000;
-      line-height: 1.4;
-      max-width: 900px;
+      opacity: 0.5;
     }
 
-    .s6__letrent {
+    .s6__title {
       font-family: 'Alfredino', sans-serif;
+      font-size: clamp(60px, 9.5vw, 148px);
       color: #000;
-      text-align: center;
-      line-height: 1.4;
-      max-width: 900px;
-      opacity: 0;
+      line-height: 0.88;
+      letter-spacing: 0.01em;
+      text-transform: uppercase;
     }
 
-    .s6__letrent.is-typing {
-      opacity: 1;
-      border-right: 2px solid #000;
-      animation: type-cursor-dark 0.6s steps(1, end) infinite;
+    .s6__body {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 520px;
     }
 
-    .s6__letrent.is-done { opacity: 1; border-right: none; }
+    .s6__body p {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(15px, 1.4vw, 21px);
+      color: #000;
+      line-height: 1.45;
+    }
 
-    @keyframes type-cursor-dark { 50% { border-right-color: transparent; } }
+    .s6__cta {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(14px, 1.2vw, 18px);
+      letter-spacing: 0.08em;
+      color: #C8FF00;
+      background: #000;
+      border: none;
+      padding: 16px 48px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 4px;
+      transition: background 0.15s;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+    .s6__cta:hover { background: #222; }
+
+    .s6__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
 
     /* ═══════════════════════════════════════
        SECTION 7 — Beach sequence
@@ -488,6 +527,28 @@
       background-size: cover;
       background-position: center;
     }
+    .s7__cta {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 18px 52px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 4px;
+      transition: background 0.15s;
+      white-space: nowrap;
+      z-index: 10;
+    }
+    .s7__cta:hover { background: #fff; }
+
     .s7__bg--1 { background-image: url('SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg'); background-size: cover; background-position: 58% 50%; animation: beach-1 3s steps(1, end) infinite; }
     .s7__bg--2 { background-image: url('SITE%20ASSETS/IMAGES/WOMAN%20BEACH.jpeg'); background-size: cover; background-position: 58% 50%; opacity: 0; animation: beach-2 3s steps(1, end) infinite; }
     .s7__bg--3 { background-image: url('SITE%20ASSETS/IMAGES/MAN%20BEACH%202.jpg'); background-size: cover; background-position: 58% 50%; opacity: 0; animation: beach-3 3s steps(1, end) infinite; }
@@ -721,6 +782,143 @@
     .typewriter.is-done { opacity: 1; border-right: none; }
 
     /* ═══════════════════════════════════════
+       EURO SLUMMER — Sleep Cheap image section
+    ═══════════════════════════════════════ */
+    .s-slummer {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .s-slummer__bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('SITE%20ASSETS/IMAGES/SLEEP%20CHEAP.jpg');
+      background-size: cover;
+      background-position: center 30%;
+    }
+
+    @keyframes private-1 { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes private-2 { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 1; } }
+    .s-slummer__bg--1 { animation: private-1 2s steps(1, end) infinite; }
+    .s-slummer__bg--2 { opacity: 0; animation: private-2 2s steps(1, end) infinite; }
+
+    .s-slummer__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        rgba(0,0,0,0.55) 100%
+      );
+    }
+
+    .s-slummer__text {
+      position: absolute;
+      bottom: clamp(48px, 7vw, 90px);
+      left: clamp(28px, 6vw, 90px);
+    }
+
+    .s-slummer__eyebrow {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(27px, 2.25vw, 36px);
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #C8FF00;
+      opacity: 0.7;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .s-slummer__title {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(48px, 9vw, 130px);
+      color: #C8FF00;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════════════
+       CONSTELLATION — names scattered, fading
+    ═══════════════════════════════════════ */
+    .s-credits {
+      position: relative;
+      background: #000;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    @keyframes name-pulse {
+      0%   { opacity: 0;    transform: scale(0.96); }
+      12%  { opacity: 0.32; transform: scale(1); }
+      55%  { opacity: 0.32; transform: scale(1); }
+      75%  { opacity: 0;    transform: scale(1.03); }
+      100% { opacity: 0;    transform: scale(1.03); }
+    }
+
+    .s-credits__name {
+      position: absolute;
+      font-family: 'Alfredino', sans-serif;
+      color: #C8FF00;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      opacity: 0;
+      animation: name-pulse 5s ease-in-out infinite;
+      will-change: opacity, transform;
+      text-align: center;
+    }
+    .s-credits__name span {
+      display: block;
+      font-size: clamp(7px, 0.65vw, 10px);
+      letter-spacing: 0.2em;
+      opacity: 0.55;
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+
+    /* each name: unique position, size, delay */
+    .sc-mia   { top: 12%; left: 9%;  font-size: clamp(18px,2.4vw,34px); animation-delay: 0s; }
+    .sc-dom   { top: 70%; left: 6%;  font-size: clamp(22px,3vw,44px);   animation-delay: 0.55s; }
+    .sc-rosa  { top: 34%; left: 72%; font-size: clamp(16px,2vw,28px);   animation-delay: 1.1s; }
+    .sc-jake  { top: 80%; left: 52%; font-size: clamp(20px,2.6vw,38px); animation-delay: 1.65s; }
+    .sc-tom   { top: 18%; left: 78%; font-size: clamp(14px,1.8vw,26px); animation-delay: 2.2s; }
+    .sc-soph  { top: 58%; left: 28%; font-size: clamp(22px,2.8vw,40px); animation-delay: 2.75s; }
+    .sc-ant   { top: 8%;  left: 44%; font-size: clamp(16px,2.1vw,30px); animation-delay: 3.3s; }
+    .sc-bec   { top: 46%; left: 80%; font-size: clamp(18px,2.3vw,32px); animation-delay: 3.85s; }
+    .sc-chris { top: 88%; left: 74%; font-size: clamp(20px,2.5vw,36px); animation-delay: 4.4s; }
+
+    /* centre button */
+    .s-credits__overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 15;
+      pointer-events: none;
+    }
+    .s-credits__btn {
+      pointer-events: all;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #000;
+      background: #C8FF00;
+      text-decoration: none;
+      padding: 15px 44px;
+      border-radius: 3px;
+      transition: background 0.15s;
+    }
+    .s-credits__btn:hover { background: #fff; }
+
+    /* ═══════════════════════════════════════
        MOBILE
     ═══════════════════════════════════════ */
     @media (max-width: 768px) {
@@ -807,7 +1005,10 @@
       .ticker .ticker__track { animation-duration: 6.6s; }
 
       /* Copy sections padding */
-      .s2, .s4, .s6, .s8, .s10 { padding: 60px 28px; }
+      .s2, .s4, .s8, .s10 { padding: 60px 28px; }
+      .s6 { grid-template-columns: 1fr; grid-template-rows: 50vw auto; }
+      .s6__img { width: 100%; height: 50vw; }
+      .s6__content { padding: 48px 28px; }
 
       /* Headline size */
       .s2__headline { font-size: clamp(22px, 5.5vw, 32px); }
@@ -827,7 +1028,8 @@
 
   <!-- ── NAV MENU OVERLAY ── -->
   <div class="nav__menu" id="navMenu">
-    <a class="nav__link" href="how-it-works.html">How it works</a>
+    <a class="nav__link" href="profiles.html">Who's Swopping</a>
+    <a class="nav__link" href="how-it-works.html">How it Works</a>
     <a class="nav__link" href="pricing.html">Pricing</a>
     <a class="nav__link" href="#register">Register Interest</a>
     <button class="nav__link" id="aboutBtn">How we got here</button>
@@ -846,10 +1048,10 @@
   <!-- ── TICKER TAPE ── -->
   <div class="ticker" role="marquee" aria-live="off">
     <div class="ticker__track">
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne + Sydney &nbsp;&nbsp; More dates TBC</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne + Sydney &nbsp;&nbsp; More dates TBC</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne + Sydney &nbsp;&nbsp; More dates TBC</span>
-      <span class="ticker__item">First swop Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne + Sydney &nbsp;&nbsp; More dates TBC</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
     </div>
   </div>
 
@@ -879,9 +1081,7 @@
 
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4">
-    <p>SWOPS privately matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours.</p>
-    <p>We&rsquo;re starting with intra-city swops to begin - cross-river, cross-town - before we open up interstate.</p>
-    <p>No public listings. No public profiles. No fees. Between renters, for renters.</p>
+    <p>SWOPS privately matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free.</p>
     <a class="s4__cta" href="how-it-works.html">How it works</a>
   </section>
 
@@ -892,11 +1092,31 @@
     <p class="s5__quote typewriter" data-text='"Look at me. I am the house flipper now"'></p>
   </section>
 
-  <!-- ══ S6 — Lime copy ══ -->
+  <!-- ══ S6 — Euro Slummer ══ -->
   <section class="s6">
-    <p>A swop isn&rsquo;t a luxury holiday. It&rsquo;s waking up in St Kilda instead of Brunswick for a weekend and seeing what happens. It&rsquo;s going to bed in Katoomba when your bedroom is in Bronte.</p>
-    <p>Because why not? You already paid for accom.</p>
-    <p class="s6__letrent" data-text="LET YOUR RENT TAKE YOU PLACES." style="font-size: clamp(20px, 2.4vw, 34px);"></p>
+    <div class="s6__content">
+      <p class="s6__eyebrow">Kings Birthday Weekend &middot; 6&ndash;8 June 2026 &middot; Melbourne</p>
+      <p class="s6__title">Euro<br>Slummer</p>
+      <div class="s6__body">
+        <p>Unless you&rsquo;re nepo spawn with a private stockpile of jet fuel, then Palermo is off the agenda this year.</p>
+        <p>So make it a Euro Slummer instead!</p>
+        <p>This King&rsquo;s Birthday weekend, trade The Pillars in a puffer jacket for a Brunswick macchiato under a Temu electric heater.</p>
+        <p>Inner North &harr; Mornington swops are now open for registration.</p>
+      </div>
+      <a class="s6__cta" href="#register">Register now</a>
+    </div>
+    <img class="s6__img" src="SITE%20ASSETS/IMAGES/HORSE-TROPY-1.jpg" alt="">
+  </section>
+
+  <!-- ══ SWOPS PRIVATE ══ -->
+  <section class="s-slummer">
+    <div class="s-slummer__bg s-slummer__bg--1" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-1.jpg?v=2');"></div>
+    <div class="s-slummer__bg s-slummer__bg--2" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-2.jpg');"></div>
+    <div class="s-slummer__overlay"></div>
+    <div class="s-slummer__text">
+      <span class="s-slummer__eyebrow">No public profiles</span>
+      <p class="s-slummer__title">Between renters,<br>for renters.</p>
+    </div>
   </section>
 
   <!-- ══ S7 — Beach sequence ══ -->
@@ -904,20 +1124,113 @@
     <div class="s7__bg s7__bg--1"></div>
     <div class="s7__bg s7__bg--2"></div>
     <div class="s7__bg s7__bg--3"></div>
-    <p class="typewriter" data-text="North Coast 11:40am on a Monday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
+    <a class="s7__cta" href="profiles.html">Who&rsquo;s Swopping?</a>
   </section>
 
-  <!-- ══ S10a — Lords copy (first half) ══ -->
-  <section class="s10 s10--dark">
-    <p>You&rsquo;ve got enough lords in your life, so we&rsquo;re staying right out of it.</p>
-    <p>The spirit of Swops is peer-to-peer reciprocity. We believe that mutual hospitality where both parties have skin in the game is a much stronger behavioural moderator than reviews.</p>
-    <p>Or in the words of Jay Z: &ldquo;Treat people how you wanna be treated, that&rsquo;s the code.&rdquo;</p>
-  </section>
 
-  <!-- ══ S9 — Couple eating ══ -->
-  <section class="s9">
-    <div class="s9__bg"></div>
-    <p class="s9__caption typewriter" data-text="Botany 2:12pm on a Sunday"></p>
+
+
+
+  <!-- ══ SCROLLING CREDITS — see above, after s5 ══ -->
+  <section style="display:none">
+    <div class="s-credits__track">
+
+      <!-- ─ SET 1 ─ -->
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Mia</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Apartment &nbsp;&middot;&nbsp; 1 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Patti Smith &mdash; Because the Night</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Dom</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Doja Cat &mdash; Gorgeous</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Rosa</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Posh Dump</p>
+        <p class="s-credits__song">Frank Ocean &mdash; Lost</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Jake</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Talking Heads &mdash; This Must Be The Place</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Tom</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Apartment &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Harvey Sutherland &mdash; Type A</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Soph</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Elvis Costello &amp; Iggy Pop &mdash; No Flag</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Ant</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Hoover &mdash; Absolute Zero</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Bec</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 4 bed &nbsp;&middot;&nbsp; Posh</p>
+        <p class="s-credits__song">Amyl and the Sniffers &mdash; Guided by Angels</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Chris</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Michel Legrand &mdash; Everything I Have is Yours</p>
+      </div>
+
+      <!-- ─ SET 2 (duplicate for seamless loop) ─ -->
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Mia</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Apartment &nbsp;&middot;&nbsp; 1 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Patti Smith &mdash; Because the Night</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Dom</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Doja Cat &mdash; Gorgeous</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Rosa</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Posh Dump</p>
+        <p class="s-credits__song">Frank Ocean &mdash; Lost</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Jake</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Talking Heads &mdash; This Must Be The Place</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Tom</p>
+        <p class="s-credits__meta">Inner North &nbsp;&middot;&nbsp; Apartment &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Harvey Sutherland &mdash; Type A</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Soph</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Elvis Costello &amp; Iggy Pop &mdash; No Flag</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Ant</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Lived-in</p>
+        <p class="s-credits__song">Hoover &mdash; Absolute Zero</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Bec</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; House &nbsp;&middot;&nbsp; 4 bed &nbsp;&middot;&nbsp; Posh</p>
+        <p class="s-credits__song">Amyl and the Sniffers &mdash; Guided by Angels</p>
+      </div>
+      <div class="s-credits__entry">
+        <p class="s-credits__name">Chris</p>
+        <p class="s-credits__meta">Mornington Peninsula &nbsp;&middot;&nbsp; Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; Solid</p>
+        <p class="s-credits__song">Michel Legrand &mdash; Everything I Have is Yours</p>
+      </div>
+
+    </div>
+    <a class="s-credits__cta" href="profiles.html">See who&rsquo;s swopping &rsaquo;</a>
   </section>
 
   <!-- ══ RALLY ══ -->
@@ -928,41 +1241,91 @@
     </p>
   </section>
 
-  <!-- ══ S10b — Lords copy (second half) ══ -->
-  <!-- PARKED - content moved to how-it-works.html -->
-
-  <!-- ══ S11 — Melbourne dog ══ -->
-  <section class="s11">
-    <div class="s11__bg"></div>
-    <p class="typewriter" data-text="Swanston St 4:23pm on a Friday" style="font-size: clamp(22px, 2.5vw, 36px);"></p>
+  <!-- ══ SLEEP CHEAP ══ -->
+  <section class="s-slummer">
+    <div class="s-slummer__bg"></div>
+    <div class="s-slummer__overlay"></div>
+    <div class="s-slummer__text">
+      <p class="s-slummer__title">Sleep<br>Cheap</p>
+    </div>
   </section>
 
   <!-- ══ REGISTRATION FORM ══ -->
   <section class="s8" id="register">
     <p class="s8__heading">Register interest and find out more</p>
-    <p class="s8__subheading">We&rsquo;ll ask for your basic details, a bit about your place and what you&rsquo;re after. No credit card. No obligation. Just your hand up saying you&rsquo;re interested.</p>
+    <p class="s8__subheading">No credit card. No obligation. Just your hand up saying you&rsquo;re interested.</p>
 
     <form class="s8__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
+
       <div class="s8__field">
-        <label class="s8__label" for="f-name">Name</label>
-        <input class="s8__input" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+        <label class="s8__label" for="f-name">First name</label>
+        <input class="s8__input" id="f-name" name="name" type="text" autocomplete="given-name" required>
       </div>
+
       <div class="s8__field">
         <label class="s8__label" for="f-email">Email</label>
         <input class="s8__input" id="f-email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
       </div>
+
       <div class="s8__field">
-        <label class="s8__label" for="f-city">Your suburb</label>
-        <input class="s8__input" id="f-city" name="city" type="text" placeholder="What suburb are you in?" required>
+        <label class="s8__label" for="f-suburb">Your suburb</label>
+        <input class="s8__input" id="f-suburb" name="suburb" type="text" required>
       </div>
+
       <div class="s8__field">
-        <label class="s8__label" for="f-house">Your house</label>
-        <textarea class="s8__textarea" id="f-house" name="house" placeholder="Tell us about your place" rows="3" required></textarea>
+        <label class="s8__label" for="f-type">House type</label>
+        <select class="s8__select placeholder" id="f-type" name="house-type" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected>Apartment / House / Townhouse…</option>
+          <option>Apartment</option>
+          <option>House</option>
+          <option>Townhouse</option>
+          <option>Other</option>
+        </select>
       </div>
+
       <div class="s8__field">
-        <label class="s8__label" for="f-ideal">Your ideal swop</label>
-        <textarea class="s8__textarea" id="f-ideal" name="ideal-swop" placeholder="What are you after? City? Beach? Number of bedrooms, etc." rows="3" required></textarea>
+        <label class="s8__label" for="f-beds">Number of bedrooms</label>
+        <select class="s8__select placeholder" id="f-beds" name="bedrooms" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4+</option>
+        </select>
       </div>
+
+      <div class="s8__field">
+        <label class="s8__label" for="f-people">How many people in your place</label>
+        <select class="s8__select placeholder" id="f-people" name="people" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4+</option>
+        </select>
+      </div>
+
+      <div class="s8__field">
+        <label class="s8__label" for="f-rating">Rate your place</label>
+        <select class="s8__select placeholder" id="f-rating" name="rating" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
+          <option value="Lived-in">Lived-in — it's home. it shows.</option>
+          <option value="Solid">Solid — clean, tidy, you'd host your boss</option>
+          <option value="Posh Dump">Posh Dump — great bones, some things don't work</option>
+          <option value="Posh">Posh — genuinely impressive. you know it.</option>
+        </select>
+      </div>
+
+      <div class="s8__field">
+        <label class="s8__label" for="f-song">If this house had a song</label>
+        <input class="s8__input" id="f-song" name="song" type="text" placeholder="Artist — Song title">
+      </div>
+
+      <div class="s8__field">
+        <label class="s8__label" for="f-walkto">Walk to</label>
+        <textarea class="s8__textarea" id="f-walkto" name="walk-to" placeholder="What&rsquo;s within walking distance that you love?" rows="2"></textarea>
+      </div>
+
       <button class="s8__submit" type="submit">I&rsquo;M IN</button>
     </form>
 
@@ -973,6 +1336,12 @@
     </p>
 
     <p class="s8__disclaimer">Check your lease before you swop. Many short-term guest stays are fine, but your lease is your responsibility, not ours.</p>
+  </section>
+
+  <!-- ══ MELBOURNE DOG ══ -->
+  <section class="s-slummer">
+    <div class="s-slummer__bg" style="background-image: url('SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg'); background-position: center 40%;"></div>
+    <div class="s-slummer__overlay"></div>
   </section>
 
   <script>
@@ -986,6 +1355,14 @@
     burger.addEventListener('click', () => {
       const open = navMenu.classList.toggle('is-open');
       burger.classList.toggle('is-open', open);
+    });
+
+    // Close menu when any nav link is clicked
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('is-open');
+        burger.classList.remove('is-open');
+      });
     });
 
     aboutBtn.addEventListener('click', () => {
@@ -1029,35 +1406,26 @@
 
     document.querySelectorAll('.typewriter').forEach(el => observer.observe(el));
 
-    // LET YOUR RENT — in-flow typewriter
-    const letRent = document.querySelector('.s6__letrent');
-    function typeLetRent() {
-      if (letRent.dataset.running) return;
-      letRent.dataset.running = '1';
-      const text = letRent.dataset.text;
-      let i = 0;
-      letRent.textContent = '';
-      letRent.classList.add('is-typing');
-      letRent.classList.remove('is-done');
-      const iv = setInterval(() => {
-        letRent.textContent += text[i++];
-        if (i >= text.length) {
-          clearInterval(iv);
-          letRent.classList.remove('is-typing');
-          letRent.classList.add('is-done');
-          setTimeout(() => {
-            letRent.classList.remove('is-done');
-            letRent.textContent = '';
-            delete letRent.dataset.running;
-            typeLetRent();
-          }, 3000);
-        }
-      }, 55);
+
+
+    // ── FORM ──
+    const swopsForm = document.getElementById('swopsForm');
+    const swopsSuccess = document.getElementById('swopsSuccess');
+    if (swopsForm) {
+      swopsForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const data = new FormData(swopsForm);
+        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
+          .then(() => {
+            swopsForm.style.display = 'none';
+            swopsSuccess.style.display = 'block';
+          })
+          .catch(() => {
+            swopsForm.style.display = 'none';
+            swopsSuccess.style.display = 'block';
+          });
+      });
     }
-    const lrObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) typeLetRent(); });
-    }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
-    lrObserver.observe(letRent);
 
     // ── BOOMER: start all hero animations only once the image has loaded ──
     const boomerImg = document.querySelector('.boomer-man');

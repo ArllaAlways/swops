@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who's Swopping — SWOPS</title>
+  <style>
+
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body { font-family: 'Alfredino', sans-serif; background: #000; }
+
+    /* ── PASSWORD GATE ── */
+    #swops-gate {
+      position: fixed; inset: 0;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+    }
+    #swops-gate-label {
+      font-family: 'Alfredino', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: #C8FF00;
+      opacity: 0.5;
+    }
+    #swops-gate-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(200,255,0,0.4);
+      color: #C8FF00;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(22px, 2.2vw, 32px);
+      padding: 8px 0;
+      outline: none;
+      width: 240px;
+      text-align: center;
+      caret-color: #C8FF00;
+    }
+    #swops-gate-err {
+      font-family: 'Alfredino', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #C8FF00;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ── HAMBURGER ── */
+    .nav {
+      position: fixed;
+      top: 56px; right: 0;
+      z-index: 1000;
+      padding: 18px 24px;
+    }
+    .nav__burger {
+      background: #000;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 10px 12px;
+      border-radius: 3px;
+    }
+    .nav__burger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: #C8FF00;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__burger.is-open span:nth-child(2) { opacity: 0; }
+    .nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav__menu {
+      position: fixed; inset: 0;
+      background: #000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .nav__menu.is-open { opacity: 1; pointer-events: all; }
+    .nav__link {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(28px, 5vw, 60px);
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav__link:hover { opacity: 0.7; }
+
+    /* ── TICKER ── */
+    .ticker {
+      position: sticky; top: 0;
+      z-index: 200;
+      background: #C8FF00;
+      overflow: hidden;
+      padding: 18px 0 16px;
+    }
+    .ticker__track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker-scroll 22s linear infinite;
+      will-change: transform;
+    }
+    .ticker__item {
+      flex-shrink: 0;
+      color: #000;
+      font-family: 'Alfredino', monospace;
+      font-size: 22px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding-right: 120px;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── GRID ── */
+    .profiles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .profile-card {
+      padding: clamp(32px, 4vw, 60px);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-height: clamp(340px, 40vw, 560px);
+    }
+    .profile-card--north     { background: #000; }
+    .profile-card--peninsula { background: #C8FF00; }
+
+    .profile-card__area {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(8px, 0.65vw, 10px);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .profile-card--north     .profile-card__area { color: #C8FF00; opacity: 0.55; }
+    .profile-card--peninsula .profile-card__area { color: #000;    opacity: 0.55; }
+
+    .profile-card__name {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(28px, 3.5vw, 52px);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .profile-card--north     .profile-card__name { color: #C8FF00; }
+    .profile-card--peninsula .profile-card__name { color: #000; }
+
+    .profile-card__meta {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(8px, 0.65vw, 10px);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: clamp(20px, 2.5vw, 36px);
+      line-height: 1.6;
+    }
+    .profile-card--north     .profile-card__meta { color: #C8FF00; opacity: 0.5; }
+    .profile-card--peninsula .profile-card__meta { color: #000;    opacity: 0.5; }
+
+    .profile-card__divider {
+      height: 1px;
+      margin-bottom: clamp(20px, 2.5vw, 36px);
+    }
+    .profile-card--north     .profile-card__divider { background: rgba(200,255,0,0.12); }
+    .profile-card--peninsula .profile-card__divider { background: rgba(0,0,0,0.1); }
+
+    .profile-card__row { margin-bottom: clamp(16px, 2vw, 28px); }
+    .profile-card__row:last-child { margin-bottom: 0; }
+
+    .profile-card__label {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(10px, 0.85vw, 13px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .profile-card--north     .profile-card__label { color: #C8FF00; opacity: 0.6; }
+    .profile-card--peninsula .profile-card__label { color: #000;    opacity: 0.6; }
+
+    .profile-card__song {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(12px, 1.1vw, 16px);
+      line-height: 1.4;
+    }
+    .profile-card--north     .profile-card__song { color: #C8FF00; }
+    .profile-card--peninsula .profile-card__song { color: #000; }
+
+    .profile-card__song a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      opacity: 0.85;
+      transition: opacity 0.15s;
+    }
+    .profile-card__song a:hover { opacity: 1; }
+
+    .profile-card__answer {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(12px, 1.1vw, 16px);
+      line-height: 1.55;
+    }
+    .profile-card--north     .profile-card__answer { color: #C8FF00; opacity: 0.78; }
+    .profile-card--peninsula .profile-card__answer { color: #000;    opacity: 0.78; }
+
+    /* ── CTA FOOTER ── */
+    .profiles-cta {
+      background: #000;
+      padding: clamp(60px, 8vw, 100px) clamp(24px, 6vw, 80px);
+      text-align: center;
+      border-top: 2px solid #C8FF00;
+    }
+    .profiles-cta p {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: #C8FF00;
+      line-height: 1.4;
+      max-width: 680px;
+      margin: 0 auto 40px;
+    }
+    .profiles-cta__btn {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(14px, 1.4vw, 18px);
+      letter-spacing: 0.08em;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.15s;
+    }
+    .profiles-cta__btn:hover { background: #fff; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 900px) {
+      .profiles-grid { grid-template-columns: repeat(2, 1fr); }
+      .ticker__item { font-size: 14px; padding-right: 60px; }
+      .ticker .ticker__track { animation-duration: 6.6s; }
+    }
+    @media (max-width: 560px) {
+      .profiles-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav__menu" id="navMenu">
+    <a class="nav__link" href="index.html">Home</a>
+    <a class="nav__link" href="profiles.html">Who's Swopping</a>
+    <a class="nav__link" href="how-it-works.html">How it Works</a>
+    <a class="nav__link" href="pricing.html">Pricing</a>
+    <a class="nav__link" href="index.html#register">Register Interest</a>
+  </div>
+
+  <div class="ticker" role="marquee" aria-live="off">
+    <div class="ticker__track">
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+    </div>
+  </div>
+
+  <div class="profiles-grid">
+
+    <!-- 1 · Mia — North (black) -->
+    <div class="profile-card profile-card--north">
+      <span class="profile-card__area">Inner North</span>
+      <p class="profile-card__name">Mia</p>
+      <p class="profile-card__meta">Apartment &nbsp;&middot;&nbsp; 1 bed &nbsp;&middot;&nbsp; 1 person &nbsp;&middot;&nbsp; Lived-in</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=c_BcivBprM0" target="_blank" rel="noopener">Patti Smith — Because the Night</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">The library. Or the pub, depending on how the week went.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">There's a wine bar with no sign. You'd walk past it a hundred times. I'll take you.</p>
+      </div>
+    </div>
+
+    <!-- 2 · Soph — Peninsula (lime) -->
+    <div class="profile-card profile-card--peninsula">
+      <span class="profile-card__area">Mornington Peninsula</span>
+      <p class="profile-card__name">Soph</p>
+      <p class="profile-card__meta">House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; 2 people &nbsp;&middot;&nbsp; Solid</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=JY_gczFt6k4" target="_blank" rel="noopener">Elvis Costello &amp; Iggy Pop — No Flag</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">The beach. Obviously. But also a good deli.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">I could show you Ricky Ponting's house.</p>
+      </div>
+    </div>
+
+    <!-- 3 · Dom — North (black) -->
+    <div class="profile-card profile-card--north">
+      <span class="profile-card__area">Inner North</span>
+      <p class="profile-card__name">Dom</p>
+      <p class="profile-card__meta">House &nbsp;&middot;&nbsp; 3 bed &nbsp;&middot;&nbsp; 3 people &nbsp;&middot;&nbsp; Solid</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=nBJRaflBDBg" target="_blank" rel="noopener">Doja Cat — Gorgeous</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">A Vietnamese place with plastic chairs that's been there forever and is perfect.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">Saturday morning the market, then the creek, then the table tennis table at home.</p>
+      </div>
+    </div>
+
+    <!-- 4 · Ant — Peninsula (lime) -->
+    <div class="profile-card profile-card--peninsula">
+      <span class="profile-card__area">Mornington Peninsula</span>
+      <p class="profile-card__name">Ant</p>
+      <p class="profile-card__meta">House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; 1 person &nbsp;&middot;&nbsp; Lived-in</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=PF58F3DkKp0" target="_blank" rel="noopener">Hoover — Absolute Zero</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">The Pillars. You've probably never heard of it. OK I'm sure you have, but it looks like southern Italy and I love it there.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">Clifftop walk, then fish and chips but I only eat 2/3 of them because finishing fish and chips is disgusting.</p>
+      </div>
+    </div>
+
+    <!-- 5 · Rosa — North (black) -->
+    <div class="profile-card profile-card--north">
+      <span class="profile-card__area">Inner North</span>
+      <p class="profile-card__name">Rosa</p>
+      <p class="profile-card__meta">House &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; 2 people &nbsp;&middot;&nbsp; Posh Dump</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=bZG3YWe7VJw" target="_blank" rel="noopener">Frank Ocean — Lost</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">A bookshop that sells cheap wine on Fridays.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">Honestly it's mostly the park. But it's a really good park.</p>
+      </div>
+    </div>
+
+    <!-- 6 · Bec — Peninsula (lime) -->
+    <div class="profile-card profile-card--peninsula">
+      <span class="profile-card__area">Mornington Peninsula</span>
+      <p class="profile-card__name">Bec</p>
+      <p class="profile-card__meta">House &nbsp;&middot;&nbsp; 4 bed &nbsp;&middot;&nbsp; 4 people &nbsp;&middot;&nbsp; Posh</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=Z--D1flPLnk" target="_blank" rel="noopener">Amyl and the Sniffers — Guided by Angels</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">A bakery that has bread still warm at 7am.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">I'd take them to watch the sun come up over the bay. It's embarrassingly beautiful.</p>
+      </div>
+    </div>
+
+    <!-- 7 · Jake — North (black) -->
+    <div class="profile-card profile-card--north">
+      <span class="profile-card__area">Inner North</span>
+      <p class="profile-card__name">Jake</p>
+      <p class="profile-card__meta">Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; 1 person &nbsp;&middot;&nbsp; Solid</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=Fb2q141rMNE" target="_blank" rel="noopener">Talking Heads — This Must Be The Place</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">Record store. Doesn't open until noon.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">Best coffee you've had. Then we walk to the creek. Then we argue about a band.</p>
+      </div>
+    </div>
+
+    <!-- 8 · Chris — Peninsula (lime) -->
+    <div class="profile-card profile-card--peninsula">
+      <span class="profile-card__area">Mornington Peninsula</span>
+      <p class="profile-card__name">Chris</p>
+      <p class="profile-card__meta">Townhouse &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; 2 people &nbsp;&middot;&nbsp; Solid</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=UUiQlBDoXfk" target="_blank" rel="noopener">Michel Legrand — Everything I Have is Yours</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">A swimming spot that doesn't show up on Instagram.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">There's a pub with a fireplace that allows dogs. That's the move in winter.</p>
+      </div>
+    </div>
+
+    <!-- 9 · Tom — North (black) -->
+    <div class="profile-card profile-card--north">
+      <span class="profile-card__area">Inner North</span>
+      <p class="profile-card__name">Tom</p>
+      <p class="profile-card__meta">Apartment &nbsp;&middot;&nbsp; 2 bed &nbsp;&middot;&nbsp; 2 people &nbsp;&middot;&nbsp; Lived-in</p>
+      <div class="profile-card__divider"></div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">If this house had a song</span>
+        <p class="profile-card__song"><a href="https://www.youtube.com/watch?v=sfaSpAng66o" target="_blank" rel="noopener">Harvey Sutherland — Type A</a></p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Walk to</span>
+        <p class="profile-card__answer">A bar with a garden that nobody knows about yet.</p>
+      </div>
+      <div class="profile-card__row">
+        <span class="profile-card__label">Impressing a date</span>
+        <p class="profile-card__answer">I'd show my date how I can ride a racer on the bluestone cobbled laneways behind our place and they'd love me instantly.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <section class="profiles-cta">
+    <p>Register and you'll be in the pool for Euro Slummer this King's Birthday weekend.</p>
+    <a class="profiles-cta__btn" href="index.html#register">I'm in</a>
+  </section>
+
+  <script>
+    (function() {
+      var PW = 'euroslummer', KEY = 'swops_auth';
+      if (localStorage.getItem(KEY) === PW) return;
+      var gate = document.createElement('div');
+      gate.id = 'swops-gate';
+      gate.innerHTML = '<p id="swops-gate-label">Password</p><input id="swops-gate-input" type="password" autocomplete="off"><p id="swops-gate-err">Not quite.</p>';
+      document.body.prepend(gate);
+      var input = document.getElementById('swops-gate-input');
+      var err = document.getElementById('swops-gate-err');
+      input.focus();
+      input.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter') return;
+        if (this.value === PW) {
+          localStorage.setItem(KEY, PW);
+          gate.style.transition = 'opacity 0.3s';
+          gate.style.opacity = '0';
+          setTimeout(function() { gate.remove(); }, 300);
+        } else {
+          err.style.opacity = '1';
+          this.value = '';
+          setTimeout(function() { err.style.opacity = '0'; }, 2000);
+        }
+      });
+    })();
+
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    burger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+    });
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('is-open');
+        burger.classList.remove('is-open');
+      });
+    });
+  </script>
+
+</body>
+</html>
