@@ -16,48 +16,6 @@
     html { background: #000; }
     body { font-family: 'Alfredino', sans-serif; background: #000; }
 
-    /* ── PASSWORD GATE ── */
-    #swops-gate {
-      position: fixed; inset: 0;
-      background: #000;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-    #swops-gate-label {
-      font-family: 'Alfredino', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.26em;
-      text-transform: uppercase;
-      color: #C8FF00;
-      opacity: 0.5;
-    }
-    #swops-gate-input {
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(200,255,0,0.4);
-      color: #C8FF00;
-      font-family: 'Alfredino', sans-serif;
-      font-size: clamp(22px, 2.2vw, 32px);
-      padding: 8px 0;
-      outline: none;
-      width: 240px;
-      text-align: center;
-      caret-color: #C8FF00;
-    }
-    #swops-gate-err {
-      font-family: 'Alfredino', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: #C8FF00;
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
     /* ── HAMBURGER ── */
     .nav {
       position: fixed;
@@ -492,31 +450,6 @@
   </section>
 
   <script>
-    (function() {
-      var PW = 'euroslummer', KEY = 'swops_auth';
-      if (localStorage.getItem(KEY) === PW) return;
-      var gate = document.createElement('div');
-      gate.id = 'swops-gate';
-      gate.innerHTML = '<p id="swops-gate-label">Password</p><input id="swops-gate-input" type="password" autocomplete="off"><p id="swops-gate-err">Not quite.</p>';
-      document.body.prepend(gate);
-      var input = document.getElementById('swops-gate-input');
-      var err = document.getElementById('swops-gate-err');
-      input.focus();
-      input.addEventListener('keydown', function(e) {
-        if (e.key !== 'Enter') return;
-        if (this.value === PW) {
-          localStorage.setItem(KEY, PW);
-          gate.style.transition = 'opacity 0.3s';
-          gate.style.opacity = '0';
-          setTimeout(function() { gate.remove(); }, 300);
-        } else {
-          err.style.opacity = '1';
-          this.value = '';
-          setTimeout(function() { err.style.opacity = '0'; }, 2000);
-        }
-      });
-    })();
-
     const burger = document.getElementById('burger');
     const navMenu = document.getElementById('navMenu');
     burger.addEventListener('click', () => {
