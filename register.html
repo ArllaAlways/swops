@@ -179,13 +179,11 @@
   <section class="register">
 
     <p class="register__heading">Register interest and find out more</p>
-    <p class="register__subheading">We&rsquo;ll ask for your basic details, a bit about your place and what you&rsquo;re after. No credit card. No obligation. Just your hand up saying you&rsquo;re interested.</p>
-
     <form class="register__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
 
       <div class="register__field">
-        <label class="register__label" for="f-name">Name</label>
-        <input class="register__input" id="f-name" name="name" type="text" placeholder="Your name" autocomplete="name" required>
+        <label class="register__label" for="f-name">First name</label>
+        <input class="register__input" id="f-name" name="name" type="text" autocomplete="given-name" required>
       </div>
 
       <div class="register__field">
@@ -194,22 +192,67 @@
       </div>
 
       <div class="register__field">
-        <label class="register__label" for="f-city">Your city</label>
-        <select class="register__select placeholder" id="f-city" name="city" required>
-          <option value="" disabled selected>Melbourne or Sydney?</option>
-          <option value="melbourne">Melbourne</option>
-          <option value="sydney">Sydney</option>
+        <label class="register__label" for="f-suburb">Your suburb</label>
+        <input class="register__input" id="f-suburb" name="suburb" type="text" required>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-type">House type</label>
+        <select class="register__select placeholder" id="f-type" name="house-type" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected>Apartment / House / Townhouse…</option>
+          <option>Apartment</option>
+          <option>House</option>
+          <option>Townhouse</option>
+          <option>Other</option>
         </select>
       </div>
 
       <div class="register__field">
-        <label class="register__label" for="f-house">Your house</label>
-        <textarea class="register__textarea" id="f-house" name="house" placeholder="Tell us about your place" rows="3" required></textarea>
+        <label class="register__label" for="f-beds">Number of bedrooms</label>
+        <select class="register__select placeholder" id="f-beds" name="bedrooms" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4+</option>
+        </select>
       </div>
 
       <div class="register__field">
-        <label class="register__label" for="f-ideal">Your ideal swop</label>
-        <textarea class="register__textarea" id="f-ideal" name="ideal-swop" placeholder="What are you after? City? Beach? Number of bedrooms, etc." rows="3" required></textarea>
+        <label class="register__label" for="f-people">How many people in your place</label>
+        <select class="register__select placeholder" id="f-people" name="people" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected></option>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4+</option>
+        </select>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-rating">Rate your place</label>
+        <select class="register__select placeholder" id="f-rating" name="rating" required onchange="this.classList.remove('placeholder')">
+          <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
+          <option value="Lived-in">Lived-in — it's home. it shows.</option>
+          <option value="Solid">Solid — clean, tidy, you'd host your boss</option>
+          <option value="Posh Dump">Posh Dump — great bones, some things don't work</option>
+          <option value="Posh">Posh — genuinely impressive. you know it.</option>
+        </select>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-song">If this house had a song</label>
+        <input class="register__input" id="f-song" name="song" type="text" placeholder="Artist — Song title">
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-walkto">Walk to</label>
+        <textarea class="register__textarea" id="f-walkto" name="walk-to" placeholder="What's within walking distance that you love?" rows="2"></textarea>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-questions">Do you have any questions?</label>
+        <textarea class="register__textarea" id="f-questions" name="questions" rows="2"></textarea>
       </div>
 
       <button class="register__submit" type="submit">I&rsquo;M IN</button>
@@ -224,17 +267,20 @@
   </section>
 
   <script>
-    const citySelect = document.getElementById('f-city');
-    citySelect.addEventListener('change', function() {
-      this.classList.remove('placeholder');
-    });
-
     const form = document.getElementById('swopsForm');
     const success = document.getElementById('swopsSuccess');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      form.style.display = 'none';
-      success.style.display = 'block';
+      const data = new FormData(form);
+      fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
+        .then(() => {
+          form.style.display = 'none';
+          success.style.display = 'block';
+        })
+        .catch(() => {
+          form.style.display = 'none';
+          success.style.display = 'block';
+        });
     });
   </script>
 
