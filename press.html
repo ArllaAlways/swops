@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swops — Press Release</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+
+    @font-face {
+      font-family: 'Alfredino';
+      src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+      font-weight: 400;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { background: #000; }
+    body {
+      font-family: 'Alfredino', sans-serif;
+      background: #000;
+      color: #C8FF00;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 24px;
+    }
+    .nav__burger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+    .nav__burger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #C8FF00;
+    }
+
+    .nav__menu {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .nav__menu.is-open { opacity: 1; pointer-events: all; }
+    .nav__link {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(28px, 5vw, 60px);
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+    .nav__link:hover { opacity: 0.7; }
+
+    /* ── PRESS PAGE ── */
+    .press {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: clamp(80px, 12vw, 140px) clamp(24px, 6vw, 60px) 100px;
+    }
+
+    .press__eyebrow {
+      font-size: clamp(10px, 1.2vw, 13px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .press__rule {
+      width: 60px;
+      height: 3px;
+      background: #C8FF00;
+      margin-bottom: 40px;
+    }
+
+    .press__headline {
+      font-size: clamp(28px, 5vw, 60px);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+
+    .press__subhead {
+      font-size: clamp(16px, 2vw, 22px);
+      line-height: 1.5;
+      opacity: 0.75;
+      margin-bottom: 56px;
+      border-bottom: 1px solid rgba(200, 255, 0, 0.2);
+      padding-bottom: 40px;
+    }
+
+    .press__body p {
+      font-size: clamp(15px, 1.6vw, 19px);
+      line-height: 1.75;
+      margin-bottom: 28px;
+      opacity: 0.88;
+    }
+
+    .press__body strong {
+      color: #C8FF00;
+      opacity: 1;
+    }
+
+    .press__notes {
+      margin-top: 64px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(200, 255, 0, 0.2);
+    }
+
+    .press__notes-heading {
+      font-size: clamp(10px, 1.2vw, 13px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 24px;
+    }
+
+    .press__notes ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .press__notes li {
+      font-size: clamp(13px, 1.3vw, 15px);
+      line-height: 1.7;
+      opacity: 0.65;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(200, 255, 0, 0.08);
+    }
+
+    .press__notes li::before {
+      content: "— ";
+      opacity: 0.4;
+    }
+
+    .press__end {
+      margin-top: 48px;
+      font-size: clamp(10px, 1.2vw, 13px);
+      letter-spacing: 0.18em;
+      opacity: 0.3;
+    }
+
+    a { color: #C8FF00; }
+
+    .press__download {
+      display: inline-block;
+      margin-bottom: 48px;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(11px, 1.2vw, 13px);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #000;
+      background: #C8FF00;
+      border: none;
+      padding: 12px 24px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .press__download:hover { opacity: 0.85; }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+  <div class="nav__menu" id="menu">
+    <a href="index.html" class="nav__link">Home</a>
+    <a href="how-it-works.html" class="nav__link">How it works</a>
+    <a href="index.html#register" class="nav__link">Register</a>
+  </div>
+
+  <!-- PRESS CONTENT -->
+  <main class="press">
+
+    <div class="press__eyebrow">
+      Press release — For immediate release<br>
+      Contact: <a href="mailto:hello@swops.it">hello@swops.it</a> &nbsp;|&nbsp; <a href="https://swops.it">swops.it</a> &nbsp;|&nbsp; Melbourne, Australia &nbsp;|&nbsp; March 2026
+    </div>
+
+    <div class="press__rule"></div>
+
+    <a class="press__download" href="Swops-Press-Release.pdf" download="Swops-Press-Release.pdf">Download PDF</a>
+
+    <h1 class="press__headline">
+      Australian renters pay for a holiday house every week. They just can't use it yet.
+    </h1>
+
+    <p class="press__subhead">
+      Melbourne home swapping platform Swops opens registrations to give renters a break, as record rental stress meets an equally stressed international travel market.
+    </p>
+
+    <div class="press__body">
+
+      <p>
+        In 2023, "cozzie livs" was named Macquarie Dictionary's word of the year. It was a joke, in the way Australian language often processes things that aren't funny at all. Two years on, the numbers have caught up with the punchline. Australian renters are now spending a record 33% of their income on rent, up from a decade average of 29%. Add the surging costs of war-affected international travel and the chances of escaping for a holiday this winter are increasingly slim for the one third of Australians who rent, and even slimmer for the 64% of 20-29 year olds who do.
+      </p>
+
+      <p>
+        <strong>Swops</strong> is a new Melbourne-based platform that matches renters with renters for short breaks in each other's homes. The logic is simple: if you rent, you already pay for a holiday house every week. But that value sits dormant, trapped by a housing system that takes plenty from renters and gives little back. Swops exists to unlock it.
+      </p>
+
+      <p>
+        The platform is free to use and no money is exchanged between swoppers. It was founded by a Melbourne renter who got tired of paying rent on an empty house while paying again for somewhere to stay.
+      </p>
+
+
+      <p>
+        The first swop window, <strong>Euro Slummer</strong>, opens for King's Birthday long weekend, 6-8 June 2026. The pairing is Inner North Melbourne - Brunswick, Fitzroy, Carlton - with the Mornington Peninsula: Mornington, Mt Martha, Rye, Sorrento. City to coast.
+      </p>
+
+      <p>
+        Euro Slummer is the tongue-in-cheek answer to a Melbourne 27-year-old having to forego any chance at a 2026 Euro summer. Eat a lukewarm home-delivered lasagne in a Brunswick terrace while your counter-swopper enjoys a winter sunset wearing a puffer jacket atop The Pillars, watching a Google photo memory of themselves in Santorini four summers ago, before cozzie livs was a noun.
+      </p>
+
+      <p>
+        Swops is free to use and no money is exchanged between swoppers.
+      </p>
+
+      <p>
+        Swops is live at <a href="https://swops.it">swops.it</a>. Registration for Euro Slummer is open now.
+      </p>
+
+    </div>
+
+    <!-- NOTES TO EDITORS -->
+    <div class="press__notes">
+      <div class="press__notes-heading">Notes to editors</div>
+      <ul>
+        <li>Swops is live at swops.it. Registration for Euro Slummer - King's Birthday long weekend, 6-8 June 2026 - is open now.</li>
+        <li>Cotality data: national rents up 43.9% over five years to September 2025; wages up 17.5% over the same period. Rental households spending a record 33.4% of pre-tax income on rent (Cotality, February 2026).</li>
+        <li>Approximately one third of Australian households rent (ABS Census 2021). Among Australians aged 20-29, the figure is 64%.</li>
+        <li>"Cozzie livs" was named Macquarie Dictionary's Committee Choice Word of the Year 2023.</li>
+        <li>The conflict in the Middle East escalated on 28 February 2026. Closures of Dubai, Doha and Abu Dhabi airports have removed an estimated 4.4 million seats from the Australia-to-Europe market. Jet fuel prices have risen more than 60% since the Iran conflict began. Qantas, Air New Zealand and Cathay Pacific have announced fare increases. Analysts forecast long-haul fares to rise up to 30% through 2026 (SBS News, Finder, IATA).</li>
+        <li>Euro Slummer pairs Inner North Melbourne (Brunswick, Fitzroy, Carlton, Northcote, Preston, Coburg) with Mornington Peninsula (Mornington, Mt Martha, Rye, Sorrento).</li>
+        <li>Swops operates as reciprocal guest stays, not subletting. Swoppers are advised to check their own lease.</li>
+        <li>For interviews or further information: <a href="mailto:hello@swops.it">hello@swops.it</a></li>
+      </ul>
+    </div>
+
+    <div class="press__end">###</div>
+
+  </main>
+
+  <script>
+    const burger = document.getElementById('burger');
+    const menu = document.getElementById('menu');
+    burger.addEventListener('click', () => {
+      burger.classList.toggle('is-open');
+      menu.classList.toggle('is-open');
+    });
+  </script>
+
+</body>
+</html>
