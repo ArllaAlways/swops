@@ -357,35 +357,87 @@
        SECTION 4 — Black copy block
     ═══════════════════════════════════════ */
     .s4 {
+      position: relative;
+      height: 200vh;
+    }
+
+    .s4__inner {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       background: #000;
       width: 100%;
-      min-height: 100vh;
-      padding: 90px 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 48px;
       text-align: center;
+      padding: 90px 60px;
+      overflow: hidden;
     }
 
-    .s4__intro {
-      font-size: clamp(20px, 2.4vw, 34px) !important;
+    .s4__judge-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 10;
+      cursor: pointer;
     }
 
-    .s4 p:not(.s4__free) {
+    .s4__judge-overlay .s-juicy__video {
+      pointer-events: none;
+    }
+
+    .s4__judge-overlay.is-visible {
+      opacity: 1;
+    }
+
+    .s4 p {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(20px, 2.4vw, 34px);
       color: #C8FF00;
       line-height: 1.4;
       max-width: 900px;
+      margin: 0;
     }
 
-    .s4__free {
-      font-family: 'Alfredino', sans-serif;
-      font-size: 12px;
-      color: #C8FF00;
-      letter-spacing: 0.04em;
+    .s4__judge-trigger {
+      animation: judge-pulse 2s ease-in-out infinite;
+      cursor: pointer;
+      color: #a8d400;
+    }
+
+    @keyframes judge-pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .s-juicy {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .s-juicy__video {
+      height: 100vh;
+      width: auto;
+      object-fit: cover;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .s-juicy__video {
+        width: 100vw;
+        height: 100vw;
+      }
     }
 
     .s4__cta {
@@ -399,7 +451,6 @@
       cursor: pointer;
       text-decoration: none;
       display: inline-block;
-      margin-top: 12px;
       border-radius: 4px;
       transition: background 0.15s;
     }
@@ -673,18 +724,19 @@
 
     .s8__label {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(10px, 0.9vw, 13px);
+      font-size: clamp(11px, 1vw, 15px);
       color: #C8FF00;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       margin-bottom: 10px;
       text-align: left;
-      opacity: 0.6;
+      opacity: 1;
     }
 
     .s8__input, .s8__textarea {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(18px, 2vw, 28px);
+      font-weight: 700;
       color: #C8FF00;
       background: transparent;
       border: none;
@@ -697,7 +749,7 @@
 
     .s8__input::placeholder, .s8__textarea::placeholder {
       color: #C8FF00;
-      opacity: 0.25;
+      opacity: 0.35;
     }
 
     .s8__textarea { min-height: 80px; }
@@ -705,6 +757,7 @@
     .s8__select {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(18px, 2vw, 28px);
+      font-weight: 700;
       color: #C8FF00;
       background: transparent;
       border: none;
@@ -858,7 +911,17 @@
       line-height: 0.95;
       letter-spacing: 0.02em;
       text-transform: uppercase;
+      margin: 0;
     }
+
+    .s-slummer__title {
+        position: absolute;
+        bottom: clamp(80px, 11vw, 150px);
+        left: clamp(28px, 6vw, 90px);
+        width: calc(100% - clamp(56px, 12vw, 180px));
+      }
+
+
 
     /* ═══════════════════════════════════════
        CONSTELLATION — names scattered, fading
@@ -1096,9 +1159,16 @@
   </section>
 
   <!-- ══ S4 — Black copy + CTA ══ -->
-  <section class="s4">
-    <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
-    <a class="s4__cta" href="how-it-works.html">How it works</a>
+  <section class="s4" id="s4">
+    <div class="s4__inner">
+      <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All approved by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
+      <a class="s4__cta" href="how-it-works.html">How it works</a>
+      <div class="s4__judge-overlay" id="judgeOverlay">
+        <video class="s-juicy__video" autoplay loop muted playsinline>
+          <source src="SITE%20ASSETS/IMAGES/JUDGE%20JUICY%20STAMP%201-1%20V3.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
   </section>
 
   <!-- ══ S5 — Skateboarder ══ -->
@@ -1129,9 +1199,9 @@
     <div class="s-slummer__bg s-slummer__bg--1" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-1.jpg?v=2');"></div>
     <div class="s-slummer__bg s-slummer__bg--2" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-2.jpg');"></div>
     <div class="s-slummer__overlay"></div>
+    <p class="s-slummer__title">INCOGNITO ABODE</p>
     <div class="s-slummer__text">
-      <span class="s-slummer__eyebrow">No public profiles and no photos of your home. Ever.</span>
-      <p class="s-slummer__title">By renters,<br>for renters,<br>between renters.</p>
+      <span class="s-slummer__eyebrow">No public profiles. No photos. Swop in the privacy of your own home.</span>
     </div>
   </section>
 
@@ -1400,29 +1470,49 @@
       aboutOverlay.classList.remove('is-open');
     });
 
+    // ── JUDGE JUICY SCROLL ──
+    const s4 = document.getElementById('s4');
+    const judgeOverlay = document.getElementById('judgeOverlay');
+    let judgeTimeout;
+
+    const judgeTrigger = document.querySelector('.s4__judge-trigger');
+    if (judgeTrigger && judgeOverlay) {
+      judgeTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        judgeOverlay.classList.add('is-visible');
+      });
+      document.addEventListener('click', () => {
+        judgeOverlay.classList.remove('is-visible');
+      });
+    }
+
     // ── TYPEWRITER ──
     function typeIt(el) {
       if (el.dataset.running) return;
       el.dataset.running = '1';
       const text = el.dataset.text;
       let i = 0;
-      el.textContent = '';
+      el.innerHTML = '';
       el.classList.add('is-typing');
       el.classList.remove('is-done');
-      const iv = setInterval(() => {
-        el.textContent += text[i++];
+      function step() {
         if (i >= text.length) {
-          clearInterval(iv);
           el.classList.remove('is-typing');
           el.classList.add('is-done');
           setTimeout(() => {
             el.classList.remove('is-done');
-            el.textContent = '';
+            el.innerHTML = '';
             delete el.dataset.running;
             typeIt(el);
           }, 3000);
+          return;
         }
-      }, 55);
+        const ch = text[i++];
+        if (ch === '|') { el.innerHTML += '<br>'; setTimeout(step, 55); }
+        else if (ch === '~') { setTimeout(() => { el.innerHTML = ''; setTimeout(step, 200); }, 700); }
+        else { el.innerHTML += ch; setTimeout(step, 55); }
+      }
+      step();
     }
 
     const observer = new IntersectionObserver((entries) => {
