@@ -398,6 +398,30 @@
     .s4__judge-overlay.is-visible {
       opacity: 1;
     }
+    .s4__judge-disclaimer {
+      position: absolute;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+      z-index: 12;
+    }
+    .s4__judge-disclaimer.is-visible { opacity: 1; }
+    .s4__judge-disclaimer-text {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(11px, 1.4vw, 18px);
+      color: #fff;
+      text-align: center;
+      max-width: 640px;
+      line-height: 1.7;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
 
     .s4 p {
       font-family: 'Alfredino', sans-serif;
@@ -527,11 +551,11 @@
 
     .s6__eyebrow {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(10px, 0.8vw, 13px);
+      font-size: clamp(12px, 1vw, 15px);
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #000;
-      opacity: 0.5;
+      opacity: 0.85;
     }
 
     .s6__title {
@@ -1161,12 +1185,15 @@
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4" id="s4">
     <div class="s4__inner">
-      <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All ruled totally legal by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
+      <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All approved by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
       <a class="s4__cta" href="how-it-works.html">How it works</a>
       <div class="s4__judge-overlay" id="judgeOverlay">
-        <video class="s-juicy__video" loop playsinline>
+        <video class="s-juicy__video" playsinline>
           <source src="SITE%20ASSETS/IMAGES/JUDGE%20JUICY%20STAMP%201-1%20V4%20AUDIO.mp4" type="video/mp4">
         </video>
+        <div class="s4__judge-disclaimer" id="judgeDisclaimer">
+          <p class="s4__judge-disclaimer-text">Judge Juicy 🍑 is not a judicial officer admitted to practice in any Australian state or territory. Her rulings are not legally binding in any court or tribunal. On the vibe of it though, she is correct.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -1201,7 +1228,7 @@
     <div class="s-slummer__overlay"></div>
     <p class="s-slummer__title">INCOGNITO ABODE</p>
     <div class="s-slummer__text">
-      <span class="s-slummer__eyebrow">No public profiles. No photos. Swop in the privacy of your own home.</span>
+      <span class="s-slummer__eyebrow">No public photos. No public profiles. Swop in the privacy of your own home.</span>
     </div>
   </section>
 
@@ -1491,8 +1518,34 @@
         if (judgeVideo) {
           judgeVideo.pause();
           judgeVideo.currentTime = 0;
+          if (judgeDisclaimer) judgeDisclaimer.classList.remove('is-visible');
+          clearTimeout(disclaimerTimeout);
         }
       });
+      const judgeDisclaimer = document.getElementById('judgeDisclaimer');
+      let disclaimerTimeout;
+      const s4Inner = document.querySelector('.s4__inner');
+      if (s4Inner) {
+        window.addEventListener('scroll', () => {
+          const rect = s4Inner.getBoundingClientRect();
+          if (rect.bottom < 0 || rect.top > window.innerHeight) {
+            judgeOverlay.classList.remove('is-visible');
+            if (judgeVideo) { judgeVideo.pause(); judgeVideo.currentTime = 0; }
+            if (judgeDisclaimer) judgeDisclaimer.classList.remove('is-visible');
+            clearTimeout(disclaimerTimeout);
+          }
+        }, { passive: true });
+      }
+      if (judgeVideo && judgeDisclaimer) {
+        judgeVideo.addEventListener('ended', () => {
+          judgeDisclaimer.classList.add('is-visible');
+          disclaimerTimeout = setTimeout(() => {
+            judgeDisclaimer.classList.remove('is-visible');
+            judgeVideo.currentTime = 0;
+            judgeVideo.play();
+          }, 7000);
+        });
+      }
     }
 
     // ── TYPEWRITER ──
