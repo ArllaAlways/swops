@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SWOPS — Home swapping for renters</title>
+  <title>Swops - Home swopping for renters</title>
   <meta name="description" content="Swops matches renters with renters for short breaks in each other's homes. Free. All private. No public profiles.">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://swops.it">
-  <meta property="og:title" content="SWOPS - Home swopping for renters">
+  <meta property="og:title" content="Swops - Home swopping for renters">
   <meta property="og:description" content="Swops matches renters with renters for short breaks in each other's homes. All free. All private.">
   <meta property="og:image" content="https://swops.it/SITE%20ASSETS/IMAGES/OG-IMAGE-1200-x-630.jpg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="SWOPS — Home swapping for renters">
+  <meta name="twitter:title" content="Swops - Home swopping for renters">
   <meta name="twitter:description" content="Swops matches renters with renters for short breaks in each other's homes. Free. All private. No public profiles.">
   <meta name="twitter:image" content="https://swops.it/SITE%20ASSETS/IMAGES/OG-IMAGE-1200-x-630.jpg">
   <link rel="preload" as="image" href="SITE%20ASSETS/IMAGES/BOOMER%20MAN.png">
@@ -599,6 +599,20 @@
     }
     .s6__cta:hover { background: #222; }
 
+    .s6__remind {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(11px, 0.9vw, 14px);
+      letter-spacing: 0.12em;
+      color: #000;
+      opacity: 0.45;
+      text-decoration: none;
+      display: inline-block;
+      align-self: flex-start;
+      margin-top: 4px;
+      transition: opacity 0.15s;
+    }
+    .s6__remind:hover { opacity: 0.8; }
+
     .s6__img {
       width: 100%;
       height: 100%;
@@ -1114,12 +1128,20 @@
       .s6 { grid-template-columns: 1fr; min-height: auto; }
       .s6__img { order: -1; height: 72vw; width: 100%; }
       .s6__content { padding: 48px 28px; }
-
       /* Headline size */
       .s2__headline { font-size: clamp(22px, 5.5vw, 32px); }
 
     }
 
+  </style>
+  <style>
+  @media (max-width: 768px) {
+    .s6__title { font-size: clamp(44px, 11.5vw, 60px) !important; }
+    .s6__body p { font-size: clamp(18px, 4.5vw, 21px) !important; }
+    .s6__eyebrow { font-size: clamp(13px, 3.2vw, 16px) !important; }
+    .s-slummer__title { font-size: clamp(28px, 8.5vw, 55px) !important; white-space: nowrap; bottom: 90px; width: auto; }
+    .s-slummer__text { bottom: 36px; }
+  }
   </style>
 </head>
 <body>
@@ -1215,8 +1237,10 @@
         <p>So make it a Euro Slummer instead!</p>
         <p>This King&rsquo;s Birthday weekend, trade The Pillars in a puffer jacket for a Brunswick macchiato under a scorching outdoor heater.</p>
         <p>Inner North &harr; Mornington swops are now open for registration.</p>
+        <p>Places are limited. Registration closes May 9.</p>
       </div>
       <a class="s6__cta" href="#register">Register now</a>
+      <a class="s6__remind" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Register+for+Swops+Euro+Slummer&dates=20260509T090000/20260509T100000&details=Registration+closes+today.+Swop+your+Melbourne+home+this+King%27s+Birthday+weekend.+swops.it&location=swops.it" target="_blank">Add to calendar</a>
     </div>
     <img class="s6__img" src="SITE%20ASSETS/IMAGES/ITALIAN%20RESTAURANT.jpg" alt="">
   </section>
@@ -1365,7 +1389,7 @@
   <!-- ══ REGISTRATION FORM ══ -->
   <section class="s8" id="register">
     <p class="s8__heading">Register interest and find out more</p>
-    <p class="s8__subheading">No credit card. No obligation. Just your hand up saying you&rsquo;re interested.</p>
+    <p class="s8__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
 
     <form class="s8__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
 
@@ -1452,7 +1476,7 @@
       You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
     </p>
 
-    <p class="s8__disclaimer">Check your lease before you swop. Many short-term guest stays are fine, but your lease is your responsibility, not ours.</p>
+    <p class="s8__disclaimer">Check your lease before you register. A swop is a mutual house-guest stay. No money changes hands. Leases vary.</p>
   </section>
 
   <!-- ══ MELBOURNE DOG ══ -->
@@ -1543,7 +1567,7 @@
             judgeDisclaimer.classList.remove('is-visible');
             judgeVideo.currentTime = 0;
             judgeVideo.play();
-          }, 7000);
+          }, 8000);
         });
       }
     }
