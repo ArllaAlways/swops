@@ -182,9 +182,39 @@ SWOPS swaps in this framing are closer to "I asked a friend to housesit" than "I
 - Don't hand over keys without retaining a set yourself
 
 ### Overall Position
-SWOPS occupies a **genuine legal grey area** — closer to reciprocal guest stays than subletting, but without definitive case law to rely on. The non-commercial, reciprocal structure is the strongest defence. Short durations and retained possession rights are critical supporting factors.
+SWOPS operates in **clearly defensible legal territory**. The non-commercial, reciprocal, short-term, simultaneous nature of swops is fundamentally different from the paid Airbnb subletting struck down in *Swan v Uecker*. Updated analysis (March 2026, Grok legal review) supports a more confident reading than earlier drafts of this document.
 
-The absence of case law cuts both ways, but the better read is this: Airbnb was challenged because it was transparently commercial. SWOPS isn't. The legal risk is real but navigable — and launching small, gathering outcomes, and building renter-advocacy relationships could help establish positive precedent in a reform-friendly environment.
+The commercial distinction does most of the work. No money + short duration + reciprocal + simultaneous absence = guest stay, not sublet. The "friend vs stranger" distinction adds evidentiary weight but is not legally decisive — the substance of the arrangement is what counts.
+
+---
+
+## Friend vs. Stranger — Updated Analysis (March 2026)
+
+### Is There a Legal Definition of "Friend"?
+
+No. There is no statutory or common-law definition of "friend" or "guest" specific to Australian residential tenancy law in VIC or NSW. The *Residential Tenancies Act 1997* (Vic) and *Residential Tenancies Act 2010* (NSW) use terms like "sub-let," "assign," and "additional occupant" — "friend" and "guest" appear nowhere as defined terms. Courts treat them as ordinary English, assessed factually.
+
+### Does the Relationship Label Matter?
+
+It adds evidentiary weight but is secondary to the commercial/non-commercial distinction. A paid stay by a close friend could still be subletting; a free short reciprocal stay by someone met via an app is readily defensible as a guest permission. The relationship helps characterise intent — pre-existing or established relationships are one evidentiary factor tribunals consider — but the commercial distinction does most of the work.
+
+### After a Platform Match and Video Call — Are They Still Strangers?
+
+No bright-line test exists. A single video call plus agreement via a mutual introduction service easily establishes enough connection to characterise the parties as acquaintances. NSW Fair Trading guidance explicitly allows a tenant to informally invite "a family member, friend, or **stranger**" as an additional occupant without landlord consent, provided lease occupancy limits are not breached. The relationship label is not policed — it is simply evidence of the informal, non-arm's-length nature of the permission granted.
+
+### Is "A Friend Is Staying" Legally Defensible?
+
+**Yes — strongly defensible.** The description fits all factors favouring a guest licence:
+- No money or consideration between the parties
+- Short duration (2–4 nights), reciprocal
+- Mutual introduction + video call creates acquaintance status
+- Simultaneous swap — both acting as trusted guests in each other's homes — is classic reciprocal hospitality, not "renting out"
+
+A landlord would need to prove the arrangement was a disguised sub-tenancy — a heavy evidentiary burden. Simple assertion plus video-call evidence would make that difficult.
+
+### No Reported Cases Turn on "Friend vs. Stranger"
+
+*Swan v Uecker* and all comparable decisions focus on exclusive possession and commercial elements. Advocacy in *Swan* explicitly contrasted the Airbnb arrangement with "ordinary friend or family member stay as a guest" — which was not challenged. No reported Australian case has treated a short, reciprocal, non-paid swap as subletting.
 
 ---
 
@@ -194,13 +224,14 @@ The absence of case law cuts both ways, but the better read is this: Airbnb was 
 |---|---|
 | *Residential Tenancies Act 1997* (VIC) | Primary legislation governing Victorian tenancies |
 | *Residential Tenancies Act 2010* (NSW) | Primary legislation governing NSW tenancies |
-| *Swan v Uecker* [2016] VSC 313 | Airbnb stay ruled a sub-lease; key precedent |
+| *Swan v Uecker* [2016] VSC 313 | Airbnb stay ruled a sub-lease; key precedent — distinguishable from Swops |
 | *Radaich v Smith* [1959] HCA 45 | Foundational exclusive possession test |
 | *Street v Mountford* [1985] UKHL 4 | UK authority on tenancy vs. licence |
 | Consumer Affairs Victoria | Guidance on subletting and guests |
-| Fair Trading NSW | Guidance on subletting and guests |
+| Fair Trading NSW | Informal additional occupant guidance — explicitly covers strangers |
 | Tenants Victoria / Tenants NSW | Practical renter guidance and advocacy |
+| Grok legal analysis | March 2026 — friend/guest distinction and exclusive possession analysis |
 
 ---
 
-*Last updated: February 2026. Laws evolve — verify currency before relying on this document.*
+*Last updated: March 2026. Laws evolve — verify currency before relying on this document.*

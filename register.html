@@ -14,7 +14,7 @@
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { background: #000; min-height: 100vh; }
+    html, body { background: #fff; min-height: 100vh; }
     body { font-family: 'Alfredino', sans-serif; }
 
     .back {
@@ -23,17 +23,17 @@
       left: 24px;
       font-family: 'Alfredino', sans-serif;
       font-size: 14px;
-      color: #C8FF00;
+      color: #000;
       text-decoration: none;
       letter-spacing: 0.1em;
       z-index: 100;
-      opacity: 0.7;
+      opacity: 0.5;
     }
 
     .back:hover { opacity: 1; }
 
     .register {
-      background: #000;
+      background: #fff;
       width: 100%;
       min-height: 100vh;
       padding: 120px 60px;
@@ -47,7 +47,7 @@
     .register__heading {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(20px, 2.4vw, 34px);
-      color: #C8FF00;
+      color: #000;
       line-height: 1.4;
     }
 
@@ -62,19 +62,19 @@
     .register__field {
       display: flex;
       flex-direction: column;
-      border-top: 1px solid #C8FF00;
+      border-top: 1px solid rgba(0,0,0,0.15);
       padding: 28px 0 24px;
     }
 
-    .register__field:last-of-type { border-bottom: 1px solid #C8FF00; }
+    .register__field:last-of-type { border-bottom: 1px solid rgba(0,0,0,0.15); }
 
     .register__label {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(10px, 0.9vw, 13px);
-      color: #C8FF00;
-      letter-spacing: 0.18em;
+      font-size: clamp(14px, 1.3vw, 18px);
+      color: #000;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       text-align: left;
       opacity: 0.6;
     }
@@ -83,19 +83,19 @@
     .register__textarea {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(18px, 2vw, 28px);
-      color: #C8FF00;
+      color: #000;
       background: transparent;
       border: none;
       outline: none;
       width: 100%;
       resize: none;
-      caret-color: #C8FF00;
+      caret-color: #000;
       line-height: 1.4;
     }
 
     .register__input::placeholder,
     .register__textarea::placeholder {
-      color: #C8FF00;
+      color: #000;
       opacity: 0.25;
     }
 
@@ -104,7 +104,7 @@
     .register__select {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(18px, 2vw, 28px);
-      color: #C8FF00;
+      color: #000;
       background: transparent;
       border: none;
       outline: none;
@@ -113,7 +113,7 @@
       cursor: pointer;
     }
 
-    .register__select option { background: #000; color: #C8FF00; }
+    .register__select option { background: #fff; color: #000; }
     .register__select.placeholder { opacity: 0.25; }
 
     .register__submit {
@@ -131,12 +131,12 @@
       transition: background 0.15s;
     }
 
-    .register__submit:hover { background: #fff; }
+    .register__submit:hover { background: #b5e600; }
 
     .register__free {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(12px, 1vw, 16px);
-      color: #C8FF00;
+      color: #000;
       text-align: center;
       letter-spacing: 0.08em;
     }
@@ -145,15 +145,15 @@
       display: none;
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(18px, 2vw, 28px);
-      color: #C8FF00;
+      color: #000;
       line-height: 1.5;
     }
 
     .register__disclaimer {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(11px, 0.9vw, 14px);
-      color: #C8FF00;
-      opacity: 0.5;
+      color: #000;
+      opacity: 0.4;
       max-width: 720px;
       text-align: center;
       line-height: 1.6;
@@ -163,23 +163,104 @@
     .register__subheading {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(14px, 1.4vw, 20px);
-      color: #C8FF00;
+      color: #000;
       line-height: 1.5;
       max-width: 720px;
       text-align: center;
-      opacity: 0.7;
+      opacity: 0.5;
       margin-top: -24px;
+    }
+
+    /* ─── HAMBURGER MENU ─── */
+    .nav {
+      position: fixed;
+      top: 56px;
+      right: 0;
+      z-index: 1000;
+      padding: 18px 24px;
+    }
+
+    .nav__burger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 4px;
+    }
+
+    .nav__burger span {
+      display: block;
+      width: 28px;
+      height: 2px;
+      background: #000;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #C8FF00; }
+    .nav__burger.is-open span:nth-child(2) { opacity: 0; }
+    .nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #C8FF00; }
+
+    .nav__menu {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .nav__menu.is-open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .nav__link {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(28px, 5vw, 60px);
+      color: #C8FF00;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .nav__link:hover { opacity: 0.7; }
+
+    @media (max-width: 768px) {
+      .register { padding: 80px 28px; }
     }
 
   </style>
 </head>
 <body>
 
-  <a class="back" href="#" onclick="history.back(); return false;">← BACK</a>
+  <!-- ── HAMBURGER MENU ── -->
+  <nav class="nav">
+    <button class="nav__burger" id="burger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="nav__menu" id="navMenu">
+    <a class="nav__link" href="index.html">Home</a>
+    <a class="nav__link" href="how-it-works.html">How it Works</a>
+  </div>
+
+  <a class="back" href="index.html" onclick="if(history.length>1){history.back();return false;}">&#8592; BACK</a>
 
   <section class="register">
 
     <p class="register__heading">Register interest and find out more</p>
+    <p class="register__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
     <form class="register__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
 
       <div class="register__field">
@@ -200,7 +281,7 @@
       <div class="register__field">
         <label class="register__label" for="f-type">House type</label>
         <select class="register__select placeholder" id="f-type" name="house-type" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Apartment / House / Townhouse…</option>
+          <option value="" disabled selected>Apartment / House / Townhouse...</option>
           <option>Apartment</option>
           <option>House</option>
           <option>Townhouse</option>
@@ -234,16 +315,16 @@
         <label class="register__label" for="f-rating">Rate your place</label>
         <select class="register__select placeholder" id="f-rating" name="rating" required onchange="this.classList.remove('placeholder')">
           <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
-          <option value="Lived-in">Lived-in — it's home. it shows.</option>
-          <option value="Solid">Solid — clean, tidy, you'd host your boss</option>
-          <option value="Posh Dump">Posh Dump — great bones, some things don't work</option>
-          <option value="Posh">Posh — genuinely impressive. you know it.</option>
+          <option value="Lived-in">Lived-in - it's home. it shows.</option>
+          <option value="Solid">Solid - clean, tidy, you'd host your boss</option>
+          <option value="Posh Dump">Posh Dump - great bones, some things don't work</option>
+          <option value="Posh">Posh - genuinely impressive. you know it.</option>
         </select>
       </div>
 
       <div class="register__field">
         <label class="register__label" for="f-song">If this house had a song</label>
-        <input class="register__input" id="f-song" name="song" type="text" placeholder="Artist — Song title">
+        <input class="register__input" id="f-song" name="song" type="text" placeholder="Artist - Song title">
       </div>
 
       <div class="register__field">
@@ -253,14 +334,14 @@
 
       <div class="register__field">
         <label class="register__label" for="f-questions">Do you have any questions?</label>
-        <textarea class="register__textarea" id="f-questions" name="questions" rows="2"></textarea>
+        <textarea class="register__textarea" id="f-questions" name="questions" rows="2" placeholder="Or just email us at hello@swops.it"></textarea>
       </div>
 
-      <button class="register__submit" type="submit">I&rsquo;M IN</button>
+      <button class="register__submit" type="submit">I'M IN</button>
     </form>
 
     <p class="register__success" id="swopsSuccess">
-      You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
+      You're on the list.<br>We'll be in touch before King's Birthday.
     </p>
 
     <p class="register__disclaimer">Check your lease before you register. A swop is a mutual house-guest stay. No money changes hands. Leases vary.</p>
@@ -268,6 +349,21 @@
   </section>
 
   <script>
+    // ── HAMBURGER ──
+    const burger = document.getElementById('burger');
+    const navMenu = document.getElementById('navMenu');
+    burger.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('is-open');
+      burger.classList.toggle('is-open', open);
+    });
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navMenu.classList.remove('is-open');
+        burger.classList.remove('is-open');
+      });
+    });
+
+    // ── FORM ──
     const form = document.getElementById('swopsForm');
     const success = document.getElementById('swopsSuccess');
     form.addEventListener('submit', function(e) {

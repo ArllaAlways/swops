@@ -62,7 +62,11 @@
       width: 28px;
       height: 2px;
       background: #C8FF00;
-      transition: transform 0.2s, opacity 0.2s;
+      transition: transform 0.2s, opacity 0.2s, background 0.2s;
+    }
+
+    .nav--dark .nav__burger span {
+      background: #000;
     }
 
     .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -365,7 +369,7 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      background: #000;
+      background: #C8FF00;
       width: 100%;
       display: flex;
       flex-direction: column;
@@ -412,10 +416,10 @@
       z-index: 12;
     }
     .s4__judge-disclaimer.is-visible { opacity: 1; }
-    .s4__judge-disclaimer-text {
+    .s4 .s4__judge-disclaimer-text {
       font-family: 'Alfredino', sans-serif;
-      font-size: clamp(11px, 1.4vw, 18px);
-      color: #fff;
+      font-size: clamp(18px, 2.2vw, 30px);
+      color: #C8FF00;
       text-align: center;
       max-width: 640px;
       line-height: 1.7;
@@ -426,7 +430,7 @@
     .s4 p {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(20px, 2.4vw, 34px);
-      color: #C8FF00;
+      color: #000;
       line-height: 1.4;
       max-width: 900px;
       margin: 0;
@@ -435,7 +439,7 @@
     .s4__judge-trigger {
       animation: judge-pulse 2s ease-in-out infinite;
       cursor: pointer;
-      color: #a8d400;
+      color: #000;
     }
 
     @keyframes judge-pulse {
@@ -468,8 +472,8 @@
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(16px, 1.6vw, 22px);
       letter-spacing: 0.08em;
-      color: #000;
-      background: #C8FF00;
+      color: #C8FF00;
+      background: #000;
       border: none;
       padding: 18px 52px;
       cursor: pointer;
@@ -479,7 +483,7 @@
       transition: background 0.15s;
     }
 
-    .s4__cta:hover { background: #fff; }
+    .s4__cta:hover { background: #222; }
 
     /* ═══════════════════════════════════════
        SECTION 5 — Skateboarder
@@ -602,16 +606,20 @@
     .s6__remind {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(11px, 0.9vw, 14px);
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
       color: #000;
-      opacity: 0.45;
       text-decoration: none;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       align-self: flex-start;
-      margin-top: 4px;
-      transition: opacity 0.15s;
+      margin-top: 8px;
+      padding: 10px 22px;
+      border: 1px solid rgba(0,0,0,0.3);
+      border-radius: 3px;
+      transition: border-color 0.15s, background 0.15s;
     }
-    .s6__remind:hover { opacity: 0.8; }
+    .s6__remind:hover { border-color: #000; background: rgba(0,0,0,0.05); }
 
     .s6__img {
       width: 100%;
@@ -1156,7 +1164,7 @@
   <!-- ── NAV MENU OVERLAY ── -->
   <div class="nav__menu" id="navMenu">
     <a class="nav__link" href="how-it-works.html">How it Works</a>
-    <a class="nav__link" href="#register">Register Interest</a>
+    <a class="nav__link" href="register.html">Register Interest</a>
     <!-- <button class="nav__link" id="aboutBtn">How We Got Here</button> -->
   </div>
   </div>
@@ -1207,7 +1215,7 @@
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4" id="s4">
     <div class="s4__inner">
-      <p>Swops matches <u>renters with renters</u> for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All approved by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
+      <p>Swops matches RENTERS WITH RENTERS for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All approved by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
       <a class="s4__cta" href="how-it-works.html">How it works</a>
       <div class="s4__judge-overlay" id="judgeOverlay">
         <video class="s-juicy__video" playsinline>
@@ -1239,8 +1247,8 @@
         <p>Inner North &harr; Mornington swops are now open for registration.</p>
         <p>Places are limited. Registration closes May 9.</p>
       </div>
-      <a class="s6__cta" href="#register">Register now</a>
-      <a class="s6__remind" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Register+for+Swops+Euro+Slummer&dates=20260509T090000/20260509T100000&details=Registration+closes+today.+Swop+your+Melbourne+home+this+King%27s+Birthday+weekend.+swops.it&location=swops.it" target="_blank">Add to calendar</a>
+      <a class="s6__cta" href="register.html">Register interest</a>
+      <a class="s6__remind" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Register+for+Swops+Euro+Slummer&dates=20260509T090000/20260509T100000&details=Registration+closes+today.+Swop+your+Melbourne+home+this+King%27s+Birthday+weekend.+swops.it&location=swops.it" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Remind me May 9</a>
     </div>
     <img class="s6__img" src="SITE%20ASSETS/IMAGES/ITALIAN%20RESTAURANT.jpg" alt="">
   </section>
@@ -1378,106 +1386,7 @@
     </p>
   </section>
 
-  <!-- ══ SLEEP CHEAP ══ -->
-  <section class="s-slummer">
-    <div class="s-slummer__bg" style="background-image: url('SITE%20ASSETS/IMAGES/SLEEP%20CHEAP%204.jpg');"></div>
-    <div class="s-slummer__text">
-      <p class="s-slummer__title">Sleep<br>Cheap</p>
-    </div>
-  </section>
 
-  <!-- ══ REGISTRATION FORM ══ -->
-  <section class="s8" id="register">
-    <p class="s8__heading">Register interest and find out more</p>
-    <p class="s8__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
-
-    <form class="s8__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-name">First name</label>
-        <input class="s8__input" id="f-name" name="name" type="text" autocomplete="given-name" required>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-email">Email</label>
-        <input class="s8__input" id="f-email" name="email" type="email" placeholder="your@email.com" autocomplete="email" required>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-suburb">Your suburb</label>
-        <input class="s8__input" id="f-suburb" name="suburb" type="text" required>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-type">House type</label>
-        <select class="s8__select placeholder" id="f-type" name="house-type" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Apartment / House / Townhouse…</option>
-          <option>Apartment</option>
-          <option>House</option>
-          <option>Townhouse</option>
-          <option>Other</option>
-        </select>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-beds">Number of bedrooms</label>
-        <select class="s8__select placeholder" id="f-beds" name="bedrooms" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected></option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4+</option>
-        </select>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-people">How many people in your place</label>
-        <select class="s8__select placeholder" id="f-people" name="people" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected></option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4+</option>
-        </select>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-rating">Rate your place</label>
-        <select class="s8__select placeholder" id="f-rating" name="rating" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
-          <option value="Lived-in">Lived-in — it's home. it shows.</option>
-          <option value="Solid">Solid — clean, tidy, you'd host your boss</option>
-          <option value="Posh Dump">Posh Dump — great bones, some things don't work</option>
-          <option value="Posh">Posh — genuinely impressive. you know it.</option>
-        </select>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-song">If this house had a song</label>
-        <input class="s8__input" id="f-song" name="song" type="text" placeholder="Artist — Song title">
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-walkto">Walk to</label>
-        <textarea class="s8__textarea" id="f-walkto" name="walk-to" placeholder="What&rsquo;s within walking distance that you love?" rows="2"></textarea>
-      </div>
-
-      <div class="s8__field">
-        <label class="s8__label" for="f-questions">Do you have any questions?</label>
-        <textarea class="s8__textarea" id="f-questions" name="questions" rows="2"></textarea>
-      </div>
-
-      <button class="s8__submit" type="submit">I&rsquo;M IN</button>
-    </form>
-
-
-
-    <p class="s8__success" id="swopsSuccess">
-      You&rsquo;re on the list.<br>We&rsquo;ll be in touch before King&rsquo;s Birthday.
-    </p>
-
-    <p class="s8__disclaimer">Check your lease before you register. A swop is a mutual house-guest stay. No money changes hands. Leases vary.</p>
-  </section>
 
   <!-- ══ MELBOURNE DOG ══ -->
   <section class="s-slummer">
@@ -1485,9 +1394,9 @@
     <p class="typewriter" data-text="Give me a break." style="font-size: clamp(22px, 2.5vw, 36px);"></p>
   </section>
 
-  <footer style="background:#000; padding: clamp(32px,4vw,56px) 0; text-align:center; display:flex; flex-direction:column; gap:12px;">
-    <a href="mailto:hello@swops.it" style="font-family:'Alfredino',sans-serif; font-size:clamp(12px,1vw,15px); color:#C8FF00; opacity:0.5; text-decoration:none; letter-spacing:0.14em;">hello@swops.it</a>
-    <a href="privacy.html" style="font-family:'Alfredino',sans-serif; font-size:clamp(11px,0.85vw,13px); color:#C8FF00; opacity:0.3; text-decoration:none; letter-spacing:0.14em;">Privacy</a>
+  <footer style="background:#C8FF00; padding: clamp(32px,4vw,56px) 0; text-align:center; display:flex; flex-direction:column; gap:12px;">
+    <a href="mailto:hello@swops.it" style="font-family:'Alfredino',sans-serif; font-size:clamp(12px,1vw,15px); color:#000; opacity:0.5; text-decoration:none; letter-spacing:0.14em;">hello@swops.it</a>
+    <a href="privacy.html" style="font-family:'Alfredino',sans-serif; font-size:clamp(11px,0.85vw,13px); color:#000; opacity:0.3; text-decoration:none; letter-spacing:0.14em;">Privacy</a>
   </footer>
 
   <script>
@@ -1611,24 +1520,20 @@
 
 
 
-    // ── FORM ──
-    const swopsForm = document.getElementById('swopsForm');
-    const swopsSuccess = document.getElementById('swopsSuccess');
-    if (swopsForm) {
-      swopsForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const data = new FormData(swopsForm);
-        fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
-          .then(() => {
-            swopsForm.style.display = 'none';
-            swopsSuccess.style.display = 'block';
-          })
-          .catch(() => {
-            swopsForm.style.display = 'none';
-            swopsSuccess.style.display = 'block';
-          });
+    // ── BURGER COLOUR ON LIME SECTIONS ──
+    const navEl = document.querySelector('.nav');
+    const limeSections = document.querySelectorAll('.s2, .s4__inner, .s6, .s10:not(.s10--dark)');
+    function checkBurgerColour() {
+      const burgerY = navEl.getBoundingClientRect().top + navEl.getBoundingClientRect().height / 2;
+      let onLime = false;
+      limeSections.forEach(sec => {
+        const r = sec.getBoundingClientRect();
+        if (burgerY >= r.top && burgerY <= r.bottom) onLime = true;
       });
+      navEl.classList.toggle('nav--dark', onLime);
     }
+    window.addEventListener('scroll', checkBurgerColour, { passive: true });
+    checkBurgerColour();
 
     // ── BOOMER: start all hero animations only once the image has loaded ──
     const boomerImg = document.querySelector('.boomer-man');
