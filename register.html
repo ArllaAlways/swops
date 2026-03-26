@@ -198,14 +198,14 @@
       transition: transform 0.2s, opacity 0.2s;
     }
 
-    .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #C8FF00; }
+    .nav__burger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); background: #000; }
     .nav__burger.is-open span:nth-child(2) { opacity: 0; }
-    .nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #C8FF00; }
+    .nav__burger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); background: #000; }
 
     .nav__menu {
       position: fixed;
       inset: 0;
-      background: #000;
+      background: #C8FF00;
       z-index: 999;
       display: flex;
       flex-direction: column;
@@ -225,7 +225,7 @@
     .nav__link {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(28px, 5vw, 60px);
-      color: #C8FF00;
+      color: #000;
       text-decoration: none;
       letter-spacing: 0.06em;
       cursor: pointer;
@@ -368,6 +368,17 @@
     const success = document.getElementById('swopsSuccess');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+      const name = form.querySelector('[name="name"]').value.trim();
+      const email = form.querySelector('[name="email"]').value.trim();
+      const suburb = form.querySelector('[name="suburb"]').value.trim();
+      if (!name || !email || !suburb) {
+        let missing = [];
+        if (!name) missing.push('name');
+        if (!email) missing.push('email');
+        if (!suburb) missing.push('suburb');
+        alert('Please fill in your ' + missing.join(', ') + ' before registering.');
+        return;
+      }
       const data = new FormData(form);
       fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
         .then(() => {
