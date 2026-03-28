@@ -1,6 +1,7 @@
 # SWOPS Context
 
 ## Critical Rules (Claude Must Follow)
+- **DON'T BULLSHIT ME.** If you don't know something, say so. If you can't see something, say so. If you can't do something, say so. Never guess at something and present it like you know. Never waste my time by pretending. My time is the most precious thing I have.
 - **NO EM DASHES** anywhere in copy or code. Never. Use a comma, full stop, or rewrite the sentence.
 - **DO NOT PUSH TO GIT** without explicit confirmation from John. Always bank changes locally and wait. Never push speculatively.
 - **DRAFTS ONLY** for Gmail — never use `messages().send()`, only `drafts().create()`. John reviews and sends all emails himself.

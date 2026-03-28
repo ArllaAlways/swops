@@ -184,6 +184,13 @@
       padding-right: 120px;
     }
 
+    .ticker__logo {
+      height: 42px;
+      width: auto;
+      vertical-align: middle;
+      display: inline-block;
+    }
+
     @keyframes ticker-scroll {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
@@ -250,9 +257,23 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: min(53vw, 576px);
+      width: min(33.7vw, 364px);
       z-index: 10;
       display: block;
+    }
+
+    .hero__tagline {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(22px, 3vw, 44px);
+      color: #C8FF00;
+      letter-spacing: 0.08em;
+      z-index: 10;
+      white-space: nowrap;
+      text-align: center;
     }
 
     .boomer-man {
@@ -290,6 +311,8 @@
       align-items: center;
       justify-content: center;
       padding: 90px 60px;
+      position: relative;
+      overflow: hidden;
     }
 
     .s2__headline {
@@ -299,10 +322,22 @@
       text-align: center;
       line-height: 1.4;
       max-width: 1200px;
+      position: relative;
+      z-index: 2;
     }
 
     .s2__headline span { display: block; }
     .s2__headline span + span { margin-top: 1.4em; }
+
+    .s2__logo {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 100%;
+      display: block;
+      z-index: 1;
+    }
 
     /* ═══════════════════════════════════════
        SECTION 3 — Ibis
@@ -1138,6 +1173,8 @@
       .s6__content { padding: 48px 28px; }
       /* Headline size */
       .s2__headline { font-size: clamp(22px, 5.5vw, 32px); }
+      .s4 p { font-size: clamp(22px, 5.5vw, 32px); }
+      .s4__inner { padding: 60px 28px; }
 
     }
 
@@ -1193,7 +1230,7 @@
     <div class="hero__bg"></div>
     <div class="hero__bg2"></div>
     <div class="hero__overlay"></div>
-    <img class="hero__logo" src="SITE%20ASSETS/WORDMARK/SWOPS%20GREEN.png" alt="SWOPS">
+    <img class="hero__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-16.png?v=2" alt="SWOPS">
     <img class="boomer-man" src="SITE%20ASSETS/IMAGES/BOOMER%20MAN.png?v=3" alt="" aria-hidden="true">
   </section>
 
@@ -1215,7 +1252,7 @@
   <!-- ══ S4 — Black copy + CTA ══ -->
   <section class="s4" id="s4">
     <div class="s4__inner">
-      <p>Swops matches RENTERS WITH RENTERS for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private. All approved by <span class="s4__judge-trigger">Judge Juicy</span>.</p>
+      <p>Swops matches RENTERS WITH RENTERS for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
       <a class="s4__cta" href="how-it-works.html">How it works</a>
       <div class="s4__judge-overlay" id="judgeOverlay">
         <video class="s-juicy__video" playsinline>
@@ -1243,7 +1280,7 @@
       <div class="s6__body">
         <p>Unless you&rsquo;re nepo spawn with a private stockpile of jet fuel, then Palermo is off the agenda this year.</p>
         <p>So make it a Euro Slummer instead!</p>
-        <p>This King&rsquo;s Birthday weekend, trade The Pillars in a puffer jacket for a Brunswick macchiato under a scorching outdoor heater.</p>
+        <p>This King&rsquo;s Birthday weekend, trade The Pillars in a puffer jacket for a Brunswick macchiato under a scorching outdoor heater. Swop your coastal post-war pad for an inner-north worker&rsquo;s cottage and both pretend you&rsquo;re in Italy, but for $0 and no jet-lag.</p>
         <p>Inner North &harr; Mornington swops are now open for registration.</p>
         <p>Places are limited. Registration closes May 9.</p>
       </div>
@@ -1384,6 +1421,7 @@
       <span>Australian housing is rigged against renters.</span>
       <span>Let&rsquo;s at least get some free accom out of it.</span>
     </p>
+    <img class="s2__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-15.png" alt="SWOPS">
   </section>
 
 

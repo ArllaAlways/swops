@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Split-Flap Scroll Test</title>
+<style>
+@font-face {
+  font-family: 'Alfredino';
+  src: url('SITE%20ASSETS/FONT/alfredino-semimono-font/alfredinosemirounded-semirounded.ttf') format('truetype');
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; background: #000; }
+body { font-family: 'Alfredino', sans-serif; }
+.viewport {
+  position: fixed;
+  inset: 0;
+  perspective: 1200px;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+<div class="viewport" id="viewport"></div>
+<script>
+const sections = [
+  {
+    type: 'image',
+    bg: "url('SITE%20ASSETS/IMAGES/WOMAN%20STORE.jpeg')",
+    bgPos: 'center center',
+    overlay: true,
+    html: '<img src="SITE%20ASSETS/WORDMARK/SWOPS-GREEN-5.png" style="width:min(53vw,576px);" alt="SWOPS">'
+  },
+  {
+    type: 'color',
+    bg: '#C8FF00',
+    html: `<p style="font-size:clamp(20px,2.4vw,34px);color:#000;text-align:center;line-height:1.4;max-width:1200px;padding:0 60px;">
+      <span style="display:block;">If you rent, you already pay for a holiday house, dummy.</span>
+      <span style="display:block;margin-top:1.4em;">You just can't use it yet.</span></p>`
+  },
+  {
+    type: 'image',
+    bg: "url('SITE%20ASSETS/IMAGES/IBIS-2.jpg')",
+    bgPos: '20% center',
+  },
+  {
+    type: 'color',
+    bg: '#C8FF00',
+    html: `<p style="font-size:clamp(20px,2.4vw,34px);color:#000;text-align:center;line-height:1.4;max-width:900px;padding:0 60px;">
+      Swops matches RENTERS WITH RENTERS for short breaks in each other\u2019s homes.
+      You stay in their place while they stay in yours. All free. All private.</p>`
+  },
+  {
+    type: 'image',
+    bg: "url('SITE%20ASSETS/IMAGES/GIRL-SKATEBOARD.jpg')",
+    bgPos: '55% center',
+  },
+  {
+    type: 'image',
+    bg: "url('SITE%20ASSETS/IMAGES/ITALIAN%20RESTAURANT.jpg')",
+    bgPos: 'center top',
+  },
+  {
+    type: 'image',
+    bg: "url('SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg')",
+    bgPos: '58% 50%',
+  },
+];
+
+const viewport = document.getElementById('viewport');
+let current = 0;
+let isAnimating = false;
+const FLIP_MS = 420;
+function buildPanel(sec, index) {
+  const panel = document.createElement('div');
+  panel.className = 'panel';
+  Object.assign(panel.style, {
+    position: 'absolute', inset: '0',
+    width: '100%', height: '100%',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    visibility: index === 0 ? 'visible' : 'hidden',
+  });
+  if (sec.type === 'image') {
+    panel.style.backgroundImage = sec.bg;
+    panel.style.backgroundSize = 'cover';
+    panel.style.backgroundPosition = sec.bgPos || 'center';
+  } else {
+    panel.style.background = sec.bg;
+  }
+  if (sec.overlay) {
+    const ov = document.createElement('div');
+    Object.assign(ov.style, {
+      position: 'absolute', inset: '0',
+      background: 'linear-gradient(to bottom,rgba(0,0,0,0.25),rgba(0,0,0,0.08) 40%,rgba(0,0,0,0.35))',
+    });
+    panel.appendChild(ov);
+  }
+  if (sec.html) {
+    const c = document.createElement('div');
+    c.style.position = 'relative'; c.style.zIndex = '2';
+    c.innerHTML = sec.html;
+    panel.appendChild(c);
+  }
+  return panel;
+}
+const panels = sections.map((sec, i) => {
+  const p = buildPanel(sec, i);
+  viewport.appendChild(p);
+  return p;
+});
+
+// ── SPLIT-FLAP FLIP ──
+function flipTo(nextIndex) {
+  if (isAnimating) return;
+  if (nextIndex < 0 || nextIndex >= sections.length) return;
+  if (nextIndex === current) return;
+  isAnimating = true;
+
+  const fromPanel = panels[current];
+  const toPanel = panels[nextIndex];
+
+  // 1. Static: show next panel's TOP half (revealed behind the flipping flap)
+  const staticTopNext = toPanel.cloneNode(true);
+  Object.assign(staticTopNext.style, {
+    visibility: 'visible', zIndex: 5,
+    clipPath: 'inset(0 0 50% 0)',
+  });
+  viewport.appendChild(staticTopNext);
+
+  // 2. Static: show current panel's BOTTOM half (stays put while bottom flap lands)
+  const staticBotCurr = fromPanel.cloneNode(true);
+  Object.assign(staticBotCurr.style, {
+    visibility: 'visible', zIndex: 5,
+    clipPath: 'inset(50% 0 0 0)',
+  });
+  viewport.appendChild(staticBotCurr);
+  // 3. Flipping flap: current panel's TOP half — flips DOWN from bottom edge
+  const flapTop = fromPanel.cloneNode(true);
+  Object.assign(flapTop.style, {
+    visibility: 'visible', zIndex: 10,
+    clipPath: 'inset(0 0 50% 0)',
+    transformOrigin: 'center 50vh',
+    transform: 'rotateX(0deg)',
+    transition: `transform ${FLIP_MS}ms ease-in`,
+    backfaceVisibility: 'hidden',
+  });
+  viewport.appendChild(flapTop);
+
+  // 4. Landing flap: next panel's BOTTOM half — flips IN from top edge
+  const flapBot = toPanel.cloneNode(true);
+  Object.assign(flapBot.style, {
+    visibility: 'visible', zIndex: 10,
+    clipPath: 'inset(50% 0 0 0)',
+    transformOrigin: 'center 50vh',
+    transform: 'rotateX(90deg)',
+    transition: `transform ${FLIP_MS}ms ease-out ${FLIP_MS * 0.1}ms`,
+    backfaceVisibility: 'hidden',
+  });
+  viewport.appendChild(flapBot);
+  // Trigger animation
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      flapTop.style.transform = 'rotateX(-90deg)';
+      flapBot.style.transform = 'rotateX(0deg)';
+    });
+  });
+
+  // Clean up
+  const totalMs = FLIP_MS + FLIP_MS * 0.1 + 80;
+  setTimeout(() => {
+    toPanel.style.visibility = 'visible';
+    fromPanel.style.visibility = 'hidden';
+    flapTop.remove();
+    flapBot.remove();
+    staticTopNext.remove();
+    staticBotCurr.remove();
+    current = nextIndex;
+    isAnimating = false;
+    updateDots();
+  }, totalMs);
+}
+// ── WHEEL INPUT ──
+let wheelAccum = 0;
+viewport.addEventListener('wheel', (e) => {
+  e.preventDefault();
+  if (isAnimating) return;
+  wheelAccum += e.deltaY;
+  if (Math.abs(wheelAccum) > 80) {
+    const next = wheelAccum > 0 ? current + 1 : current - 1;
+    wheelAccum = 0;
+    flipTo(next);
+  }
+}, { passive: false });
+
+// ── TOUCH INPUT ──
+let touchY = 0;
+viewport.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { passive: true });
+viewport.addEventListener('touchend', (e) => {
+  if (isAnimating) return;
+  const dy = touchY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) > 40) flipTo(dy > 0 ? current + 1 : current - 1);
+}, { passive: true });
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', (e) => {
+  if (isAnimating) return;
+  if (e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); flipTo(current + 1); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); flipTo(current - 1); }
+});
+// ── DOT NAV ──
+const nav = document.createElement('div');
+Object.assign(nav.style, {
+  position: 'fixed', right: '20px', top: '50%',
+  transform: 'translateY(-50%)', zIndex: '100',
+  display: 'flex', flexDirection: 'column', gap: '10px',
+});
+sections.forEach((_, i) => {
+  const dot = document.createElement('div');
+  Object.assign(dot.style, {
+    width: '8px', height: '8px', borderRadius: '50%',
+    background: i === 0 ? '#C8FF00' : 'rgba(200,255,0,0.3)',
+    cursor: 'pointer', transition: 'background 0.3s',
+  });
+  dot.addEventListener('click', () => { if (!isAnimating && i !== current) flipTo(i); });
+  nav.appendChild(dot);
+});
+document.body.appendChild(nav);
+
+function updateDots() {
+  nav.childNodes.forEach((dot, i) => {
+    dot.style.background = i === current ? '#C8FF00' : 'rgba(200,255,0,0.3)';
+  });
+}
+</script>
+</body>
+</html>
