@@ -1108,8 +1108,42 @@
       .s9__bg { background-image: url('SITE%20ASSETS/IMAGES/COUPLE%20EATING%20MOBILE.jpeg') !important; background-position: center !important; }
       .s11__bg { background-image: url('SITE%20ASSETS/IMAGES/MAN-DOG-MOBILE-9-16.jpg') !important; background-position: center !important; }
 
+      /* ── Hero — mobile: logo below image, centered ── */
+      .hero {
+        height: auto;
+        overflow: visible;
+        background: #000;
+      }
+
+      /* Spacer pushes the in-flow logo below the image area */
+      .hero::before {
+        content: '';
+        display: block;
+        height: 70vh;
+      }
+
+      /* Constrain backgrounds to image area only */
+      .hero__bg,
+      .hero__bg2,
+      .hero__overlay {
+        height: 70vh;
+        bottom: auto;
+      }
+
+      /* Logo: static flow, centered beneath the hero image */
+      .hero__logo {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        width: 55vw;
+        max-width: 260px;
+        display: block;
+        margin: 24px auto 32px;
+      }
+
       /* Boomer — mobile */
-      .hero-ready .boomer-man { height: 102vh; top: auto; bottom: 0; animation-duration: 10s; animation-delay: -2s; }
+      .hero-ready .boomer-man { height: 70vh; top: 0; bottom: auto; animation-duration: 10s; animation-delay: -2s; }
       @keyframes boomer-slide {
         from { transform: translateX(100vw); }
         to   { transform: translateX(-100%); }
@@ -1172,7 +1206,11 @@
       .s6__img { order: -1; height: 72vw; width: 100%; }
       .s6__content { padding: 48px 28px; }
       /* Headline size */
-      .s2__headline { font-size: clamp(22px, 5.5vw, 32px); }
+      .s2 { flex-direction: column; padding: 60px 28px; }
+      .s2__headline { font-size: clamp(22px, 5.5vw, 32px); text-align: center; }
+      .s2__logo {
+        display: none;
+      }
       .s4 p { font-size: clamp(22px, 5.5vw, 32px); }
       .s4__inner { padding: 60px 28px; }
 
