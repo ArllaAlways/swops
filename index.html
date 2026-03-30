@@ -397,13 +397,10 @@
     ═══════════════════════════════════════ */
     .s4 {
       position: relative;
-      height: 200vh;
     }
 
     .s4__inner {
-      position: sticky;
-      top: 0;
-      height: 100vh;
+      min-height: 100vh;
       background: #C8FF00;
       width: 100%;
       display: flex;
@@ -1108,42 +1105,11 @@
       .s9__bg { background-image: url('SITE%20ASSETS/IMAGES/COUPLE%20EATING%20MOBILE.jpeg') !important; background-position: center !important; }
       .s11__bg { background-image: url('SITE%20ASSETS/IMAGES/MAN-DOG-MOBILE-9-16.jpg') !important; background-position: center !important; }
 
-      /* ── Hero — mobile: logo below image, centered ── */
-      .hero {
-        height: auto;
-        overflow: visible;
-        background: #000;
-      }
-
-      /* Spacer pushes the in-flow logo below the image area */
-      .hero::before {
-        content: '';
-        display: block;
-        height: 70vh;
-      }
-
-      /* Constrain backgrounds to image area only */
-      .hero__bg,
-      .hero__bg2,
-      .hero__overlay {
-        height: 70vh;
-        bottom: auto;
-      }
-
-      /* Logo: static flow, centered beneath the hero image */
-      .hero__logo {
-        position: relative;
-        top: auto;
-        left: auto;
-        transform: none;
-        width: 55vw;
-        max-width: 260px;
-        display: block;
-        margin: 24px auto 32px;
-      }
+      /* Hero logo — mobile */
+      .hero__logo { width: min(40vw, 437px); }
 
       /* Boomer — mobile */
-      .hero-ready .boomer-man { height: 70vh; top: 0; bottom: auto; animation-duration: 10s; animation-delay: -2s; }
+      .hero-ready .boomer-man { height: 102vh; top: auto; bottom: 0; animation-duration: 10s; animation-delay: -2s; }
       @keyframes boomer-slide {
         from { transform: translateX(100vw); }
         to   { transform: translateX(-100%); }
