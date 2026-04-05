@@ -48,22 +48,21 @@
     /* ─── SECTIONS ─── */
     .hiw-section {
       width: 100%;
-      max-width: 1200px;
+      max-width: 800px;
       margin: 0 auto;
-      padding: clamp(48px, 6vw, 90px) clamp(28px, 6vw, 80px);
-      display: grid;
-      grid-template-columns: 1fr 1.6fr;
-      gap: clamp(32px, 4vw, 80px);
-      align-items: start;
-      border-top: none;
-      background-image: url('SITE%20ASSETS/WORDMARK/SWOPS-GREEN-14.png');
-      background-repeat: repeat-x;
-      background-size: auto 32px;
-      background-position: top center;
-      padding-top: calc(clamp(48px, 6vw, 90px) + 32px);
+      padding: 0 clamp(28px, 6vw, 80px);
+      text-align: center;
       opacity: 0;
       transform: translateY(20px);
       transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .hiw-cube {
+      display: block;
+      width: 14px;
+      height: 14px;
+      background: #000;
+      margin: clamp(48px, 6vw, 90px) auto;
     }
 
     .hiw-section.is-visible {
@@ -78,8 +77,7 @@
       line-height: 1.15;
       letter-spacing: 0.02em;
       text-transform: uppercase;
-      position: sticky;
-      top: clamp(80px, 10vw, 140px);
+      margin-bottom: 0.8em;
     }
 
     .hiw-body {
@@ -88,7 +86,6 @@
       color: #000;
       line-height: 1.6;
       opacity: 0.7;
-      padding-top: 0;
     }
 
     /* ─── CTA ─── */
@@ -132,21 +129,29 @@
         padding: 100px 28px 40px;
       }
 
-      .hiw-section {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 40px 28px;
-      }
-
       .hiw-heading {
-        position: static;
         font-size: clamp(18px, 5vw, 24px);
       }
-
-      .hiw-body { padding-top: 0; }
     }
 
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1664481524589126');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1664481524589126&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -162,38 +167,52 @@
 
     <section class="hiw-section">
       <p class="hiw-heading">Register</p>
-      <p class="hiw-body">Pick a swop window and register your interest. The first is Inner North &#8596; Mornington on Kings Birthday long weekend June 6&#8211;8. If you rent a house in those general catchments and you're up for a mini adventure on those dates then register and see what comes.</p>
+      <p class="hiw-body">Pick a swop window and register your interest. The first is Inner North &#8596; Southside on Kings Birthday long weekend June 6&#8211;8. If you rent a house in those general catchments and you're up for a mini adventure on those dates then register and see what comes.</p>
     </section>
+
+    <div class="hiw-cube"></div>
 
     <section class="hiw-section">
       <p class="hiw-heading">The match</p>
       <p class="hiw-body">We pair you with compatible swoppers based on suburb, home type and what you're both looking for. You'll get a brief on each match - broad details about their place, their neighbourhood and a bit about who they are.</p>
     </section>
 
+    <div class="hiw-cube"></div>
+
     <section class="hiw-section">
       <p class="hiw-heading">The call</p>
       <p class="hiw-body">You choose who to chat to. It's a video call. You see their place, they see yours (just like a work meeting where you're distracted peeping on someone's dining room). Have a chat. Feel it out. Think of it as a vibe check. If the kitchen is too messy or you just don't click, say no. No fee, no hard feelings, no swop.</p>
     </section>
+
+    <div class="hiw-cube"></div>
 
     <section class="hiw-section">
       <p class="hiw-heading">The swop</p>
       <p class="hiw-body">Bingo! It's a match. The swop is on. You're in their place while they're in yours. We'll send you a swop agreement and details to chat through together. You're friends by now, so it's between you to sort out. You've got enough lords in your life, so we're staying right out of it.</p>
     </section>
 
+    <div class="hiw-cube"></div>
+
     <section class="hiw-section">
       <p class="hiw-heading">Err, my stuff</p>
       <p class="hiw-body">The trust mechanism is the swop itself. You've both got skin in the game. You're in their home while they're in yours. Neither of you is going anywhere near a bad decision.</p>
     </section>
+
+    <div class="hiw-cube"></div>
 
     <section class="hiw-section">
       <p class="hiw-heading">What it costs</p>
       <p class="hiw-body">Free for our first wave of swoppers. We'll get to money later.</p>
     </section>
 
+    <div class="hiw-cube"></div>
+
     <section class="hiw-section">
       <p class="hiw-heading">Your lease</p>
       <p class="hiw-body">People have acquaintances housesit all the time. A swop is similar - short stay, no money exchanged, someone you've met and vetted. Most landlords don't give it a second thought. Check your lease if you want to be sure.</p>
     </section>
+
+    <div class="hiw-cube"></div>
 
     <section class="hiw-section">
       <p class="hiw-heading">Damage</p>

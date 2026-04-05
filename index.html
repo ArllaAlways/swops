@@ -62,7 +62,11 @@
       width: 28px;
       height: 2px;
       background: #C8FF00;
-      transition: transform 0.2s, opacity 0.2s, background 0.2s;
+      transition: transform 0.2s, opacity 0.2s, background 0.3s;
+    }
+
+    .nav__burger.is-dark span {
+      background: #000;
     }
 
     .nav--dark .nav__burger span {
@@ -196,8 +200,115 @@
       to   { transform: translateX(-50%); }
     }
 
+    .ticker--split {
+      position: relative;
+      z-index: 10;
+      background: #000;
+      padding: 22px 0 20px;
+    }
+    .ticker--split .ticker__item {
+      color: #C8FF00;
+      padding-right: 0;
+    }
+
     /* ═══════════════════════════════════════
-       HERO
+       HERO — NEW (logo + statement on chartreuse)
+    ═══════════════════════════════════════ */
+    .hero-scroll {
+      position: relative;
+      height: 700vh;
+      background: #C8FF00;
+    }
+
+
+
+    .hero-new {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      background: #C8FF00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-new__logo {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: min(95vw, 1400px);
+      opacity: 0;
+      z-index: 1;
+      will-change: transform, opacity;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    .hero-new__logo.is-showing {
+      opacity: 1;
+    }
+    .hero-new__logo.is-dimmed {
+      opacity: 0.3;
+    }
+
+    .hero-new__slide {
+      position: absolute;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      transform: translateY(100%);
+      transition: transform 0.5s ease;
+      pointer-events: none;
+    }
+    .hero-new__slide.is-visible {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .hero-new__slide.is-exiting {
+      transform: translateY(-100%);
+    }
+
+    .hero-new__text {
+      position: relative;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(20px, 2.4vw, 34px);
+      color: #000;
+      text-align: center;
+      line-height: 1.6;
+      max-width: 1100px;
+      padding: 0 40px;
+    }
+
+    .hero-new__btn {
+      display: inline-block;
+      margin-top: 2em;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(16px, 1.6vw, 22px);
+      letter-spacing: 0.08em;
+      color: #C8FF00;
+      background: #000;
+      text-decoration: none;
+      padding: 0.6em 1.8em;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .hero-new__btn:hover {
+      background: #222;
+    }
+
+    @media (max-width: 768px) {
+      .hero-new__logo { width: 95vw;; }
+      .hero-new__text { font-size: clamp(18px, 5vw, 28px); padding: 0 28px; }
+    }
+
+    /* ═══════════════════════════════════════
+       HERO — OLD
     ═══════════════════════════════════════ */
     .hero {
       position: relative;
@@ -328,6 +439,43 @@
 
     .s2__headline span { display: block; }
     .s2__headline span + span { margin-top: 1.4em; }
+
+    .s2__ibis {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .s2__ibis.is-visible { opacity: 1; }
+
+    .s2__ibis-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 20% center;
+    }
+
+    .s2__ibis-img--boggle {
+      opacity: 0;
+      animation: ibis-cycle 3.5s steps(1, end) infinite;
+    }
+
+    .s2__ibis-caption {
+      position: absolute;
+      bottom: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(22px, 2.5vw, 36px);
+      color: #C8FF00;
+      text-align: center;
+      white-space: nowrap;
+      opacity: 0;
+      animation: ibis-cycle 3.5s steps(1, end) infinite;
+    }
 
     .s2__logo {
       position: absolute;
@@ -694,6 +842,173 @@
       z-index: 10;
     }
     .s7__cta:hover { background: #fff; }
+
+    /* ═══════════════════════════════════════
+       SPLIT SWOP — Girl Mask / Sauna / Man Bed
+    ═══════════════════════════════════════ */
+    .s-split {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .s-split__text {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: #C8FF00;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .s-split__text--left { left: 0; }
+    .s-split__text--right { left: 50%; }
+
+    .s-split__type {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(22px, 2.5vw, 36px);
+      color: #000;
+      line-height: 1.4;
+      letter-spacing: 0.04em;
+      text-align: center;
+      display: block;
+    }
+
+    /* ═══════════════════════════════════════
+       SLEEP CHEAP — standalone
+    ═══════════════════════════════════════ */
+    .s-sleep-cheap {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .s-sleep-cheap__img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+    }
+    .s-sleep-cheap__img:nth-child(1) { opacity: 1; animation: cycle3 1.5s steps(1, end) infinite; }
+    .s-sleep-cheap__img:nth-child(2) { animation: cycle3b 1.5s steps(1, end) infinite; }
+    .s-sleep-cheap__img:nth-child(3) { animation: cycle3c 1.5s steps(1, end) infinite; }
+
+    .s-sleep-cheap__title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(48px, 9vw, 130px);
+      color: #C8FF00;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      z-index: 4;
+    }
+
+    .s-split__headline {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(48px, 9vw, 130px);
+      color: #C8FF00;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      line-height: 0.95;
+      z-index: 4;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .s-split__type.is-typing {
+      border-right: 2px solid #000;
+      animation: split-cursor 0.6s steps(1, end) infinite;
+    }
+    .s-split__type.is-done { border-right: none; }
+    @keyframes split-cursor { 50% { border-right-color: transparent; } }
+
+    .s-split__imgs {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .s-split__imgs--right { left: 50%; }
+    .s-split__imgs--left { left: 0; }
+
+    .s-split__imgs .s-split__img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+    }
+
+    .s-split__full {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .s-split__full .s-split__img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+    }
+
+    @keyframes cycle3 {
+      0%      { opacity: 1; }
+      33.3%   { opacity: 0; }
+      100%    { opacity: 0; }
+    }
+    @keyframes cycle3b {
+      0%      { opacity: 0; }
+      33.3%   { opacity: 1; }
+      66.6%   { opacity: 0; }
+      100%    { opacity: 0; }
+    }
+    @keyframes cycle3c {
+      0%      { opacity: 0; }
+      66.6%   { opacity: 1; }
+      100%    { opacity: 1; }
+    }
+
+    .s-split__imgs.is-cycling .s-split__img:nth-child(1) { animation: cycle3 1.5s steps(1, end) 3 forwards; opacity: 1; }
+    .s-split__imgs.is-cycling .s-split__img:nth-child(2) { animation: cycle3b 1.5s steps(1, end) 3 forwards; }
+    .s-split__imgs.is-cycling .s-split__img:nth-child(3) { animation: cycle3c 1.5s steps(1, end) 3 forwards; }
+    .s-split__full.is-cycling .s-split__img:nth-child(1) { animation: cycle3 1.5s steps(1, end) 2 forwards; opacity: 1; }
+    .s-split__full.is-cycling .s-split__img:nth-child(2) { animation: cycle3b 1.5s steps(1, end) 2 forwards; }
+    .s-split__full.is-cycling .s-split__img:nth-child(3) { animation: cycle3c 1.5s steps(1, end) 2 forwards; }
+
+    @media (max-width: 768px) {
+      .s-split__text { width: 100%; height: 50%; padding: 40px 28px; }
+      .s-split__text--left { top: 0; left: 0; }
+      .s-split__text--right { top: 0; left: 0; }
+      .s-split__imgs { width: 100%; height: 50%; top: 50%; left: 0; }
+      .s-split__imgs--right { left: 0; }
+      .s-split__imgs--left { left: 0; }
+      .s-split__type { font-size: clamp(18px, 5vw, 28px); }
+    }
 
     .s7__bg--1 { background-image: url('SITE%20ASSETS/IMAGES/MAN%20BEACH%201.jpg'); background-size: cover; background-position: 58% 50%; animation: beach-1 3s steps(1, end) infinite; }
     .s7__bg--2 { background-image: url('SITE%20ASSETS/IMAGES/WOMAN%20BEACH.jpeg'); background-size: cover; background-position: 58% 50%; opacity: 0; animation: beach-2 3s steps(1, end) infinite; }
@@ -1188,10 +1503,27 @@
     .s6__title { font-size: clamp(44px, 11.5vw, 60px) !important; }
     .s6__body p { font-size: clamp(18px, 4.5vw, 21px) !important; }
     .s6__eyebrow { font-size: clamp(13px, 3.2vw, 16px) !important; }
-    .s-slummer__title { font-size: clamp(28px, 8.5vw, 55px) !important; white-space: nowrap; bottom: 130px; width: auto; }
-    .s-slummer__text { bottom: 32px; right: 28px; }
+    .s-slummer__title { font-size: clamp(28px, 8.5vw, 55px) !important; white-space: nowrap; bottom: 110px; left: 28px; width: auto; }
+    .s-slummer__text { bottom: 60px; left: 28px; right: 28px; }
   }
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1664481524589126');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1664481524589126&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -1222,41 +1554,44 @@
   <!-- ── TICKER TAPE ── -->
   <div class="ticker" role="marquee" aria-live="off">
     <div class="ticker__track">
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Mornington Peninsula &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Southside &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Southside &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Southside &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Melbourne &nbsp;&nbsp; Inner North + Southside &nbsp;&nbsp; Register now &rsaquo;</span>
     </div>
   </div>
 
-  <!-- ── HERO ── -->
+  <!-- ── HERO (OLD — kept for reuse) ══
   <section class="hero">
     <div class="hero__bg"></div>
     <div class="hero__bg2"></div>
     <div class="hero__overlay"></div>
-    <img class="hero__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-18.png" alt="SWOPS">
+    <img class="hero__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-19.png" alt="SWOPS">
     <img class="boomer-man" src="SITE%20ASSETS/IMAGES/BOOMER%20MAN.png?v=3" alt="" aria-hidden="true">
   </section>
+  ══ -->
 
-  <!-- ══ S2 — Headline ══ -->
-  <section class="s2">
-    <p class="s2__headline">
-      <span>If you rent, you already pay for a holiday house, dummy.</span>
-      <span>You just can't use it yet.</span>
-    </p>
-  </section>
+  <!-- ── HERO — Scroll-reveal logo + statements ── -->
+  <div class="hero-scroll" id="heroScroll">
+    <section class="hero-new">
+      <img class="hero-new__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-19.png" alt="SWOPS">
+      <div class="hero-new__slide hero-new__slide--1">
+        <p class="hero-new__text">If you rent, you already pay for a holiday house, dummy.<br><br>You just can&rsquo;t use it yet.</p>
+      </div>
+      <div class="hero-new__slide hero-new__slide--2">
+        <p class="hero-new__text">Swops matches RENTERS WITH RENTERS for short local breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
+      </div>
+      <div class="hero-new__slide hero-new__slide--3">
+        <p class="hero-new__text">Swops aren&rsquo;t holidays. They&rsquo;re a weekend change of scene for $0. Swopping one side of your city for the other for a couple nights is all it takes to clear your cache.</p>
+        <a href="how-it-works.html" class="hero-new__btn">How it Works</a>
+      </div>
+    </section>
+  </div>
 
-  <!-- ══ S3 — Ibis ══ -->
-  <section class="s3" id="s3-ibis">
-    <img class="s3__img" src="SITE%20ASSETS/IMAGES/IBIS-2.jpg" alt="">
-    <img class="s3__img s3__img--boggle" src="SITE%20ASSETS/IMAGES/IBIS-BOGGLE-2.jpg" alt="">
-    <p class="s3__caption">Say what now?</p>
-  </section>
-
-  <!-- ══ S4 — Black copy + CTA ══ -->
+  <!-- ══ S4 — Renters with Renters (HIDDEN — replaced by hero scroll) ══
   <section class="s4" id="s4">
     <div class="s4__inner">
-      <p>Swops matches RENTERS WITH RENTERS for short breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
+      <p>Swops matches RENTERS WITH RENTERS for short local breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. Cross-town for now. All free. All private.</p>
       <a class="s4__cta" href="how-it-works.html">How it works</a>
       <div class="s4__judge-overlay" id="judgeOverlay">
         <video class="s-juicy__video" playsinline>
@@ -1268,12 +1603,65 @@
       </div>
     </div>
   </section>
+  ══ -->
 
-  <!-- ══ S5 — Skateboarder ══ -->
-  <section class="s5">
-    <div class="s5__bg s5__bg--1"></div>
-    <div class="s5__bg s5__bg--2"></div>
-    <p class="s5__quote typewriter" data-text='"Look at me. I am the house flipper now"'></p>
+  <!-- ══ IBIS (HIDDEN — kept for reuse) ══
+  <section class="s3" id="s3-ibis">
+    <img class="s3__img" src="SITE%20ASSETS/IMAGES/IBIS-2.jpg" alt="">
+    <img class="s3__img s3__img--boggle" src="SITE%20ASSETS/IMAGES/IBIS-BOGGLE-2.jpg" alt="">
+    <p class="s3__caption" style="bottom: 10%; opacity: 1; animation: none;">If you rent, you already pay for a holiday house, dummy. You just can't use it yet.</p>
+  </section>
+  ══ -->
+
+  <!-- ── SPLIT TICKER ── -->
+  <div class="ticker ticker--split" aria-live="off">
+    <div class="ticker__track">
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+      <span class="ticker__item">A SWOP IS AS GOOD AS A HOLIDAY &nbsp;&nbsp;&bull;&nbsp;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ══ SPLIT SWOP — Girl Mask / Sauna / Man Bed ══ -->
+  <section class="s-split" id="sSplit">
+    <!-- Phase 1: text left, images right -->
+    <div class="s-split__text s-split__text--left">
+      <span class="s-split__type" id="splitType1"></span>
+    </div>
+    <div class="s-split__imgs s-split__imgs--right">
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/GIRL%20MASK%201.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/GIRL%20MASK%202.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/GIRL%20MASK%203.jpg');"></div>
+    </div>
+    <!-- Phase 2: images left, text right -->
+    <div class="s-split__imgs s-split__imgs--left">
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SAUNA-1.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SAUNA-2.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SAUNA-3.jpg');"></div>
+    </div>
+    <div class="s-split__text s-split__text--right">
+      <span class="s-split__type" id="splitType2"></span>
+    </div>
+    <!-- Phase 3: text left, shower images right -->
+    <div class="s-split__text s-split__text--left s-split__text--phase3">
+      <span class="s-split__type" id="splitType3"></span>
+    </div>
+    <div class="s-split__imgs s-split__imgs--right s-split__imgs--phase3">
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SHOWER%201.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SHOWER%202.jpg');"></div>
+      <div class="s-split__img" style="background-image: url('SITE%20ASSETS/IMAGES/SHOWER%203.jpg');"></div>
+    </div>
+  </section>
+
+  <!-- ══ SLEEP CHEAP ══ -->
+  <section class="s-sleep-cheap" id="sSleepCheap">
+    <div class="s-sleep-cheap__img" style="background-image: url('SITE%20ASSETS/IMAGES/MAN%20BED%201.jpg'); opacity: 1; animation: none;"></div>
+    <p class="s-sleep-cheap__title">SLEEP CHEAP</p>
   </section>
 
   <!-- ══ S6 — Euro Slummer ══ -->
@@ -1285,7 +1673,7 @@
         <p>Unless you&rsquo;re nepo spawn with a private stockpile of jet fuel, then Palermo is off the agenda this year.</p>
         <p>So make it a Euro Slummer instead!</p>
         <p>This King&rsquo;s Birthday weekend, trade The Pillars in a puffer jacket for a Brunswick macchiato under a scorching outdoor heater. Swop your coastal post-war pad for an inner-north worker&rsquo;s cottage and both pretend you&rsquo;re in Italy, but for $0 and no jet-lag.</p>
-        <p>Inner North &harr; Mornington swops are now open for registration.</p>
+        <p>Inner North &harr; Southside swops are now open for registration.</p>
         <p>Places are limited. Registration closes May 9.</p>
       </div>
       <a class="s6__cta" href="register.html">Register interest</a>
@@ -1305,13 +1693,14 @@
     </div>
   </section>
 
-  <!-- ══ S7 — Beach sequence ══ -->
+  <!-- ══ S7 — Beach sequence (HIDDEN — kept for reuse) ══
   <section class="s7">
     <div class="s7__bg s7__bg--1"></div>
     <div class="s7__bg s7__bg--2"></div>
     <div class="s7__bg s7__bg--3"></div>
     <p class="typewriter" data-text="Let your rent take you places." style="font-size: clamp(22px, 2.5vw, 36px);"></p>
   </section>
+  ══ -->
 
 
 
@@ -1425,15 +1814,30 @@
       <span>Australian housing is rigged against renters.</span>
       <span>Let&rsquo;s at least get some free accom out of it.</span>
     </p>
-    <img class="s2__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-17.png" alt="SWOPS">
+    <img class="s2__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-19.png" alt="SWOPS">
   </section>
 
+  <!-- ══ S5 — Skateboarder (HIDDEN — cut for launch) ══
+  <section class="s5">
+    <div class="s5__bg s5__bg--1"></div>
+    <div class="s5__bg s5__bg--2"></div>
+    <p class="s5__quote typewriter" data-text='"Look at me. I am the house flipper now"'></p>
+  </section>
+  ══ -->
 
+  <!-- ══ CHARTREUSE — Holiday House (HIDDEN — now in hero scroll) ══
+  <section class="s2">
+    <p class="s2__headline">
+      <span>If you rent, you already pay for a holiday house, dummy.</span>
+      <span>You just can't use it yet.</span>
+    </p>
+  </section>
+  ══ -->
 
   <!-- ══ MELBOURNE DOG ══ -->
   <section class="s-slummer">
     <div class="s-slummer__bg" style="background-image: url('SITE%20ASSETS/IMAGES/MELBOURNE%20DOG.jpeg'); background-position: center 40%;"></div>
-    <p class="typewriter" data-text="Give me a break." style="font-size: clamp(22px, 2.5vw, 36px);"></p>
+    <p class="typewriter" data-text='"Look at me. I am the house flipper now."' style="font-size: clamp(22px, 2.5vw, 36px);"></p>
   </section>
 
   <footer style="background:#C8FF00; padding: clamp(32px,4vw,56px) 0; text-align:center; display:flex; flex-direction:column; gap:12px;">
@@ -1562,6 +1966,138 @@
 
 
 
+    // ── S2 IBIS REACTION ──
+    (function() {
+      const s2 = document.getElementById('s2-ibis');
+      if (!s2) return;
+      const ibis = s2.querySelector('.s2__ibis');
+      let triggered = false;
+
+      const s2Obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !triggered) {
+            triggered = true;
+            setTimeout(function() {
+              ibis.classList.add('is-visible');
+              setTimeout(function() {
+                ibis.classList.remove('is-visible');
+              }, 3000);
+            }, 4000);
+          }
+        });
+      }, { threshold: 0.5 });
+
+      s2Obs.observe(s2);
+    })();
+
+    // ── SPLIT SWOP SECTION ──
+    (function() {
+      const section = document.getElementById('sSplit');
+      if (!section) return;
+
+      const textL = section.querySelector('.s-split__text--left');
+      const textR = section.querySelector('.s-split__text--right');
+      const imgsR = section.querySelector('.s-split__imgs--right');
+      const imgsL = section.querySelector('.s-split__imgs--left');
+      const type1 = document.getElementById('splitType1');
+      const type2 = document.getElementById('splitType2');
+      const type3 = document.getElementById('splitType3');
+      const textL3 = section.querySelector('.s-split__text--phase3');
+      const imgsR3 = section.querySelector('.s-split__imgs--phase3');
+
+      const text1 = 'A lounge room swop|is as good as a holiday.';
+      const text2 = 'A local sauna swop|is as good as a holiday.';
+      const text3 = 'A water pressure swop|is as good as a holiday.';
+      let started = false;
+
+      function typeText(el, text, cb) {
+        let i = 0;
+        el.innerHTML = '';
+        el.classList.add('is-typing');
+        el.classList.remove('is-done');
+        function step() {
+          if (i < text.length) {
+            var ch = text[i++];
+            if (ch === '|') { el.innerHTML += '<br>'; }
+            else { el.innerHTML += ch; }
+            setTimeout(step, 55);
+          } else {
+            el.classList.remove('is-typing');
+            el.classList.add('is-done');
+            if (cb) setTimeout(cb, 800);
+          }
+        }
+        step();
+      }
+
+      function runSequence() {
+        // Phase 1: text left, girl mask right — 4.5s total
+        textL.style.opacity = '1';
+        imgsR.style.opacity = '1';
+        imgsR.classList.add('is-cycling');
+
+        typeText(type1, text1, function() {
+          // Wait for 4 full image cycles (6s total from phase start)
+          var typeTime = text1.length * 55 + 800;
+          var remaining = 4500 - typeTime;
+          setTimeout(function() {
+            // Phase 2: hide phase 1, show sauna left + text right
+            textL.style.opacity = '0';
+            imgsR.style.opacity = '0';
+            imgsR.classList.remove('is-cycling');
+            type1.classList.remove('is-typing', 'is-done');
+
+            imgsL.style.opacity = '1';
+            textR.style.opacity = '1';
+            imgsL.classList.add('is-cycling');
+
+            typeText(type2, text2, function() {
+              var typeTime2 = text2.length * 55 + 800;
+              var remaining2 = 4500 - typeTime2;
+              setTimeout(function() {
+                // Phase 3: text left, shower right
+                textR.style.opacity = '0';
+                imgsL.style.opacity = '0';
+                imgsL.classList.remove('is-cycling');
+                type2.classList.remove('is-typing', 'is-done');
+
+                textL3.style.opacity = '1';
+                imgsR3.style.opacity = '1';
+                imgsR3.classList.add('is-cycling');
+
+                typeText(type3, text3, function() {
+                  var typeTime3 = text3.length * 55 + 800;
+                  var remaining3 = 4500 - typeTime3;
+                  setTimeout(function() {
+                    // Reset and loop
+                    textL3.style.opacity = '0';
+                    imgsR3.style.opacity = '0';
+                    imgsR3.classList.remove('is-cycling');
+                    type3.classList.remove('is-typing', 'is-done');
+                    type1.innerHTML = '';
+                    type2.innerHTML = '';
+                    type3.innerHTML = '';
+                    runSequence();
+                  }, Math.max(remaining3, 0));
+                });
+              }, Math.max(remaining2, 0));
+            });
+          }, Math.max(remaining, 0));
+        });
+      }
+
+      const splitObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !started) {
+            started = true;
+            runSequence();
+          }
+        });
+      }, { threshold: 0.3 });
+
+      splitObs.observe(section);
+    })();
+
     // ── BURGER COLOUR ON LIME SECTIONS ──
     const navEl = document.querySelector('.nav');
     const limeSections = document.querySelectorAll('.s2, .s4__inner, .s6, .s10:not(.s10--dark)');
@@ -1589,6 +2125,179 @@
       boomerImg.addEventListener('error', startHero);
     }
   </script>
+
+<script>
+/* ── Hero scroll-reveal ── */
+(function() {
+  const wrap = document.getElementById('heroScroll');
+  if (!wrap) return;
+  const logo = wrap.querySelector('.hero-new__logo');
+  const slide1 = wrap.querySelector('.hero-new__slide--1');
+  const slide2 = wrap.querySelector('.hero-new__slide--2');
+  const slide3 = wrap.querySelector('.hero-new__slide--3');
+  const burger = document.querySelector('.nav__burger');
+
+  function setState(sl, state) {
+    sl.classList.remove('is-visible', 'is-exiting');
+    if (state) sl.classList.add(state);
+  }
+
+  function onScroll() {
+    const rect = wrap.getBoundingClientRect();
+    const scrolled = -rect.top;
+    const vh = window.innerHeight;
+    var inZone = rect.top <= vh && rect.bottom >= 0;
+
+    if (!inZone) {
+      logo.classList.remove('is-showing', 'is-dimmed');
+      setState(slide1, null); setState(slide2, null); setState(slide3, null);
+      if (burger) burger.classList.remove('is-dark');
+      return;
+    }
+    if (burger) burger.classList.add('is-dark');
+
+    logo.classList.add('is-showing');
+
+    if (scrolled < vh * 0.8) {
+      logo.classList.remove('is-dimmed');
+      setState(slide1, null); setState(slide2, null); setState(slide3, null);
+    } else if (scrolled < vh * 2.2) {
+      logo.classList.add('is-dimmed');
+      setState(slide1, 'is-visible'); setState(slide2, null); setState(slide3, null);
+    } else if (scrolled < vh * 2.4) {
+      logo.classList.add('is-dimmed');
+      setState(slide1, 'is-exiting'); setState(slide2, null); setState(slide3, null);
+    } else if (scrolled < vh * 3.8) {
+      logo.classList.add('is-dimmed');
+      setState(slide1, 'is-exiting'); setState(slide2, 'is-visible'); setState(slide3, null);
+    } else if (scrolled < vh * 4.0) {
+      logo.classList.add('is-dimmed');
+      setState(slide1, 'is-exiting'); setState(slide2, 'is-exiting'); setState(slide3, null);
+    } else {
+      logo.classList.add('is-dimmed');
+      setState(slide1, 'is-exiting'); setState(slide2, 'is-exiting'); setState(slide3, 'is-visible');
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+<!-- Three.js floating 3D objects -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script>
+(function() {
+  var canvas = document.createElement('canvas');
+  canvas.id = 'floating3d';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:50;';
+  document.body.appendChild(canvas);
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.z = 12;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+  var dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  dirLight.position.set(5, 8, 5);
+  scene.add(dirLight);
+  var backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+  backLight.position.set(-3, -2, -5);
+  scene.add(backLight);
+
+  var floaters = [];
+  var loader = new THREE.GLTFLoader();
+  var basePath = 'SITE%20ASSETS/IMAGES/3D%20ASSETS/';
+
+  var slots = [
+    { model: 'boiling_water_tap/scene.gltf', x: -5, yStart: 8, yEnd: -8, scale: 2.0, rotSpeed: 0.3, scrollStart: 0, scrollEnd: 0.25 },
+    { model: 'shower_high_poly/scene.gltf', x: 5, yStart: 8, yEnd: -8, scale: 2.0, rotSpeed: -0.2, scrollStart: 0.12, scrollEnd: 0.4 },
+    { model: 'boiling_water_tap/scene.gltf', x: -4, yStart: 8, yEnd: -8, scale: 1.5, rotSpeed: 0.4, scrollStart: 0.3, scrollEnd: 0.55 },
+    { model: 'shower_high_poly/scene.gltf', x: 5.5, yStart: 8, yEnd: -8, scale: 1.5, rotSpeed: -0.3, scrollStart: 0.45, scrollEnd: 0.7 },
+    { model: 'boiling_water_tap/scene.gltf', x: -5.5, yStart: 8, yEnd: -8, scale: 1.8, rotSpeed: 0.25, scrollStart: 0.6, scrollEnd: 0.85 },
+  ];
+
+  slots.forEach(function(slot, i) {
+    loader.load(basePath + slot.model, function(gltf) {
+      var obj = gltf.scene;
+      // Make all materials black/dark
+      obj.traverse(function(child) {
+        if (child.isMesh && child.material) {
+          child.material = new THREE.MeshStandardMaterial({
+            color: 0x111111,
+            roughness: 0.3,
+            metalness: 0.7,
+            transparent: true,
+            opacity: 1
+          });
+        }
+      });
+      // Normalize scale based on bounding box
+      var box = new THREE.Box3().setFromObject(obj);
+      var size = new THREE.Vector3();
+      box.getSize(size);
+      var maxDim = Math.max(size.x, size.y, size.z);
+      var normScale = slot.scale / maxDim;
+      obj.scale.setScalar(normScale);
+      obj.visible = false;
+      scene.add(obj);
+      floaters[i] = { obj: obj, slot: slot };
+    }, undefined, function(err) {
+      console.warn('Failed to load 3D model:', slot.model, err);
+    });
+  });
+
+  function docH() { return document.documentElement.scrollHeight - window.innerHeight; }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    var scrollPct = window.scrollY / docH();
+    var time = performance.now() * 0.001;
+
+    floaters.forEach(function(f) {
+      if (!f) return;
+      var obj = f.obj, slot = f.slot;
+      var localPct = (scrollPct - slot.scrollStart) / (slot.scrollEnd - slot.scrollStart);
+
+      if (localPct < -0.05 || localPct > 1.05) {
+        obj.visible = false;
+        return;
+      }
+
+      obj.visible = true;
+      var fadeIn = Math.min(localPct / 0.12, 1);
+      var fadeOut = Math.min((1 - localPct) / 0.12, 1);
+      var opacity = Math.max(0, Math.min(1, Math.min(fadeIn, fadeOut)));
+
+      obj.traverse(function(child) {
+        if (child.isMesh && child.material) {
+          child.material.opacity = opacity;
+        }
+      });
+
+      obj.position.x = slot.x + Math.sin(time * 0.5 + slot.x) * 0.3;
+      obj.position.y = slot.yStart + (slot.yEnd - slot.yStart) * localPct + Math.sin(time * 0.7 + slot.x) * 0.2;
+      obj.rotation.y = time * slot.rotSpeed;
+      obj.rotation.x = Math.sin(time * 0.3) * 0.15;
+    });
+
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', function() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
+</script>
 
 </body>
 </html>
