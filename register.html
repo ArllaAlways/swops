@@ -240,6 +240,23 @@
     }
 
   </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '1664481524589126');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1664481524589126&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -300,6 +317,8 @@
         </select>
       </div>
 
+      <!-- Removed: "How many people in your place" — caused confusion about room vs whole-house swaps -->
+      <!--
       <div class="register__field">
         <label class="register__label" for="f-people">How many people in your place</label>
         <select class="register__select placeholder" id="f-people" name="people" required onchange="this.classList.remove('placeholder')">
@@ -310,6 +329,7 @@
           <option>4+</option>
         </select>
       </div>
+      -->
 
       <div class="register__field">
         <label class="register__label" for="f-rating">Rate your place</label>
@@ -382,6 +402,7 @@
       const data = new FormData(form);
       fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(data).toString() })
         .then(() => {
+          fbq('track', 'Lead');
           form.style.display = 'none';
           success.style.display = 'block';
         })
