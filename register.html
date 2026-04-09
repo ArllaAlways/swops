@@ -461,6 +461,31 @@
     });
 
     // ── FORM ──
+    var GOOGLE_UPLOAD_URL = 'https://script.google.com/macros/s/AKfycbwJeRuiltimA2TWqkGrdI5j85HHQX2rTF8d9R-B8_ol7hr4k97adhM4GcQFwSf2NXmxHg/exec';
+
+    function fileToBase64(file) {
+      return new Promise(function(resolve) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var base64 = e.target.result.split(',')[1];
+          resolve({ data: base64, type: file.type, filename: file.name });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function uploadPhotosToDrive(name, email, photos) {
+      if (!photos || photos.length === 0) return Promise.resolve();
+      return Promise.all(photos.map(fileToBase64)).then(function(encoded) {
+        return fetch(GOOGLE_UPLOAD_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: name, email: email, photos: encoded })
+        });
+      });
+    }
+
     const form = document.getElementById('swopsForm');
     const success = document.getElementById('swopsSuccess');
     form.addEventListener('submit', function(e) {
@@ -478,12 +503,14 @@
         alert('Please fill in your ' + missing.join(', ') + ' before registering.');
         return;
       }
+      // Send text fields to Netlify
       const data = new FormData(form);
       data.delete('photos');
-      compressedPhotos.forEach(function(file, i) {
-        data.append('photo_' + (i + 1), file, file.name);
-      });
-      fetch('/', { method: 'POST', body: data })
+      var netlifySubmit = fetch('/', { method: 'POST', body: data });
+      // Send photos to Google Drive (separate, non-blocking)
+      var driveUpload = uploadPhotosToDrive(name, email, compressedPhotos);
+      // Wait for Netlify (primary), Drive upload is best-effort
+      Promise.all([netlifySubmit, driveUpload.catch(function(err) { console.warn('Drive upload failed:', err); })])
         .then(() => {
           fbq('track', 'Lead');
           form.style.display = 'none';
