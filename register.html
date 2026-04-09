@@ -279,6 +279,10 @@
     <p class="register__heading">Register interest and find out more</p>
     <p class="register__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
     <form class="register__form" id="swopsForm" name="registration" netlify action="/success" enctype="multipart/form-data" novalidate>
+      <input type="hidden" name="form-name" value="registration">
+      <input type="file" name="photo_1" style="display:none">
+      <input type="file" name="photo_2" style="display:none">
+      <input type="file" name="photo_3" style="display:none">
 
       <div class="register__field">
         <label class="register__label" for="f-name">First name</label>
@@ -369,7 +373,7 @@
 
       <div class="register__field">
         <label class="register__label" for="f-song">If this house had a song</label>
-        <input class="register__input" id="f-song" name="song" type="text" placeholder="Artist - Song title">
+        <input class="register__input" id="f-song" name="song" type="text" placeholder="e.g. Solange - Cranes in the Sky">
       </div>
 
       <div class="register__field">
@@ -483,11 +487,13 @@
         .then(() => {
           fbq('track', 'Lead');
           form.style.display = 'none';
+          document.querySelector('.register__heading').style.display = 'none';
+          document.querySelector('.register__subheading').style.display = 'none';
           success.style.display = 'block';
         })
-        .catch(() => {
-          form.style.display = 'none';
-          success.style.display = 'block';
+        .catch((err) => {
+          console.error('Form submission error:', err);
+          alert('Something went wrong submitting the form. Please try again or email us at hello@swops.it');
         });
     });
   </script>

@@ -1555,10 +1555,10 @@
   <!-- ── TICKER TAPE ── -->
   <div class="ticker" role="marquee" aria-live="off">
     <div class="ticker__track">
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Victoria &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Victoria &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Victoria &nbsp;&nbsp; Register now &rsaquo;</span>
-      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Victoria &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Sydney + Melbourne &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Sydney + Melbourne &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Sydney + Melbourne &nbsp;&nbsp; Register now &rsaquo;</span>
+      <span class="ticker__item">Euro Slummer &nbsp;&nbsp; Kings Birthday long weekend 6&thinsp;-&thinsp;8 June 2026 &nbsp;&nbsp; Sydney + Melbourne &nbsp;&nbsp; Register now &rsaquo;</span>
     </div>
   </div>
 
@@ -1583,7 +1583,7 @@
         <p class="hero-new__text">Swops matches RENTERS WITH RENTERS for short local breaks in each other&rsquo;s homes. You stay in their place while they stay in yours. All free. All private.</p>
       </div>
       <div class="hero-new__slide hero-new__slide--3">
-        <p class="hero-new__text">Swops are a change of scene for $0. Swopping from one side of your city to the other for a weekend is all it takes to clear your cache and make the most of your rent.</p>
+        <p class="hero-new__text">Swops are a change of scene for $0. Swopping your rental for one in a different neighbourhood for a weekend is all it takes to clear your cache and make the most of your rent.</p>
         <a href="how-it-works.html" class="hero-new__btn">How it Works</a>
       </div>
     </section>
@@ -1668,13 +1668,13 @@
   <!-- ══ S6 — Euro Slummer ══ -->
   <section class="s6">
     <div class="s6__content">
-      <p class="s6__eyebrow">Kings Birthday Weekend &middot; 6&ndash;8 June 2026 &middot; Victoria</p>
+      <p class="s6__eyebrow">Kings Birthday Weekend &middot; 6&ndash;8 June 2026 &middot; Sydney + Melbourne</p>
       <p class="s6__title">Euro<br>Slummer</p>
       <div class="s6__body">
         <p>Unless you&rsquo;re nepo spawn with a private stockpile of jet fuel, then Palermo is off the agenda this year.</p>
         <p>So make it a Euro Slummer instead!</p>
         <p>This King&rsquo;s Birthday weekend, swop your place for somewhere new. City for coast, suburbs for country, one side of town for the other. Both pretend you&rsquo;re in Italy, but for $0 and no jet-lag.</p>
-        <p>Victorian swops are now open for registration.</p>
+        <p>Swops are now open in Sydney and Melbourne.</p>
         <p>Places are limited. Registration closes May 9.</p>
       </div>
       <a class="s6__cta" href="register.html">Register interest</a>
@@ -2210,13 +2210,16 @@
   var camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
   camera.position.z = 12;
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-  var dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+  var dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
   dirLight.position.set(5, 8, 5);
   scene.add(dirLight);
-  var backLight = new THREE.DirectionalLight(0xffffff, 0.3);
+  var backLight = new THREE.DirectionalLight(0xffffff, 0.6);
   backLight.position.set(-3, -2, -5);
   scene.add(backLight);
+  var fillLight = new THREE.DirectionalLight(0xffffff, 0.5);
+  fillLight.position.set(-5, 3, 8);
+  scene.add(fillLight);
 
   var floaters = [];
   var loader = new THREE.GLTFLoader();
@@ -2231,24 +2234,23 @@
   var heroEnd = getHeroEnd();
   var slots = [
     { model: 'compostable_burger_box/scene.gltf', x: -7, yStart: 6, yEnd: -6, scale: 2.0, rotSpeed: 0.2, tiltX: 0.4, scrollStart: heroEnd * 0.08, scrollEnd: heroEnd * 0.38 },
-    { model: 'rock_stone/scene.gltf', x: 7, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: -0.15, tiltX: 0, scrollStart: heroEnd * 0.25, scrollEnd: heroEnd * 0.58 },
-    { model: 'face_mask/scene.gltf', x: -7.5, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: 0.2, tiltX: 0, scrollStart: heroEnd * 0.48, scrollEnd: heroEnd * 0.78 },
+    { model: 'moka_pot_coffee_maker/scene.gltf', x: 7, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: -0.15, tiltX: 0.3, scrollStart: heroEnd * 0.25, scrollEnd: heroEnd * 0.58 },
+    { model: 'red_rose/scene.gltf', x: -7.5, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: 0.2, tiltX: 0.6, scrollStart: heroEnd * 0.48, scrollEnd: heroEnd * 0.78 },
     { model: 'ravioli/scene.gltf', x: 7.5, yStart: 6, yEnd: -6, scale: 1.8, rotSpeed: -0.2, tiltX: 0, scrollStart: heroEnd * 0.60, scrollEnd: heroEnd * 0.85 },
   ];
 
   slots.forEach(function(slot, i) {
     loader.load(basePath + slot.model, function(gltf) {
       var obj = gltf.scene;
-      // Make all materials black/dark
       obj.traverse(function(child) {
         if (child.isMesh && child.material) {
-          child.material = new THREE.MeshStandardMaterial({
-            color: 0xcccccc,
-            roughness: 0.15,
-            metalness: 0.9,
-            transparent: true,
-            opacity: 1
-          });
+          child.material.transparent = true;
+          child.material.opacity = 1;
+          // Brighten dark metallic materials (like the moka pot)
+          if (child.material.metalness > 0.5) {
+            child.material.metalness = Math.min(child.material.metalness, 0.4);
+            child.material.roughness = Math.max(child.material.roughness, 0.5);
+          }
         }
       });
       // Normalize scale based on bounding box
@@ -2322,7 +2324,8 @@
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
--->
+})();
+</script>
 
 </body>
 </html>
