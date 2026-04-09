@@ -278,8 +278,12 @@
 
     <p class="register__heading">Register interest and find out more</p>
     <p class="register__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
-    <form class="register__form" id="swopsForm" name="registration" netlify action="/success" novalidate>
+    <form class="register__form" id="swopsForm" name="registration" netlify netlify-honeypot="bot-field" action="/success" novalidate>
       <input type="hidden" name="form-name" value="registration">
+      <!-- Honeypot field: hidden from humans, catches bots, tells Netlify this is NOT spam -->
+      <p class="register__field" style="display:none!important" aria-hidden="true">
+        <label>Don't fill this out: <input name="bot-field"></label>
+      </p>
 
       <div class="register__field">
         <label class="register__label" for="f-name">First name</label>
@@ -471,15 +475,25 @@
       });
     }
 
-    function uploadPhotosToDrive(name, email, photos) {
-      if (!photos || photos.length === 0) return Promise.resolve();
-      return Promise.all(photos.map(fileToBase64)).then(function(encoded) {
-        return fetch(GOOGLE_UPLOAD_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: name, email: email, photos: encoded })
+    // Send ALL form data + photos to Google Apps Script (backup data store)
+    function sendToAppsScript(formFields, photos) {
+      var payload = Object.assign({}, formFields);
+      if (photos && photos.length > 0) {
+        return Promise.all(photos.map(fileToBase64)).then(function(encoded) {
+          payload.photos = encoded;
+          return fetch(GOOGLE_UPLOAD_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+          });
         });
+      }
+      return fetch(GOOGLE_UPLOAD_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
       });
     }
 
@@ -503,11 +517,31 @@
       // Disable button immediately so they can't double-tap
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
-      // Send text fields to Netlify (remove empty file inputs that break Netlify)
+
+      // Collect all form fields for Apps Script backup
+      var formFields = {
+        name: name,
+        email: email,
+        phone: form.querySelector('[name="phone"]').value.trim(),
+        address: address,
+        suburb: suburb,
+        'house-type': form.querySelector('[name="house-type"]').value,
+        bedrooms: form.querySelector('[name="bedrooms"]').value,
+        rating: form.querySelector('[name="rating"]').value,
+        'best-thing': form.querySelector('[name="best-thing"]').value.trim(),
+        pets: form.querySelector('[name="pets"]').value.trim(),
+        parking: form.querySelector('[name="parking"]').value,
+        song: form.querySelector('[name="song"]').value.trim(),
+        'walk-to': form.querySelector('[name="walk-to"]').value.trim(),
+        questions: form.querySelector('[name="questions"]').value.trim()
+      };
+
+      // Send to Netlify (primary)
       const data = new FormData(form);
       data.delete('photo_1');
       data.delete('photo_2');
       data.delete('photo_3');
+      data.delete('bot-field');
       fetch('/', { method: 'POST', body: data })
         .then(function(response) {
           if (!response.ok) throw new Error('Server returned ' + response.status);
@@ -518,15 +552,27 @@
           document.querySelector('.register__heading').style.display = 'none';
           document.querySelector('.register__subheading').style.display = 'none';
           success.style.display = 'block';
-          // Fire-and-forget: upload photos to Google Drive in background
-          uploadPhotosToDrive(name, email, compressedPhotos).catch(function(err) {
-            console.warn('Drive upload failed:', err);
+          // Fire-and-forget: send ALL data + photos to Google Apps Script as backup
+          sendToAppsScript(formFields, compressedPhotos).catch(function(err) {
+            console.warn('Apps Script backup failed:', err);
           });
         })
         .catch((err) => {
-          console.error('Form submission error:', err);
-          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "I'm in"; }
-          alert('Something went wrong submitting the form. Please try again or email us at hello@swops.it');
+          console.error('Netlify submission error:', err);
+          // Netlify failed — try Apps Script as fallback, THEN show success
+          sendToAppsScript(formFields, compressedPhotos)
+            .then(function() {
+              fbq('track', 'Lead');
+              form.style.display = 'none';
+              document.querySelector('.register__heading').style.display = 'none';
+              document.querySelector('.register__subheading').style.display = 'none';
+              success.style.display = 'block';
+            })
+            .catch(function(err2) {
+              console.error('Both submissions failed:', err2);
+              if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "I'm in"; }
+              alert('Something went wrong submitting the form. Please try again or email us at hello@swops.it');
+            });
         });
     });
   </script>
