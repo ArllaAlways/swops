@@ -503,23 +503,27 @@
         alert('Please fill in your ' + missing.join(', ') + ' before registering.');
         return;
       }
+      // Disable button immediately so they can't double-tap
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
       // Send text fields to Netlify
       const data = new FormData(form);
       data.delete('photos');
-      var netlifySubmit = fetch('/', { method: 'POST', body: data });
-      // Send photos to Google Drive (separate, non-blocking)
-      var driveUpload = uploadPhotosToDrive(name, email, compressedPhotos);
-      // Wait for Netlify (primary), Drive upload is best-effort
-      Promise.all([netlifySubmit, driveUpload.catch(function(err) { console.warn('Drive upload failed:', err); })])
+      fetch('/', { method: 'POST', body: data })
         .then(() => {
           fbq('track', 'Lead');
           form.style.display = 'none';
           document.querySelector('.register__heading').style.display = 'none';
           document.querySelector('.register__subheading').style.display = 'none';
           success.style.display = 'block';
+          // Fire-and-forget: upload photos to Google Drive in background
+          uploadPhotosToDrive(name, email, compressedPhotos).catch(function(err) {
+            console.warn('Drive upload failed:', err);
+          });
         })
         .catch((err) => {
           console.error('Form submission error:', err);
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "I'm in"; }
           alert('Something went wrong submitting the form. Please try again or email us at hello@swops.it');
         });
     });
