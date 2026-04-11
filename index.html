@@ -277,6 +277,7 @@
 
     .hero-new__text {
       position: relative;
+      z-index: 10;
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(20px, 2.4vw, 34px);
       color: #000;
@@ -1575,6 +1576,7 @@
   <!-- ── HERO — Scroll-reveal logo + statements ── -->
   <div class="hero-scroll" id="heroScroll">
     <section class="hero-new">
+      <div id="video-floater-anchor" style="position:absolute;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none;overflow:visible;"></div>
       <img class="hero-new__logo" src="SITE%20ASSETS/WORDMARK/%20SWOPS-GREEN-19.png" alt="SWOPS">
       <div class="hero-new__slide hero-new__slide--1">
         <p class="hero-new__text">If you rent, you already pay for a holiday house, dummy.<br><br>You just can&rsquo;t use it yet.</p>
@@ -2199,7 +2201,12 @@
   var canvas = document.createElement('canvas');
   canvas.id = 'floating3d';
   canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;';
-  document.body.appendChild(canvas);
+  var heroContainer = document.querySelector('.hero-new');
+  if (heroContainer) {
+    heroContainer.appendChild(canvas);
+  } else {
+    document.body.appendChild(canvas);
+  }
 
   var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -2225,18 +2232,12 @@
   var loader = new THREE.GLTFLoader();
   var basePath = 'SITE%20ASSETS/IMAGES/3D%20ASSETS/';
 
-  // Calculate hero section as percentage of total page
-  function getHeroEnd() {
-    var heroEl = document.getElementById('heroScroll');
-    if (!heroEl) return 0.5;
-    return (heroEl.offsetTop + heroEl.offsetHeight) / (document.documentElement.scrollHeight - window.innerHeight);
-  }
-  var heroEnd = getHeroEnd();
+  // 3D objects tied to text sections (vh-based, matching slide timing)
+  // Section 1: burger box (left) — slide1 0.8-2.2vh
+  // Section 2: coffee pot (right) — slide2 2.4-3.8vh
   var slots = [
-    { model: 'compostable_burger_box/scene.gltf', x: -7, yStart: 6, yEnd: -6, scale: 2.0, rotSpeed: 0.2, tiltX: 0.4, scrollStart: heroEnd * 0.08, scrollEnd: heroEnd * 0.38 },
-    { model: 'moka_pot_coffee_maker/scene.gltf', x: 7, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: -0.15, tiltX: 0.3, scrollStart: heroEnd * 0.25, scrollEnd: heroEnd * 0.58 },
-    { model: 'red_rose/scene.gltf', x: -7.5, yStart: 6, yEnd: -6, scale: 1.5, rotSpeed: 0.2, tiltX: 0.6, scrollStart: heroEnd * 0.48, scrollEnd: heroEnd * 0.78 },
-    { model: 'ravioli/scene.gltf', x: 7.5, yStart: 6, yEnd: -6, scale: 1.8, rotSpeed: -0.2, tiltX: 0, scrollStart: heroEnd * 0.60, scrollEnd: heroEnd * 0.85 },
+    { model: 'compostable_burger_box/scene.gltf', x: -6, yStart: 5, yEnd: -5, scale: 2.0, rotSpeed: 0.2, tiltX: 0.4, showStartVh: 0.8, showEndVh: 2.4 },
+    { model: 'moka_pot_coffee_maker/scene.gltf', x: 6, yStart: 5, yEnd: -5, scale: 1.8, rotSpeed: -0.15, tiltX: 0.3, showStartVh: 2.4, showEndVh: 4.0 },
   ];
 
   slots.forEach(function(slot, i) {
@@ -2268,8 +2269,6 @@
     });
   });
 
-  function docH() { return document.documentElement.scrollHeight - window.innerHeight; }
-
   var heroSection = document.getElementById('heroScroll');
 
   function animate() {
@@ -2285,13 +2284,15 @@
       }
     }
 
-    var scrollPct = window.scrollY / docH();
+    var vh = window.innerHeight;
+    var rect = heroSection.getBoundingClientRect();
+    var scrolledVh = -rect.top / vh;
     var time = performance.now() * 0.001;
 
     floaters.forEach(function(f) {
       if (!f) return;
       var obj = f.obj, slot = f.slot;
-      var localPct = (scrollPct - slot.scrollStart) / (slot.scrollEnd - slot.scrollStart);
+      var localPct = (scrolledVh - slot.showStartVh) / (slot.showEndVh - slot.showStartVh);
 
       if (localPct < -0.05 || localPct > 1.05) {
         obj.visible = false;
@@ -2309,8 +2310,23 @@
         }
       });
 
-      obj.position.x = slot.x + Math.sin(time * 0.5 + slot.x) * 0.3;
-      obj.position.y = slot.yStart + (slot.yEnd - slot.yStart) * localPct + Math.sin(time * 0.7 + slot.x) * 0.2;
+      var baseX;
+      if (slot.diagonal) {
+        // Gentle diagonal drift with layered sine curves so it feels organic
+        var drift = localPct; // 0 to 1 over scroll range
+        baseX = slot.xStart + (slot.xEnd - slot.xStart) * drift
+              + Math.sin(drift * Math.PI * 1.5) * 3
+              + Math.sin(time * 0.2) * 1.5
+              + Math.sin(time * 0.13 + 1.7) * 1.0;
+      } else {
+        baseX = slot.x;
+      }
+      obj.position.x = baseX + Math.sin(time * 0.5 + (slot.x || 0)) * 0.3;
+      var baseY = slot.yStart + (slot.yEnd - slot.yStart) * localPct;
+      if (slot.diagonal) {
+        baseY += Math.sin(time * 0.18 + 2.3) * 1.2 + Math.sin(time * 0.11 + 0.5) * 0.8;
+      }
+      obj.position.y = baseY + Math.sin(time * 0.7 + (slot.x || 0)) * 0.2;
       obj.rotation.y = time * slot.rotSpeed;
       obj.rotation.x = (slot.tiltX || 0) + Math.sin(time * 0.3) * 0.15;
     });
@@ -2324,6 +2340,114 @@
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
+})();
+</script>
+
+<!-- Floating elements -->
+<script>
+(function() {
+  var heroSection = document.getElementById('heroScroll');
+  if (!heroSection) return;
+
+  // Each floater is tied to a text section so only 2-3 are visible at once
+  // Text slides: slide1 0.8-2.2vh, slide2 2.4-3.8vh, slide3 4.0vh+
+  var floatItems = [
+    // Section 1: rose (right side) — burger box is handled by 3D system
+    { src: 'SITE%20ASSETS/IMAGES/3D%20ASSETS/rose.webm', xPct: 65, yPct: 15, showStart: 0.8, showEnd: 2.4, noFadeOut: true, type: 'video', bobSpeed: 0.8, phase: 0, width: 'clamp(150px,18vw,240px)', wanderScale: 2.2 },
+    // Section 2: dancing woman (left) — coffee pot (right) handled by 3D system
+    { src: 'SITE%20ASSETS/IMAGES/3D%20ASSETS/girl-dancing.webm', xPct: 8, yPct: 25, showStart: 2.4, showEnd: 4.0, type: 'video', bobSpeed: 0.6, phase: 1.2 },
+    // Section 3: dancing doll (right) + basketball (left)
+    { src: 'SITE%20ASSETS/IMAGES/3D%20ASSETS/dancing-doll.webm', xPct: 72, yPct: 20, showStart: 4.0, showEnd: 6.5, type: 'video', bobSpeed: 0.7, phase: 3.8 },
+    { src: 'SITE%20ASSETS/IMAGES/3D%20ASSETS/basketball.webm', xPct: 10, yPct: 30, showStart: 4.2, showEnd: 6.5, type: 'video', bobSpeed: 0.65, phase: 0.5, width: 'clamp(100px,12vw,160px)' }
+  ];
+
+  var heroNewEl = document.querySelector('.hero-new');
+
+  floatItems.forEach(function(item) {
+    var container = document.createElement('div');
+    container.style.cssText = 'position:absolute;pointer-events:none;width:' + (item.width || 'clamp(120px,15vw,200px)') + ';opacity:0;z-index:1;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.15));left:' + item.xPct + '%;top:' + item.yPct + '%;';
+
+    var media;
+    if (item.type === 'video') {
+      media = document.createElement('video');
+      media.src = item.src;
+      media.autoplay = true;
+      media.loop = true;
+      media.muted = true;
+      media.playsInline = true;
+      media.setAttribute('playsinline', '');
+      media.setAttribute('webkit-playsinline', '');
+    } else {
+      media = document.createElement('img');
+      media.src = item.src;
+    }
+    media.style.cssText = 'width:100%;display:block;';
+    container.appendChild(media);
+    heroNewEl.appendChild(container);
+    item.el = container;
+  });
+
+  function animate(time) {
+    var t = time * 0.001; // seconds
+    var vh = window.innerHeight;
+    var rect = heroSection.getBoundingClientRect();
+    var scrolledVh = -rect.top / vh; // in vh units — text slide 1 appears at 0.8
+
+    floatItems.forEach(function(item) {
+      var fadeVh = 0.3; // fade in/out over 0.3vh of scrolling
+
+      if (scrolledVh < item.showStart) {
+        // Before range — hide below
+        item.el.style.opacity = '0';
+        item.el.style.transform = 'translateY(' + (vh * 0.5) + 'px)';
+        return;
+      }
+
+      if (!item.noFadeOut && scrolledVh > item.showEnd + fadeVh) {
+        // Past range — hide
+        item.el.style.opacity = '0';
+        item.el.style.transform = 'translateY(' + (vh * 0.5) + 'px)';
+        return;
+      }
+
+      // Fade in from below
+      var opacity = 1;
+      var pullY = 0;
+      if (scrolledVh < item.showStart + fadeVh) {
+        var enterT = (scrolledVh - item.showStart) / fadeVh;
+        var ease = 1 - Math.pow(1 - enterT, 3);
+        pullY = (1 - ease) * (vh * 0.5);
+        opacity = ease;
+      }
+      // Fade out downward (skip for noFadeOut items — they just keep wandering)
+      if (!item.noFadeOut && scrolledVh > item.showEnd) {
+        var exitT = (scrolledVh - item.showEnd) / fadeVh;
+        var ease = 1 - Math.pow(exitT, 3);
+        pullY = (1 - ease) * (vh * 0.5);
+        opacity = ease;
+      }
+
+      item.el.style.opacity = String(opacity);
+
+      // Gentle wandering
+      var p = item.phase;
+      var s = item.bobSpeed;
+      var w = item.wanderScale || 1;
+      var wanderX = (Math.sin(t * s * 0.3 + p) * 50
+                  + Math.sin(t * s * 0.17 + p * 2.3) * 30
+                  + Math.sin(t * s * 0.7 + p * 0.7) * 12) * w;
+      var wanderY = (Math.sin(t * s * 0.25 + p + 1.0) * 40
+                  + Math.sin(t * s * 0.13 + p * 1.8 + 2.0) * 25
+                  + Math.cos(t * s * 0.6 + p * 0.5) * 10) * w;
+      var rotate = Math.sin(t * s * 0.2 + p + 0.8) * 4;
+
+      item.el.style.transform = 'translateX(' + wanderX + 'px) translateY(' + (wanderY + pullY) + 'px) rotate(' + rotate + 'deg)';
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
 })();
 </script>
 
