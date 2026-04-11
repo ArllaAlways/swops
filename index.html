@@ -899,9 +899,19 @@
       background-position: center;
       opacity: 0;
     }
-    .s-sleep-cheap__img:nth-child(1) { opacity: 1; animation: cycle3 1.5s steps(1, end) infinite; }
-    .s-sleep-cheap__img:nth-child(2) { animation: cycle3b 1.5s steps(1, end) infinite; }
-    .s-sleep-cheap__img:nth-child(3) { animation: cycle3c 1.5s steps(1, end) infinite; }
+    .s-sleep-cheap__img:nth-child(1) { opacity: 1; animation: sleepSwap1 6s steps(1, end) infinite; }
+    .s-sleep-cheap__img:nth-child(2) { animation: sleepSwap2 6s steps(1, end) infinite; }
+
+    @keyframes sleepSwap1 {
+      0%   { opacity: 1; }
+      50%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes sleepSwap2 {
+      0%   { opacity: 0; }
+      50%  { opacity: 1; }
+      100% { opacity: 1; }
+    }
 
     .s-sleep-cheap__title {
       position: absolute;
@@ -1663,7 +1673,8 @@
 
   <!-- ══ SLEEP CHEAP ══ -->
   <section class="s-sleep-cheap" id="sSleepCheap">
-    <div class="s-sleep-cheap__img" style="background-image: url('SITE%20ASSETS/IMAGES/MAN%20BED%201.jpg'); opacity: 1; animation: none;"></div>
+    <div class="s-sleep-cheap__img" style="background-image: url('SITE%20ASSETS/IMAGES/SLEEP%20CHEAP%20MAN.jpg');"></div>
+    <div class="s-sleep-cheap__img" style="background-image: url('SITE%20ASSETS/IMAGES/SLEEP%20CHEAP%20MAN%202.jpg');"></div>
     <p class="s-sleep-cheap__title">SLEEP CHEAP</p>
   </section>
 
