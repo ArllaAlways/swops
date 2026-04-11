@@ -1,0 +1,11 @@
+Model Information:
+* title:	Compostable Burger Box .::RAWscan::.
+* source:	https://sketchfab.com/3d-models/compostable-burger-box-rawscan-3b0493f7f22540c0844d01b3e10061ff
+* author:	Andrea Spognetta (Spogna) (https://sketchfab.com/spogna)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Compostable Burger Box .::RAWscan::." (https://sketchfab.com/3d-models/compostable-burger-box-rawscan-3b0493f7f22540c0844d01b3e10061ff) by Andrea Spognetta (Spogna) (https://sketchfab.com/spogna) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

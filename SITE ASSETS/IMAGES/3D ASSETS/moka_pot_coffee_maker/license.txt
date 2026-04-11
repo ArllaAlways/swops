@@ -1,0 +1,8 @@
+Model Information:
+* title:	Moka Pot Coffee maker
+* source:	https://sketchfab.com/3d-models/moka-pot-coffee-maker-d43f3016640149908beafe877e3202a3
+* author:	assetfactory (https://sketchfab.com/assetfactory)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works
