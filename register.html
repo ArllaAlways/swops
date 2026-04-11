@@ -280,14 +280,15 @@
     <p class="register__subheading">Places are limited. Registration closes May 9. No credit card, no obligation.</p>
     <form class="register__form" id="swopsForm" name="registration" netlify netlify-honeypot="bot-field" action="/success" novalidate>
       <input type="hidden" name="form-name" value="registration">
+      <input type="hidden" name="subject" id="f-subject" value="">
       <!-- Honeypot field: hidden from humans, catches bots, tells Netlify this is NOT spam -->
       <p class="register__field" style="display:none!important" aria-hidden="true">
         <label>Don't fill this out: <input name="bot-field"></label>
       </p>
 
       <div class="register__field">
-        <label class="register__label" for="f-name">First name</label>
-        <input class="register__input" id="f-name" name="name" type="text" autocomplete="given-name" required>
+        <label class="register__label" for="f-name">Name</label>
+        <input class="register__input" id="f-name" name="name" type="text" autocomplete="name" placeholder="First and last" required>
       </div>
 
       <div class="register__field">
@@ -514,6 +515,9 @@
         alert('Please fill in your ' + missing.join(', ') + ' before registering.');
         return;
       }
+      // Set the hidden subject field so Netlify lists submissions by name
+      document.getElementById('f-subject').value = name;
+
       // Disable button immediately so they can't double-tap
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
