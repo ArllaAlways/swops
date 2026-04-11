@@ -2352,6 +2352,9 @@
   var heroSection = document.getElementById('heroScroll');
   if (!heroSection) return;
 
+  // Skip video floaters on mobile — iOS doesn't support WebM alpha, shows black boxes
+  if (window.innerWidth < 768) return;
+
   // Each floater is tied to a text section so only 2-3 are visible at once
   // Text slides: slide1 0.8-2.2vh, slide2 2.4-3.8vh, slide3 4.0vh+
   var floatItems = [
