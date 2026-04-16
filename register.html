@@ -116,6 +116,21 @@
     .register__select option { background: #fff; color: #000; }
     .register__select.placeholder { opacity: 0.25; }
 
+    .register__field--error .register__label { color: #c00; opacity: 1; }
+    .register__field--error .register__input,
+    .register__field--error .register__textarea,
+    .register__field--error .register__select {
+      border-bottom: 1px solid #c00;
+      padding-bottom: 4px;
+    }
+    .register__error {
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(13px, 1.2vw, 16px);
+      color: #c00;
+      margin-top: 8px;
+      text-align: left;
+    }
+
     .register__submit {
       margin-top: 48px;
       align-self: center;
@@ -384,6 +399,16 @@
       </div>
 
       <div class="register__field">
+        <label class="register__label" for="f-want">What would you like from a swop?</label>
+        <textarea class="register__textarea" id="f-want" name="want" rows="2" placeholder="City, Coast, Country, Anywhere that isn't your house" required></textarea>
+      </div>
+
+      <div class="register__field">
+        <label class="register__label" for="f-place-type">What kind of place suits you?</label>
+        <textarea class="register__textarea" id="f-place-type" name="place-type" rows="2" placeholder="House, Apartment, Doesn't matter just get me out of my place for a weekend" required></textarea>
+      </div>
+
+      <div class="register__field">
         <label class="register__label" for="f-questions">Do you have any questions?</label>
         <textarea class="register__textarea" id="f-questions" name="questions" rows="2" placeholder="Or just email us at hello@swops.it"></textarea>
       </div>
@@ -502,42 +527,112 @@
     const success = document.getElementById('swopsSuccess');
     form.addEventListener('submit', function(e) {
       e.preventDefault();
-      const name = form.querySelector('[name="name"]').value.trim();
-      const email = form.querySelector('[name="email"]').value.trim();
-      const address = form.querySelector('[name="address"]').value.trim();
-      const suburb = form.querySelector('[name="suburb"]').value.trim();
-      if (!name || !email || !address || !suburb) {
-        let missing = [];
-        if (!name) missing.push('name');
-        if (!email) missing.push('email');
-        if (!address) missing.push('address');
-        if (!suburb) missing.push('suburb');
-        alert('Please fill in your ' + missing.join(', ') + ' before registering.');
+
+      function readValue(key, trim) {
+        var el = form.querySelector('[name="' + key + '"]');
+        var v = el ? el.value : '';
+        return trim ? v.trim() : v;
+      }
+
+      // Every required field, in display order, with a friendly label for error messages
+      var requiredFields = [
+        { key: 'name', label: 'your name', trim: true },
+        { key: 'email', label: 'your email', trim: true },
+        { key: 'address', label: 'your address', trim: true },
+        { key: 'suburb', label: 'your suburb', trim: true },
+        { key: 'house-type', label: 'your house type' },
+        { key: 'bedrooms', label: 'the number of bedrooms' },
+        { key: 'rating', label: 'a rating for your place' },
+        { key: 'want', label: 'what you would like from a swop', trim: true },
+        { key: 'place-type', label: 'what kind of place suits you', trim: true }
+      ];
+      var optionalFields = [
+        { key: 'phone', trim: true },
+        { key: 'best-thing', trim: true },
+        { key: 'pets', trim: true },
+        { key: 'parking' },
+        { key: 'song', trim: true },
+        { key: 'walk-to', trim: true },
+        { key: 'questions', trim: true }
+      ];
+
+      // Clear any error state from a previous attempt
+      form.querySelectorAll('.register__field--error').forEach(function(el) {
+        el.classList.remove('register__field--error');
+      });
+      form.querySelectorAll('.register__error').forEach(function(el) {
+        el.remove();
+      });
+
+      var values = {};
+      var firstMissingEl = null;
+      requiredFields.forEach(function(f) {
+        values[f.key] = readValue(f.key, f.trim);
+        if (!values[f.key]) {
+          var input = form.querySelector('[name="' + f.key + '"]');
+          if (!input) return;
+          var field = input.closest('.register__field');
+          if (!field) return;
+          field.classList.add('register__field--error');
+          var msg = document.createElement('p');
+          msg.className = 'register__error';
+          msg.textContent = 'Please fill this in';
+          field.appendChild(msg);
+          // Clear this field's error as soon as the user edits it
+          var clearError = function() {
+            field.classList.remove('register__field--error');
+            var existing = field.querySelector('.register__error');
+            if (existing) existing.remove();
+            input.removeEventListener('input', clearError);
+            input.removeEventListener('change', clearError);
+          };
+          input.addEventListener('input', clearError);
+          input.addEventListener('change', clearError);
+          if (!firstMissingEl) firstMissingEl = input;
+        }
+      });
+      if (firstMissingEl) {
+        var field = firstMissingEl.closest('.register__field');
+        if (field && field.scrollIntoView) {
+          field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        setTimeout(function() {
+          try { firstMissingEl.focus({ preventScroll: true }); } catch (e) { firstMissingEl.focus(); }
+        }, 400);
         return;
       }
+      optionalFields.forEach(function(f) {
+        values[f.key] = readValue(f.key, f.trim);
+      });
+
       // Set the hidden subject field so Netlify lists submissions by name
-      document.getElementById('f-subject').value = name;
+      document.getElementById('f-subject').value = values.name;
 
       // Disable button immediately so they can't double-tap
       var submitBtn = form.querySelector('button[type="submit"]');
       if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
 
+      // Keep the name alias for the legacy success-path references below
+      var name = values.name;
+
       // Collect all form fields for Apps Script backup
       var formFields = {
-        name: name,
-        email: email,
-        phone: form.querySelector('[name="phone"]').value.trim(),
-        address: address,
-        suburb: suburb,
-        'house-type': form.querySelector('[name="house-type"]').value,
-        bedrooms: form.querySelector('[name="bedrooms"]').value,
-        rating: form.querySelector('[name="rating"]').value,
-        'best-thing': form.querySelector('[name="best-thing"]').value.trim(),
-        pets: form.querySelector('[name="pets"]').value.trim(),
-        parking: form.querySelector('[name="parking"]').value,
-        song: form.querySelector('[name="song"]').value.trim(),
-        'walk-to': form.querySelector('[name="walk-to"]').value.trim(),
-        questions: form.querySelector('[name="questions"]').value.trim()
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        address: values.address,
+        suburb: values.suburb,
+        'house-type': values['house-type'],
+        bedrooms: values.bedrooms,
+        rating: values.rating,
+        'best-thing': values['best-thing'],
+        pets: values.pets,
+        parking: values.parking,
+        song: values.song,
+        'walk-to': values['walk-to'],
+        want: values.want,
+        'place-type': values['place-type'],
+        questions: values.questions
       };
 
       // Send to Netlify (primary)
