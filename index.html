@@ -1281,14 +1281,19 @@
     @keyframes private-2 { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 1; } }
     .s-slummer__bg--1 { animation: private-1 2s steps(1, end) infinite; }
     .s-slummer__bg--2 { opacity: 0; animation: private-2 2s steps(1, end) infinite; }
+    .s-slummer__bg--mobile { display: none; }
+    @media (max-width: 767px) {
+      .s-slummer__bg--desktop { display: none; }
+      .s-slummer__bg--mobile { display: block; }
+    }
 
     .s-slummer__overlay {
       position: absolute;
       inset: 0;
       background: linear-gradient(
         to bottom,
-        rgba(0,0,0,0.15) 0%,
-        rgba(0,0,0,0.55) 100%
+        rgba(0,0,0,0.05) 0%,
+        rgba(0,0,0,0.3) 100%
       );
     }
 
@@ -1698,8 +1703,10 @@
 
   <!-- ══ SWOPS PRIVATE ══ -->
   <section class="s-slummer">
-    <div class="s-slummer__bg s-slummer__bg--1" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-1.jpg?v=2');"></div>
-    <div class="s-slummer__bg s-slummer__bg--2" style="background-image: url('SITE%20ASSETS/IMAGES/PRIVATE-HAND-2.jpg');"></div>
+    <div class="s-slummer__bg s-slummer__bg--1 s-slummer__bg--desktop" style="background-image: url('SITE%20ASSETS/IMAGES/IBIS.jpeg');"></div>
+    <div class="s-slummer__bg s-slummer__bg--2 s-slummer__bg--desktop" style="background-image: url('SITE%20ASSETS/IMAGES/IBIS-BOGGLE-2.jpg');"></div>
+    <div class="s-slummer__bg s-slummer__bg--1 s-slummer__bg--mobile" style="background-image: url('SITE%20ASSETS/IMAGES/IBIS-9-16.jpg');"></div>
+    <div class="s-slummer__bg s-slummer__bg--2 s-slummer__bg--mobile" style="background-image: url('SITE%20ASSETS/IMAGES/IBIS-BOGGLE-V2-9-16.jpg');"></div>
     <div class="s-slummer__overlay"></div>
     <p class="s-slummer__title">INCOGNITO ABODE</p>
     <div class="s-slummer__text">
