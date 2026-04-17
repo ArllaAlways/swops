@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melbourne's Best Dishes — mapped by r/melbourne</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  @font-face {
+    font-family: 'Alfredino';
+    src: url('alfredinosemirounded-semirounded.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'Alfredino Curvy';
+    src: url('alfredinotuttocurvy-tuttocurvy.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a1a; }
+  #map { width: 100%; height: 100vh; }
+
+  .header {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: rgba(17,17,17,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 14px 28px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #282828;
+    max-width: 90vw;
+  }
+  .header h1 {
+    font-family: 'Alfredino', sans-serif;
+    color: #c8ff00;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    margin-bottom: 3px;
+  }
+  .header p {
+    color: #777;
+    font-size: 11px;
+  }
+  .header p a {
+    color: #999;
+    text-decoration: none;
+  }
+  .header p a:hover { color: #fff; }
+
+  .search-box {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+  }
+  .search-box input {
+    background: rgba(17,17,17,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid #282828;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    padding: 10px 14px;
+    width: 200px;
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  .search-box input::placeholder { color: #555; }
+  .search-box input:focus { border-color: #c8ff00; }
+
+  .count-badge {
+    position: absolute;
+    bottom: 24px;
+    left: 16px;
+    z-index: 1000;
+    background: rgba(17,17,17,0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid #282828;
+    color: #777;
+    font-size: 11px;
+  }
+  .count-badge strong {
+    color: #c8ff00;
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 10px 18px; top: 10px; }
+    .header h1 { font-size: 17px; }
+    .search-box { top: auto; bottom: 24px; right: auto; left: 50%; transform: translateX(-50%); }
+    .search-box input { width: 180px; font-size: 12px; padding: 8px 12px; }
+    .count-badge { bottom: 64px; }
+  }
+
+  .leaflet-popup-content-wrapper {
+    background: rgba(17,17,17,0.95) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid #282828 !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.6) !important;
+  }
+  .leaflet-popup-tip {
+    background: rgba(17,17,17,0.95) !important;
+    border: 1px solid #282828 !important;
+  }
+  .leaflet-popup-content {
+    margin: 12px 14px !important;
+    color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .popup-name {
+    font-family: 'Alfredino', sans-serif;
+    color: #c8ff00;
+    font-weight: 400;
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+  .popup-dish {
+    color: #fff;
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  .popup-suburb {
+    color: #555;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .popup-quote {
+    color: #999;
+    font-size: 11px;
+    font-style: italic;
+    margin-top: 6px;
+    border-top: 1px solid #282828;
+    padding-top: 6px;
+  }
+  .popup-link {
+    display: inline-block;
+    margin-top: 6px;
+    color: #c8ff00;
+    font-size: 11px;
+    text-decoration: none;
+    opacity: 0.6;
+  }
+  .popup-link:hover { opacity: 1; }
+  .leaflet-popup-close-button { color: #555 !important; }
+  .leaflet-control-attribution {
+    background: rgba(17,17,17,0.8) !important;
+    color: #555 !important;
+    font-size: 9px !important;
+  }
+  .leaflet-control-attribution a { color: #666 !important; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Melbourne's Best Dishes</h1>
+  <p>Crowdsourced from <a href="https://www.reddit.com/r/melbourne/comments/1smybz7/best_single_dish_in_melbourne_whats_yours/" target="_blank">r/melbourne</a></p>
+</div>
+
+<div class="search-box">
+  <input type="text" id="search" placeholder="Search dish, restaurant, suburb..." autocomplete="off">
+</div>
+
+<div class="count-badge" id="counter"></div>
+
+<div id="map"></div>
+
+<script>
+var thread = "https://www.reddit.com/r/melbourne/comments/1smybz7/comment/";
+var mainThread = "https://www.reddit.com/r/melbourne/comments/1smybz7/best_single_dish_in_melbourne_whats_yours/";
+
+var spots = [
+  { name: "Red Spice Road", dish: "Pork Belly", suburb: "CBD", lat: -37.8175, lng: 144.9668, quote: "The outside gets this insane caramelised crunch but the pork underneath just falls apart", cid: "ogibuki" },
+  { name: "Meatmaiden", dish: "Burnt Ends", suburb: "CBD", lat: -37.8155, lng: 144.9625, quote: "These are elite, been thinking about them for years", cid: "ogin76r" },
+  { name: "Supernormal", dish: "Peanut Butter Parfait", suburb: "Flinders Lane", lat: -37.8170, lng: 144.9690, quote: "", cid: "ogksymm" },
+  { name: "Supernormal", dish: "Lobster Roll", suburb: "Flinders Lane", lat: -37.8172, lng: 144.9692, quote: "Lobster roll every visit", cid: "oglxr25" },
+  { name: "Dainty Sichuan", dish: "Fish-Fragrant Eggplant", suburb: "CBD", lat: -37.8115, lng: 144.9690, quote: "", cid: "ogiuot8" },
+  { name: "Gimlet", dish: "Gnocco Fritto", suburb: "CBD", lat: -37.8140, lng: 144.9700, quote: "I could genuinely eat like 45 of them", cid: "ogql8yc" },
+  { name: "Gimlet", dish: "Roast Duck", suburb: "CBD", lat: -37.8142, lng: 144.9702, quote: "", cid: "ogm7ov9" },
+  { name: "Moroccan Soup Bar", dish: "Chickpea Bake", suburb: "Fitzroy North", lat: -37.7830, lng: 144.9780, quote: "I used to go in with 4 tupperware containers and tell them it's for 3 people", cid: "oglr9kk" },
+  { name: "A1 Bakery", dish: "Haloumi Pie", suburb: "Brunswick", lat: -37.7670, lng: 144.9600, quote: "Shanklish pie is also tasty, cheap and boat shaped", cid: "ogiuot8" },
+  { name: "Rumi", dish: "Slow Roasted Lamb Shoulder", suburb: "Brunswick East", lat: -37.7700, lng: 144.9730, quote: "", cid: "ogiuot8" },
+  { name: "Kenangan", dish: "Duck Fried Rice", suburb: "CBD", lat: -37.8130, lng: 144.9580, quote: "Absolutely a flavour bomb", cid: "ogick10" },
+  { name: "Kenangan", dish: "Sticky Prime Rib", suburb: "CBD", lat: -37.8132, lng: 144.9582, quote: "I take every out of state friend there", cid: "ogihskx" },
+  { name: "Shandong Mama", dish: "Mackerel Dumplings", suburb: "CBD", lat: -37.8165, lng: 144.9650, quote: "Criminally underrated. They have their own custom chili sauce", cid: "ogj3811" },
+  { name: "Shandong Mama", dish: "Cold and Spicy Sesame Noodle", suburb: "CBD", lat: -37.8167, lng: 144.9652, quote: "", cid: "ogijh5k" },
+  { name: "Pho Thin", dish: "#1 with a Donut", suburb: "CBD", lat: -37.8125, lng: 144.9665, quote: "", cid: "ogick10" },
+  { name: "Levi", dish: "Chicken Roll", suburb: "Murrumbeena", lat: -37.8950, lng: 145.0680, quote: "Lives in my head and there's just something about it I can't replicate", cid: "ogiye7l" },
+  { name: "SL Coconut Restaurant", dish: "Kothu Roti", suburb: "Wantirna", lat: -37.8490, lng: 145.2220, quote: "Cheap, filling and freaking amazing", cid: "ogi96i6" },
+  { name: "HuTong", dish: "Chili Wontons", suburb: "CBD", lat: -37.8120, lng: 144.9680, quote: "", cid: "ogikby3" },
+  { name: "Very Good Falafel", dish: "Sabich Pita", suburb: "Fitzroy", lat: -37.7980, lng: 144.9780, quote: "", cid: "ogjfmwi" },
+  { name: "Cellar Bar", dish: "Tortellini di Zucca", suburb: "CBD", lat: -37.8150, lng: 144.9660, quote: "Pumpkin tortellini with burnt butter and sage", cid: "ogilc13" },
+  { name: "Flower Drum", dish: "Peking Duck", suburb: "CBD", lat: -37.8120, lng: 144.9692, quote: "", cid: "ogicnbu" },
+  { name: "Flower Drum", dish: "Baked Crab Shell", suburb: "CBD", lat: -37.8122, lng: 144.9694, quote: "I dream about it constantly", cid: "ognct9u" },
+  { name: "Ikkoryu Fukuoka Ramen", dish: "Tobanjan Tonkotsu Ramen", suburb: "CBD", lat: -37.8130, lng: 144.9685, quote: "", cid: "ogiqk7v" },
+  { name: "Soi 38", dish: "Raw Scallop on Bitter Melon", suburb: "CBD", lat: -37.8100, lng: 144.9640, quote: "It's like getting slapped in the mouth", cid: "ogiji7q" },
+  { name: "Soi 38", dish: "Boat Noodles + Crispy Pork", suburb: "CBD", lat: -37.8103, lng: 144.9643, quote: "The price is so good too", cid: "ogiqzxb" },
+  { name: "Soi 38", dish: "Crying Tiger", suburb: "CBD", lat: -37.8101, lng: 144.9641, quote: "", cid: "oglvdpb" },
+  { name: "Straits Cafe", dish: "Char Kuey Teow", suburb: "Wantirna", lat: -37.8500, lng: 145.2200, quote: "Life changing. Nothing comes close", cid: "ogigsps" },
+  { name: "China Bar", dish: "Crispy Pork Fried Rice", suburb: "Various", lat: -37.8200, lng: 145.0100, quote: "", cid: "ogl7nuy" },
+  { name: "Universal Restaurant", dish: "Chicken Parma", suburb: "Carlton", lat: -37.8000, lng: 144.9700, quote: "We've been eating there weekly for at least 12 years", cid: "ogk1735" },
+  { name: "Bun Bun", dish: "Banh Mi", suburb: "Springvale", lat: -37.9500, lng: 145.1540, quote: "", cid: "ogidb4m" },
+  { name: "T&L Bakery", dish: "Banh Mi", suburb: "Richmond", lat: -37.8250, lng: 145.0050, quote: "My personal favourite for banh mi", cid: "ogilejx" },
+  { name: "Marion", dish: "Flat Bread + Whipped Fromage", suburb: "Fitzroy", lat: -37.8000, lng: 144.9775, quote: "I dream about the bread. Actual divine", cid: "ogk76jk" },
+  { name: "Rocco's Bologna", dish: "Meatball Sub", suburb: "Carlton", lat: -37.7990, lng: 144.9660, quote: "One of my favourite recs for visiting pals", cid: "ogk33g5" },
+  { name: "Bedi's Indian", dish: "Chicken Butter Cream", suburb: "South Melbourne", lat: -37.8310, lng: 144.9570, quote: "41 years and still going strong", cid: "ogis46b" },
+  { name: "Patogh", dish: "Kashk-e-Bademjan", suburb: "Dandenong", lat: -37.9870, lng: 145.2130, quote: "Much more complex flavours than I've experienced elsewhere", cid: "ogl3c2d" },
+  { name: "Bar Lourinha", dish: "Yellowtail Kingfish in Lemon Oil", suburb: "CBD", lat: -37.8100, lng: 144.9620, quote: "", cid: "ogihyqa" },
+  { name: "Victor Churchill", dish: "Spinalis Dorsi Steak", suburb: "Armadale", lat: -37.8530, lng: 145.0200, quote: "Most expensive steak I've ever had BUT also the most delicious", cid: "ogim77y" },
+  { name: "Ballards", dish: "Smokey Eggplant Dip", suburb: "Thornbury", lat: -37.7600, lng: 145.0030, quote: "", cid: "ogloy9d" },
+  { name: "Aru", dish: "Aged Duck", suburb: "CBD", lat: -37.8160, lng: 144.9590, quote: "", cid: "ogi9xb4" },
+  { name: "Aru", dish: "Duck Sausage Sanga", suburb: "CBD", lat: -37.8162, lng: 144.9592, quote: "", cid: "ogljc05" },
+  { name: "Red Cliff", dish: "Duck Fried Rice", suburb: "CBD", lat: -37.8160, lng: 144.9600, quote: "Deep umami flavours, amazing smokiness", cid: "ogidna1" },
+  { name: "MoVida", dish: "Anchovy with Smoked Tomato Sorbet", suburb: "CBD", lat: -37.8165, lng: 144.9695, quote: "", cid: "ogmbnmu" },
+  { name: "MoVida", dish: "Anchoa", suburb: "CBD", lat: -37.8167, lng: 144.9697, quote: "", cid: "ogo8od1" },
+  { name: "Mee Dee Thai", dish: "Khao Soi Gai", suburb: "CBD", lat: -37.8135, lng: 144.9655, quote: "", cid: "ogkt44g" },
+  { name: "Half Moon Falafel", dish: "Colibaba with Chili", suburb: "CBD", lat: -37.8130, lng: 144.9610, quote: "", cid: "oglp4yh" },
+  { name: "Laksa King", dish: "Curry Laksa", suburb: "Flemington", lat: -37.7870, lng: 144.9380, quote: "", cid: "ogij3e8" },
+  { name: "Wasshoi", dish: "Twice-Cooked Pork Belly Don", suburb: "Prahran", lat: -37.8500, lng: 144.9920, quote: "Simple yet DIVINE", cid: "ogo1jgu" },
+  { name: "Golden Noodle House", dish: "Traditional Beef Noodle", suburb: "CBD", lat: -37.8110, lng: 144.9670, quote: "$20 gets you a big bowl of noodles, tea eggs, a cold plate and drink", cid: "ogikneb" },
+  { name: "Naughtons Hotel", dish: "Wednesday Night Porchetta", suburb: "Parkville", lat: -37.7950, lng: 144.9620, quote: "", cid: "ogigvj9" },
+  { name: "Sarusang", dish: "Kimchi Soup Hotpot", suburb: "CBD", lat: -37.8120, lng: 144.9650, quote: "", cid: "ogii2ux" },
+  { name: "Emilia", dish: "Mortadella Gnocco Fritto", suburb: "CBD", lat: -37.8155, lng: 144.9635, quote: "", cid: "ognkxhq" },
+  { name: "Luke's Banh Mi", dish: "Beef in Betel Leaf Banh Mi", suburb: "CBD", lat: -37.8140, lng: 144.9640, quote: "Best banh mi in town", cid: "ogijp45" },
+  { name: "Falco", dish: "Pies", suburb: "Fitzroy", lat: -37.7990, lng: 144.9750, quote: "", cid: "oglu0rt" },
+  { name: "Marko's Greek Kitchen", dish: "Charcoal Lamb", suburb: "Moorabbin", lat: -37.9370, lng: 145.0560, quote: "", cid: "ogiczcg" },
+  { name: "Afghan Mum's", dish: "Borani Banjan", suburb: "Dandenong", lat: -37.9875, lng: 145.2140, quote: "Nice and hearty", cid: "ogibkcf" },
+  { name: "Kajiken", dish: "Roast Beef Aburisoba", suburb: "CBD", lat: -37.8135, lng: 144.9630, quote: "", cid: "ogidjqe" },
+  { name: "Vegie Bowl", dish: "Sweet and Sour Pork", suburb: "CBD", lat: -37.8108, lng: 144.9655, quote: "", cid: "ogifu06" },
+  { name: "Little Hop", dish: "Hongos Ahumado Smokey Mushroom Taco", suburb: "Fitzroy", lat: -37.7985, lng: 144.9785, quote: "I think about it constantlyyyy", cid: "ogis739" },
+  { name: "Khusboo", dish: "Lamb Barra Kebabs", suburb: "Mitcham", lat: -37.8130, lng: 145.1950, quote: "They arrive on a sizzling platter. They are INCREDIBLE", cid: "ogitc90" },
+  { name: "The Lincoln", dish: "Prawn Toast", suburb: "Carlton", lat: -37.7960, lng: 144.9680, quote: "", cid: "ogj40a4" },
+  { name: "Chun-tua", dish: "Battered Hock", suburb: "CBD", lat: -37.8118, lng: 144.9658, quote: "Every time I go there is the best night of my life", cid: "ogj8waj" },
+  { name: "Fresh Chilli", dish: "Beef Panang", suburb: "Laverton", lat: -37.8630, lng: 144.7730, quote: "", cid: "ogjb22z" },
+  { name: "Sechuan House", dish: "Spicy Cumin Pork Ribs", suburb: "CBD", lat: -37.8112, lng: 144.9695, quote: "", cid: "ogjculm" },
+  { name: "Nobu", dish: "Miso Black Cod", suburb: "Southbank", lat: -37.8230, lng: 144.9580, quote: "", cid: "ogjlm3a" },
+  { name: "Kumbira", dish: "Chicken Inasal", suburb: "Altona", lat: -37.8680, lng: 144.8310, quote: "", cid: "ogjlm3a" },
+  { name: "Amie Bakery", dish: "Crispy Pork Banh Mi", suburb: "Warrandyte", lat: -37.7570, lng: 145.2250, quote: "", cid: "ogjv5f2" },
+  { name: "Cam's", dish: "Spaghetti Napoli", suburb: "Abbotsford", lat: -37.8060, lng: 145.0000, quote: "", cid: "ogkq5p3" },
+  { name: "Mr Ramen San", dish: "Chashu Ramen", suburb: "CBD", lat: -37.8145, lng: 144.9635, quote: "One of the most authentic Japanese food places in Melbourne", cid: "ogl0cv9" },
+  { name: "Melitta's", dish: "Rice Cakes", suburb: "CBD", lat: -37.8155, lng: 144.9645, quote: "", cid: "oglu0rt" },
+  { name: "Melitta's", dish: "Flat Bread with Anchovies", suburb: "CBD", lat: -37.8157, lng: 144.9647, quote: "", cid: "oglu0rt" },
+  { name: "Luther Scoops", dish: "Earl Grey and Chocolate Ice Cream", suburb: "CBD", lat: -37.8095, lng: 144.9635, quote: "", cid: "oglu0rt" },
+  { name: "Charrd", dish: "Burger", suburb: "CBD", lat: -37.8130, lng: 144.9700, quote: "", cid: "oglu0rt" },
+  { name: "Akimbo", dish: "Anchovies Galette", suburb: "CBD", lat: -37.8148, lng: 144.9632, quote: "", cid: "oglu0rt" },
+  { name: "Shop Ramen", dish: "Tan Tan Men", suburb: "CBD", lat: -37.8125, lng: 144.9670, quote: "Has kept me coming back for years", cid: "oglz19e" },
+  { name: "Bounty of The Sun", dish: "Kingfish Sashimi", suburb: "CBD", lat: -37.8105, lng: 144.9625, quote: "I dream about their kingfish", cid: "oglzsyt" },
+  { name: "B2W", dish: "Fried Chicken and Waffles", suburb: "CBD", lat: -37.8148, lng: 144.9668, quote: "", cid: "ogm1clg" },
+  { name: "Small Batch Bakery", dish: "Chicken Salad Sandwich", suburb: "CBD", lat: -37.8100, lng: 144.9615, quote: "Layers and layers of flavour. It's unbelievable", cid: "ogm3avl" },
+  { name: "Pizza Elettrica", dish: "Fancy Marg Pizza", suburb: "CBD", lat: -37.8070, lng: 144.9670, quote: "", cid: "ogm7ov9" },
+  { name: "Lucy Liu", dish: "Kingfish Sashimi with Lime and Green Chili", suburb: "CBD", lat: -37.8143, lng: 144.9710, quote: "Been there approx eleventy times and ordered it every single time", cid: "ogmby8w" },
+  { name: "Hanaichi", dish: "Chicken Katsu Curry", suburb: "CBD", lat: -37.8115, lng: 144.9665, quote: "", cid: "ogmd2kq" },
+  { name: "Tipo 00", dish: "Squid Ink Pasta", suburb: "Flinders Lane", lat: -37.8168, lng: 144.9645, quote: "", cid: "ogmjk8p" },
+  { name: "Lutong Pinoy", dish: "Dinuguan", suburb: "Footscray", lat: -37.8000, lng: 144.8990, quote: "", cid: "ogmkb8p" },
+  { name: "Dexter", dish: "Meat Donut", suburb: "CBD", lat: -37.8095, lng: 144.9680, quote: "Best thing I have eaten in Melbourne", cid: "ogmqnqq" },
+  { name: "Rockpool", dish: "Goats Cheese Tortellini with King Prawns", suburb: "Southbank", lat: -37.8210, lng: 144.9590, quote: "", cid: "ogmrnx9" },
+  { name: "iSpicy", dish: "Crab Fried Rice", suburb: "Richmond", lat: -37.8230, lng: 145.0010, quote: "", cid: "ogmykwj" },
+  { name: "Dosa Hut", dish: "Chicken65 Biryani", suburb: "Various", lat: -37.8140, lng: 144.9610, quote: "", cid: "ogmz5nc" },
+  { name: "Tabet's Bakery", dish: "Cheese Kaak", suburb: "Brunswick", lat: -37.7660, lng: 144.9610, quote: "", cid: "ogn5d08" },
+  { name: "Pho Co Hien", dish: "Pho Tai Bo", suburb: "St Albans", lat: -37.7440, lng: 144.8000, quote: "", cid: "ogn5d08" },
+  { name: "Supper Inn", dish: "Bok Choy and Mushrooms", suburb: "CBD", lat: -37.8115, lng: 144.9688, quote: "", cid: "ogj1i8i" },
+  { name: "Supper Inn", dish: "Lemon Chicken", suburb: "CBD", lat: -37.8117, lng: 144.9690, quote: "", cid: "ogmj4yo" },
+  { name: "Scopri", dish: "Scallops", suburb: "CBD", lat: -37.8150, lng: 144.9670, quote: "", cid: "ogljc05" },
+  { name: "Dodee Paidang", dish: "Moo Ping Pork Neck Skewers", suburb: "CBD", lat: -37.8110, lng: 144.9635, quote: "", cid: "ogl601k" },
+  { name: "Cookie", dish: "Red Curry Pork Belly", suburb: "CBD", lat: -37.8115, lng: 144.9665, quote: "", cid: "ogl79mh" },
+  { name: "Pho Huong Viet Saigon", dish: "Fatty Brisket Pho", suburb: "Bayswater", lat: -37.8420, lng: 145.2640, quote: "", cid: "ogl8irr" },
+  { name: "Shanghai Street", dish: "Number 17", suburb: "CBD", lat: -37.8115, lng: 144.9670, quote: "", cid: "ogle8km" },
+  { name: "Leonardo's Pizza", dish: "Pizza", suburb: "CBD", lat: -37.8070, lng: 144.9650, quote: "", cid: "oglgx6n" },
+  { name: "Tibas", dish: "Lamb Kebab", suburb: "Brunswick", lat: -37.7670, lng: 144.9590, quote: "", cid: "oglgx6n" },
+  { name: "Gabriella's", dish: "Hot Chikita Pizza", suburb: "Carnegie", lat: -37.8870, lng: 145.0570, quote: "", cid: "oglpyv7" },
+  { name: "Tokyo Tina", dish: "Smoked Duck Bibimbap", suburb: "South Yarra", lat: -37.8440, lng: 144.9930, quote: "", cid: "oglt31q" },
+  { name: "Mr Miyagi", dish: "Salmon Nori Taco", suburb: "Windsor", lat: -37.8560, lng: 144.9930, quote: "We realised that's the only thing we truly enjoyed so would just order 3", cid: "oglt31q" },
+  { name: "Khao Soi", dish: "Khao Soi", suburb: "Chinatown", lat: -37.8115, lng: 144.9685, quote: "", cid: "oglku2c" },
+  { name: "Lee Ho Fook", dish: "Eggplant", suburb: "CBD", lat: -37.8105, lng: 144.9665, quote: "", cid: "ognfe0d" },
+  { name: "Firebird", dish: "Wednesday Night Chicken Special", suburb: "CBD", lat: -37.8148, lng: 144.9672, quote: "The fired bread with whipped tofu and black garlic dip!", cid: "ognh0hc" },
+  { name: "Mamak", dish: "Roti Canai", suburb: "CBD", lat: -37.8105, lng: 144.9685, quote: "", cid: "ognlzdo" },
+  { name: "Cicciolina", dish: "Spaghetti Vongole", suburb: "St Kilda", lat: -37.8680, lng: 144.9810, quote: "", cid: "ognlzdo" },
+  { name: "Di Stasio Citta", dish: "Veal Saltimbocca", suburb: "CBD", lat: -37.8160, lng: 144.9710, quote: "", cid: "ognlzdo" },
+  { name: "My Asian Neighbour", dish: "Beef Rendang", suburb: "Reservoir", lat: -37.7180, lng: 145.0070, quote: "", cid: "ognp4bq" },
+  { name: "Birmingham Hotel", dish: "Parma", suburb: "Fitzroy", lat: -37.7990, lng: 144.9780, quote: "", cid: "ogo09ha" },
+  { name: "Middle South East", dish: "Middle South Eggs", suburb: "South Yarra", lat: -37.8400, lng: 144.9890, quote: "", cid: "ogo2xao" },
+  { name: "Embla", dish: "The Cucumber", suburb: "CBD", lat: -37.8130, lng: 144.9680, quote: "", cid: "ogo8od1" },
+  { name: "Cumulus Inc", dish: "Madeleines and Lemon Curd", suburb: "CBD", lat: -37.8163, lng: 144.9680, quote: "", cid: "ogo8od1" },
+  { name: "MaHa", dish: "Pomegranate Hummus", suburb: "CBD", lat: -37.8095, lng: 144.9605, quote: "Dream about that dish", cid: "ogogc8z" },
+  { name: "Warung Agus", dish: "Ceremonial Pork", suburb: "North Melbourne", lat: -37.8010, lng: 144.9480, quote: "", cid: "ogql4ho" },
+  { name: "Lee Lee's", dish: "Crispy Pork Banh Mi", suburb: "Abbotsford", lat: -37.8070, lng: 145.0020, quote: "", cid: "ogn7n60" },
+  { name: "Stalactites", dish: "Mix Souvlaki", suburb: "CBD", lat: -37.8110, lng: 144.9655, quote: "", cid: "ogn7n60" },
+  { name: "Abla's", dish: "Chicken and Rice", suburb: "CBD", lat: -37.8145, lng: 144.9595, quote: "", cid: "ognez8o" },
+  { name: "Decca", dish: "Gnocchi Malfatti di Ricotta", suburb: "Alphington", lat: -37.7780, lng: 145.0310, quote: "", cid: "ognjygu" },
+  { name: "Mai Jia", dish: "Fried Tofu", suburb: "South Yarra", lat: -37.8420, lng: 144.9910, quote: "", cid: "ogl512a" },
+  { name: "Oriental Teahouse", dish: "Wagyu Beef Chilli Dumplings", suburb: "CBD", lat: -37.8120, lng: 144.9700, quote: "I could eat 50 of them", cid: "ogl522s" },
+  { name: "Gong De Lin", dish: "Sichuan Eggplant", suburb: "CBD", lat: -37.8100, lng: 144.9680, quote: "", cid: "ogl5uum" },
+  { name: "Hofbrauhaus", dish: "Pork Knuckle", suburb: "CBD", lat: -37.8145, lng: 144.9715, quote: "", cid: "ogscyba" },
+  { name: "Phil's Bakehouse", dish: "Chicken Wrap", suburb: "Westgarth", lat: -37.7790, lng: 144.9980, quote: "These sell out quick", cid: "ogo9pil" },
+  { name: "Arshee", dish: "Hunters Burger", suburb: "Burwood", lat: -37.8500, lng: 145.1130, quote: "", cid: "ogo9pil" },
+  { name: "Homm", dish: "Coconut Pandan Shokupan", suburb: "Various", lat: -37.8130, lng: 144.9625, quote: "The contrast of textures and flavours", cid: "ogn5tob" },
+  { name: "Sichuan House", dish: "Kung Pao Chicken", suburb: "CBD", lat: -37.8114, lng: 144.9697, quote: "", cid: "ognez8o" },
+  { name: "Tecoma Bakery", dish: "Big Lemon Tart", suburb: "Tecoma", lat: -37.9060, lng: 145.3430, quote: "", cid: "ogl3j3b" }
+];
+
+var dishCount = spots.length;
+var uniqueSpots = new Set(spots.map(function(s) { return s.name; })).size;
+document.getElementById('counter').innerHTML = '<strong>' + dishCount + '</strong> dishes from <strong>' + uniqueSpots + '</strong> spots';
+
+var map = L.map('map', {
+  center: [-37.8136, 144.9631],
+  zoom: 12,
+  zoomControl: false
+});
+
+L.control.zoom({ position: 'bottomleft' }).addTo(map);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  subdomains: 'abcd',
+  maxZoom: 19
+}).addTo(map);
+
+var markers = [];
+
+spots.forEach(function(spot) {
+  var marker = L.circleMarker([spot.lat, spot.lng], {
+    radius: 7,
+    fillColor: '#c8ff00',
+    color: '#1a1a1a',
+    weight: 2,
+    opacity: 1,
+    fillOpacity: 0.9
+  }).addTo(map);
+
+  var link = spot.cid ? thread + spot.cid + "/" : mainThread;
+
+  var popupHTML = '<div class="popup-name">' + spot.name + '</div>' +
+    '<div class="popup-dish">' + spot.dish + '</div>' +
+    '<div class="popup-suburb">' + spot.suburb + '</div>';
+  if (spot.quote) {
+    popupHTML += '<div class="popup-quote">"' + spot.quote + '"</div>';
+  }
+  popupHTML += '<a class="popup-link" href="' + link + '" target="_blank">view comment &rarr;</a>';
+
+  marker.bindPopup(popupHTML, { maxWidth: 240 });
+
+  marker.on('mouseover', function() { this.setStyle({ radius: 10, fillOpacity: 1 }); });
+  marker.on('mouseout', function() { this.setStyle({ radius: 7, fillOpacity: 0.9 }); });
+
+  markers.push({ marker: marker, spot: spot, searchText: (spot.name + ' ' + spot.dish + ' ' + spot.suburb).toLowerCase() });
+});
+
+var searchInput = document.getElementById('search');
+searchInput.addEventListener('input', function() {
+  var q = this.value.toLowerCase().trim();
+  var matchCount = 0;
+  var matchSpots = new Set();
+  markers.forEach(function(m) {
+    if (!q || m.searchText.indexOf(q) !== -1) {
+      m.marker.setStyle({ fillOpacity: 0.9, radius: 7 });
+      m.marker.setZIndexOffset(0);
+      matchCount++;
+      matchSpots.add(m.spot.name);
+    } else {
+      m.marker.setStyle({ fillOpacity: 0.08, radius: 5 });
+      m.marker.setZIndexOffset(-1000);
+      m.marker.closePopup();
+    }
+  });
+  if (q) {
+    document.getElementById('counter').innerHTML = '<strong>' + matchCount + '</strong> matches';
+  } else {
+    document.getElementById('counter').innerHTML = '<strong>' + dishCount + '</strong> dishes from <strong>' + uniqueSpots + '</strong> spots';
+  }
+});
+</script>
+</body>
+</html>
