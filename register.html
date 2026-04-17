@@ -148,6 +148,53 @@
 
     .register__submit:hover { background: #b5e600; }
 
+    .register__expand {
+      align-self: center;
+      margin-top: 32px;
+      margin-bottom: 8px;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(14px, 1.3vw, 18px);
+      color: #000;
+      opacity: 0.65;
+      background: none;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.08em;
+      transition: opacity 0.15s;
+    }
+    .register__expand:hover { opacity: 0.8; }
+
+    .register__email-link {
+      align-self: center;
+      margin-top: 16px;
+      font-family: 'Alfredino', sans-serif;
+      font-size: clamp(13px, 1.1vw, 16px);
+      color: #000;
+      opacity: 0.4;
+      letter-spacing: 0.08em;
+    }
+    .register__email-link a {
+      color: #000;
+      text-decoration: underline;
+    }
+    .register__email-link a:hover { opacity: 0.7; }
+
+    .register__expand-icon {
+      font-size: 20px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .register__full {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+    .register__full--open {
+      display: flex;
+    }
+
     .register__free {
       font-family: 'Alfredino', sans-serif;
       font-size: clamp(12px, 1vw, 16px);
@@ -272,6 +319,32 @@
   src="https://www.facebook.com/tr?id=1664481524589126&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2jMMi2AGuYAgQbSPI3w4m6JhMnuwzolY&libraries=places&callback=initAutocomplete" async defer></script>
+  <script>
+    function initAutocomplete() {
+      var addressInput = document.getElementById('f-address');
+      if (!addressInput) return;
+      var autocomplete = new google.maps.places.Autocomplete(addressInput, {
+        types: ['address'],
+        componentRestrictions: { country: 'au' }
+      });
+      autocomplete.addListener('place_changed', function() {
+        var place = autocomplete.getPlace();
+        if (!place.address_components) return;
+        // Auto-fill suburb if the full form is open
+        var suburbField = document.getElementById('f-suburb');
+        if (suburbField) {
+          for (var i = 0; i < place.address_components.length; i++) {
+            var c = place.address_components[i];
+            if (c.types.indexOf('locality') !== -1) {
+              suburbField.value = c.long_name;
+              break;
+            }
+          }
+        }
+      });
+    }
+  </script>
 </head>
 <body>
 
@@ -312,108 +385,117 @@
       </div>
 
       <div class="register__field">
-        <label class="register__label" for="f-phone">Phone number</label>
-        <input class="register__input" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="0400 000 000">
-      </div>
-
-      <div class="register__field">
         <label class="register__label" for="f-address">Your address</label>
         <input class="register__input" id="f-address" name="address" type="text" placeholder="Full address (kept private, never shared)" autocomplete="street-address" required>
       </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-suburb">Your suburb</label>
-        <input class="register__input" id="f-suburb" name="suburb" type="text" autocomplete="address-level2" required>
-      </div>
+      <input type="hidden" name="registration-type" id="f-reg-type" value="quick">
 
-      <div class="register__field">
-        <label class="register__label" for="f-type">House type</label>
-        <select class="register__select placeholder" id="f-type" name="house-type" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Apartment / House / Townhouse...</option>
-          <option>Apartment</option>
-          <option>House</option>
-          <option>Townhouse</option>
-          <option>Other</option>
-        </select>
-      </div>
+      <button type="button" class="register__expand" id="expandBtn">Got time? Tell us about your place &#8595;</button>
 
-      <div class="register__field">
-        <label class="register__label" for="f-beds">Number of bedrooms</label>
-        <select class="register__select placeholder" id="f-beds" name="bedrooms" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected></option>
-          <option>1</option>
-          <option>2</option>
-          <option>3</option>
-          <option>4+</option>
-        </select>
-      </div>
+      <div class="register__full" id="fullForm">
 
-      <div class="register__field">
-        <label class="register__label" for="f-photos">Photos of your place (up to 3)</label>
-        <p style="font-family:'Alfredino',sans-serif;font-size:clamp(13px,1.2vw,16px);opacity:0.4;margin-bottom:12px;text-align:left;">Doesn't need to be tidy. Living room, bedroom, kitchen, whatever you've got. Photos are only ever shared with your match, never made public.</p>
-        <input id="f-photos" type="file" accept="image/*" multiple style="font-family:'Alfredino',sans-serif;font-size:clamp(14px,1.4vw,18px);cursor:pointer;">
-        <div id="photo-preview" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"></div>
-        <p id="photo-error" style="font-family:'Alfredino',sans-serif;font-size:clamp(13px,1.2vw,16px);color:#c00;margin-top:8px;display:none;"></p>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-phone">Phone number</label>
+          <input class="register__input" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="0400 000 000">
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-rating">Rate your place</label>
-        <select class="register__select placeholder" id="f-rating" name="rating" required onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
-          <option value="Lived-in">Lived-in - it's home. it shows.</option>
-          <option value="Solid">Solid - clean, tidy, you'd host your boss</option>
-          <option value="Posh Dump">Posh Dump - great bones, some things don't work</option>
-          <option value="Posh">Posh - genuinely impressive. you know it.</option>
-        </select>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-suburb">Your suburb</label>
+          <input class="register__input" id="f-suburb" name="suburb" type="text" autocomplete="address-level2">
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-best">Best thing about your place</label>
-        <input class="register__input" id="f-best" name="best-thing" type="text" placeholder="The bathtub / morning light / the roof terrace">
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-type">House type</label>
+          <select class="register__select placeholder" id="f-type" name="house-type" onchange="this.classList.remove('placeholder')">
+            <option value="" disabled selected>Apartment / House / Townhouse...</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Townhouse</option>
+            <option>Other</option>
+          </select>
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-pets">Pets</label>
-        <input class="register__input" id="f-pets" name="pets" type="text" placeholder="None / two cats, both rude / a very calm labrador">
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-beds">Number of bedrooms</label>
+          <select class="register__select placeholder" id="f-beds" name="bedrooms" onchange="this.classList.remove('placeholder')">
+            <option value="" disabled selected></option>
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4+</option>
+          </select>
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-parking">Parking</label>
-        <select class="register__select placeholder" id="f-parking" name="parking" onchange="this.classList.remove('placeholder')">
-          <option value="" disabled selected>Do you have parking?</option>
-          <option>Yes, dedicated spot</option>
-          <option>Street parking (easy)</option>
-          <option>Street parking (tough)</option>
-          <option>No parking</option>
-        </select>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-photos">Photos of your place (up to 3)</label>
+          <p style="font-family:'Alfredino',sans-serif;font-size:clamp(13px,1.2vw,16px);opacity:0.4;margin-bottom:12px;text-align:left;">Doesn't need to be tidy. Living room, bedroom, kitchen, whatever you've got. Photos are only ever shared with your match, never made public.</p>
+          <input id="f-photos" type="file" accept="image/*" multiple style="font-family:'Alfredino',sans-serif;font-size:clamp(14px,1.4vw,18px);cursor:pointer;">
+          <div id="photo-preview" style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"></div>
+          <p id="photo-error" style="font-family:'Alfredino',sans-serif;font-size:clamp(13px,1.2vw,16px);color:#c00;margin-top:8px;display:none;"></p>
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-song">If this house had a song</label>
-        <input class="register__input" id="f-song" name="song" type="text" placeholder="e.g. Solange - Cranes in the Sky">
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-rating">Rate your place</label>
+          <select class="register__select placeholder" id="f-rating" name="rating" onchange="this.classList.remove('placeholder')">
+            <option value="" disabled selected>Posh. Solid. Lived-in. Dump.</option>
+            <option value="Lived-in">Lived-in - it's home. it shows.</option>
+            <option value="Solid">Solid - clean, tidy, you'd host your boss</option>
+            <option value="Posh Dump">Posh Dump - great bones, some things don't work</option>
+            <option value="Posh">Posh - genuinely impressive. you know it.</option>
+          </select>
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-walkto">Recommend somewhere nearby</label>
-        <textarea class="register__textarea" id="f-walkto" name="walk-to" placeholder="A cafe, a park, a bar, a walk. What would you tell a friend to check out?" rows="2"></textarea>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-best">Best thing about your place</label>
+          <input class="register__input" id="f-best" name="best-thing" type="text" placeholder="The bathtub / morning light / the roof terrace">
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-want">What would you like from a swop?</label>
-        <textarea class="register__textarea" id="f-want" name="want" rows="2" placeholder="City, Coast, Country, Anywhere that isn't your house" required></textarea>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-pets">Pets</label>
+          <input class="register__input" id="f-pets" name="pets" type="text" placeholder="None / two cats, both rude / a very calm labrador">
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-place-type">What kind of place suits you?</label>
-        <textarea class="register__textarea" id="f-place-type" name="place-type" rows="2" placeholder="House, Apartment, Doesn't matter just get me out of my place for a weekend" required></textarea>
-      </div>
+        <div class="register__field">
+          <label class="register__label" for="f-parking">Parking</label>
+          <select class="register__select placeholder" id="f-parking" name="parking" onchange="this.classList.remove('placeholder')">
+            <option value="" disabled selected>Do you have parking?</option>
+            <option>Yes, dedicated spot</option>
+            <option>Street parking (easy)</option>
+            <option>Street parking (tough)</option>
+            <option>No parking</option>
+          </select>
+        </div>
 
-      <div class="register__field">
-        <label class="register__label" for="f-questions">Do you have any questions?</label>
-        <textarea class="register__textarea" id="f-questions" name="questions" rows="2" placeholder="Or just email us at hello@swops.it"></textarea>
+        <div class="register__field">
+          <label class="register__label" for="f-song">If this house had a song</label>
+          <input class="register__input" id="f-song" name="song" type="text" placeholder="e.g. Solange - Cranes in the Sky">
+        </div>
+
+        <div class="register__field">
+          <label class="register__label" for="f-walkto">Recommend somewhere nearby</label>
+          <textarea class="register__textarea" id="f-walkto" name="walk-to" placeholder="A cafe, a park, a bar, a walk. What would you tell a friend to check out?" rows="2"></textarea>
+        </div>
+
+        <div class="register__field">
+          <label class="register__label" for="f-want">What would you like from a swop?</label>
+          <textarea class="register__textarea" id="f-want" name="want" rows="2" placeholder="City, Coast, Country, Anywhere that isn't your house"></textarea>
+        </div>
+
+        <div class="register__field">
+          <label class="register__label" for="f-place-type">What kind of place suits you?</label>
+          <textarea class="register__textarea" id="f-place-type" name="place-type" rows="2" placeholder="House, Apartment, Doesn't matter just get me out of my place for a weekend"></textarea>
+        </div>
+
+        <div class="register__field">
+          <label class="register__label" for="f-questions">Do you have any questions?</label>
+          <textarea class="register__textarea" id="f-questions" name="questions" rows="2" placeholder="Or just email us at hello@swops.it"></textarea>
+        </div>
+
       </div>
 
       <button class="register__submit" type="submit">I'M IN</button>
+      <p class="register__email-link">Got a question? <a href="mailto:hello@swops.it">Email us</a></p>
     </form>
 
     <p class="register__success" id="swopsSuccess">
@@ -437,6 +519,24 @@
         navMenu.classList.remove('is-open');
         burger.classList.remove('is-open');
       });
+    });
+
+    // ── EXPAND FULL FORM ──
+    var expandBtn = document.getElementById('expandBtn');
+    var fullForm = document.getElementById('fullForm');
+    var regType = document.getElementById('f-reg-type');
+    var formOpen = false;
+    expandBtn.addEventListener('click', function() {
+      formOpen = !formOpen;
+      if (formOpen) {
+        fullForm.classList.add('register__full--open');
+        expandBtn.innerHTML = 'Just the basics for now, thanks &#8593;';
+        regType.value = 'full';
+      } else {
+        fullForm.classList.remove('register__full--open');
+        expandBtn.innerHTML = 'Got time? Tell us about your place &#8595;';
+        regType.value = 'quick';
+      }
     });
 
     // ── PHOTO COMPRESSION ──
@@ -534,25 +634,25 @@
         return trim ? v.trim() : v;
       }
 
-      // Every required field, in display order, with a friendly label for error messages
+      // Only name, email, address are required (quick registration)
       var requiredFields = [
         { key: 'name', label: 'your name', trim: true },
         { key: 'email', label: 'your email', trim: true },
-        { key: 'address', label: 'your address', trim: true },
-        { key: 'suburb', label: 'your suburb', trim: true },
-        { key: 'house-type', label: 'your house type' },
-        { key: 'bedrooms', label: 'the number of bedrooms' },
-        { key: 'rating', label: 'a rating for your place' },
-        { key: 'want', label: 'what you would like from a swop', trim: true },
-        { key: 'place-type', label: 'what kind of place suits you', trim: true }
+        { key: 'address', label: 'your address', trim: true }
       ];
       var optionalFields = [
         { key: 'phone', trim: true },
+        { key: 'suburb', trim: true },
+        { key: 'house-type' },
+        { key: 'bedrooms' },
+        { key: 'rating' },
         { key: 'best-thing', trim: true },
         { key: 'pets', trim: true },
         { key: 'parking' },
         { key: 'song', trim: true },
         { key: 'walk-to', trim: true },
+        { key: 'want', trim: true },
+        { key: 'place-type', trim: true },
         { key: 'questions', trim: true }
       ];
 
@@ -632,7 +732,8 @@
         'walk-to': values['walk-to'],
         want: values.want,
         'place-type': values['place-type'],
-        questions: values.questions
+        questions: values.questions,
+        'registration-type': document.getElementById('f-reg-type').value
       };
 
       // Send to Netlify (primary)
