@@ -646,7 +646,7 @@
           if (!response.ok) throw new Error('Server returned ' + response.status);
         })
         .then(() => {
-          fbq('track', 'Lead');
+          try { fbq('track', 'Lead'); } catch (e) { /* pixel blocked — not a problem */ }
           form.style.display = 'none';
           document.querySelector('.register__heading').style.display = 'none';
           document.querySelector('.register__subheading').style.display = 'none';
@@ -661,7 +661,7 @@
           // Netlify failed — try Apps Script as fallback, THEN show success
           sendToAppsScript(formFields, compressedPhotos)
             .then(function() {
-              fbq('track', 'Lead');
+              try { fbq('track', 'Lead'); } catch (e) { /* pixel blocked — not a problem */ }
               form.style.display = 'none';
               document.querySelector('.register__heading').style.display = 'none';
               document.querySelector('.register__subheading').style.display = 'none';
@@ -669,7 +669,7 @@
             })
             .catch(function(err2) {
               console.error('Both submissions failed:', err2);
-              if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "I'm in"; }
+              if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "I'M IN"; }
               alert('Something went wrong submitting the form. Please try again or email us at hello@swops.it');
             });
         });
